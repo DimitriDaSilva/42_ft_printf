@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/17 20:57:54 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/17 23:01:14 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static int	convert(const char **fmt, va_list arg_list);
 static int	convert_type(const char **fmt, va_list arg_list);
 static int	convert_type_alpha(const char **fmt, va_list arg_list);
 static int	convert_type_ptr(const char **fmt, va_list arg_list);
+static int	convert_type_int(const char **fmt, va_list arg_list);
 static int	convert_type_hex(const char **fmt, va_list arg_list);
 
 int			ft_printf(const char *fmt, ...)
@@ -70,8 +71,8 @@ static int	convert_type(const char **fmt, va_list arg_list)
 		nb_printed_chars = convert_type_alpha(fmt, arg_list);
 	else if (**fmt == 'p')
 		nb_printed_chars = convert_type_ptr(fmt, arg_list);
-	// else if (ft_strchr("lhdiu", **fmt))
-	// 	nb_printed_chars = convert_type_int(fmt, arg_list);
+	else if (ft_strchr("diu", **fmt))
+		nb_printed_chars = convert_type_int(fmt, arg_list);
 	else if (ft_strchr("pxX", **fmt))
 		nb_printed_chars = convert_type_hex(fmt, arg_list);
 	else if (**fmt == '%')
@@ -107,6 +108,17 @@ static int	convert_type_ptr(const char **fmt, va_list arg_list)
 	return (14);
 }
 
+static int	convert_type_int(const char **fmt, va_list arg_list)
+{
+	int		nb_printed_chars;
+
+	if (**fmt == 'd' || **fmt == 'i')
+		nb_printed_chars = ft_putstr(ft_itoa(va_arg(arg_list, int)));
+	else
+		nb_printed_chars = ft_putstr(ft_itoa(va_arg(arg_list, unsigned int)));
+	return (nb_printed_chars);
+}
+
 static int	convert_type_hex(const char **fmt, va_list arg_list)
 {
 	int		nb_to_convert;
@@ -119,50 +131,52 @@ static int	convert_type_hex(const char **fmt, va_list arg_list)
 	return (nb_to_convert >= 16 ? 2 : 1);
 }
 
-int	main(int argc, char *argv[])
-{
-	(void)argc;
-	(void)argv;
-	int retMine = 0;
-	int retOrig = 0;
-	// Testing for char
-	// retMine = ft_printf("I'm %c yo\n", -5);
-	// retOrig = printf("I'm %c yo\n", -5);
-	// printf("RetMine: %d\n", retMine);
-	// printf("RetOrig: %d\n", retOrig);
+// int	main(int argc, char *argv[])
+// {
+// 	(void)argc;
+// 	(void)argv;
+// 	// int retMine = 0;
+// 	int retOrig = 0;
+// 	// Testing for char
+// 	// retMine = ft_printf("I'm %c yo\n", -5);
+// 	// retOrig = printf("I'm %c yo\n", -5);
 
-	// Testing for char *
-	// retMine = ft_printf("I'm %s yo\n", "twenty-five");
-	// retOrig = printf("I'm %s yo\n", "twenty-five");
-	// printf("RetMine: %d\n", retMine);
-	// printf("RetOrig: %d\n", retOrig);
+// 	// Testing for char *
+// 	// retMine = ft_printf("I'm %s yo\n", "twenty-five");
+// 	// retOrig = printf("I'm %s yo\n", "twenty-five");
 
-	// Testing for hex
-	// retMine = ft_printf("Hexadecimal integers: %x\n", 30);
-	// retOrig = printf("Hexadecimal integers: %x\n", 30);
-	// printf("RetMine: %d\n", retMine);
-	// printf("RetOrig: %d\n", retOrig);
+// 	// Testing for hex
+// 	// retMine = ft_printf("Hexadecimal integers: %x\n", 30);
+// 	// retOrig = printf("Hexadecimal integers: %x\n", 30);
 
-	// Testing for pointer
-	// retMine = ft_printf("RetMine's address: %p\n", &retMine);
-	// retOrig = printf("RetMine's address: %p\n", &retMine);
-	// printf("RetMine: %d\n", retMine);
-	// printf("RetOrig: %d\n", retOrig);
+// 	// Testing for pointer
+// 	// retMine = ft_printf("RetMine's address: %p\n", &retMine);
+// 	// retOrig = printf("RetMine's address: %p\n", &retMine);
 
-	// Testing for %
-	// retMine = ft_printf("Percentage sign: %%\n");
-	// retOrig = printf("Percentage sign: %%\n");
-	// printf("RetMine: %d\n", retMine);
-	// printf("RetOrig: %d\n", retOrig);
+// 	// Testing for int d
+// 	// retMine = ft_printf("I'm %d yo\n", 25);
+// 	retOrig = printf("I'm %i yo\n", 25);
 
-	// Testing for non implemented specifiers
-	// retMine = ft_printf("Float: %f\n", 4.5);
-	// retOrig = printf("Float: %f\n", 4.5);
-	// printf("RetMine: %d\n", retMine);
-	// printf("RetOrig: %d\n", retOrig);
+// 	// Testing for int i
+// 	// retMine = ft_printf("I'm %i yo\n", 25);
+// 	// retOrig = printf("I'm %i yo\n", 25);
 
-	// printf("Hey I'm Dimitri\nI'm %-d years old\n", 25);
-	// printf("%d", -25);
-	// printf("This is a %2$-*1$s width var\n", 10, "ten");
+// 	// Testing for int u
+// 	// retMine = ft_printf("I'm %u yo\n", -25);
+// 	// retOrig = printf("I'm %u yo\n", -25);
 
-}
+// 	// Testing for %
+// 	// retMine = ft_printf("Percentage sign: %%\n");
+// 	// retOrig = printf("Percentage sign: %%\n");
+
+// 	// Testing for several types at once
+// 	// retMine = ft_printf("I'm %s\nI'm %d yo\n%c\n", "Dimitri", 25, 'd');
+// 	// retOrig = printf("I'm %s\nI'm %d yo\n%c\n", "Dimitri", 25, 'd');
+
+// 	// Testing for non implemented specifiers
+// 	// retMine = ft_printf("Float: %f\n", 4.5);
+// 	// retOrig = printf("Float: %f\n", 4.5);
+
+// 	// printf("RetMine: %d\n", retMine);
+// 	printf("RetOrig: %d\n", retOrig);
+// }

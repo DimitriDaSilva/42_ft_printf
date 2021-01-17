@@ -29,8 +29,13 @@ CFLAGS	=	-Wall -Wextra -Werror
 .c.o:
 			${CC} ${CFLAGS} -c $^ -o ${<:.c=.o} -I${INCDIR}
 
+# TO DELETE
 $(NAME):	${OBJS}
-			${ARRC} ${NAME} ${OBJS}
+			${CC} -o ${NAME} ${OBJS} ${CFLAGS}
+
+# TO KEEP
+# $(NAME):	${OBJS}
+# 			${ARRC} ${NAME} ${OBJS}
 
 all:		${NAME}
 
@@ -42,8 +47,11 @@ fclean:		clean
 
 re:			fclean all
 
+run:		re
+			./${NAME} | cat -e
+
 normH:
-			~/.norminette/norminette.rb *.h
+			~/.norminette/norminette.rb ./${INCDIR}/*.h
 
 normC:
-			~/.norminette/norminette.rb *.c
+			~/.norminette/norminette.rb ${SRCS}

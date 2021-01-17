@@ -6,13 +6,13 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 12:31:59 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/16 19:46:06 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/17 10:46:17 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	get_size_nbr(int n)
+static size_t	get_size_nbr(int n)
 {
 	if (0 <= n && n < 10)
 		return (1);
@@ -21,12 +21,12 @@ size_t	get_size_nbr(int n)
 	return (1 + get_size_nbr(n / 10));
 }
 
-int		ft_abs(int n)
+static int		ft_abs(int n)
 {
 	return (n < 0 ? -n : n);
 }
 
-char	*ft_itoa(int n)
+char			*ft_itoa(int n)
 {
 	char	*str;
 	size_t	size_nbr;

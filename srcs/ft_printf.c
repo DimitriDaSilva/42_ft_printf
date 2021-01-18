@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/18 20:37:16 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/18 23:14:02 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ static int	convert_type_alpha(const char **fmt, char *flags, int width, int prec
 {
 	int		nb_printed_chars;
 	char	*str;
+	// char	*tmp;
 
 	if (**fmt == 'c')
 	{
@@ -164,12 +165,12 @@ static int	convert_type_alpha(const char **fmt, char *flags, int width, int prec
 	}
 	else
 	{
-		if ((str = ft_strdup(va_arg(g_arg_list, char *))) && *str == 0)
-		{
-			free(str);
+		// if (!(tmp = va_arg(g_arg_list, char *)))
+		// 	return (0);
+		// str = ft_strdup(tmp);
+		if (!(str = ft_strdup(va_arg(g_arg_list, char *))))
 			return (0);
-		}
-		else if (precision == 0)
+		if (precision == 0)
 		{
 			fmt++;
 			return (0);
@@ -330,8 +331,8 @@ static int	get_size_nbr(int n)
 // 	// retOrig = printf("I'm %c yo\n", '\0');
 
 // 	// Testing for char *
-// 	retMine = ft_printf("%.3s\n", "hello");
-// 	retOrig = printf("%.3s\n", "hello");
+// 	retMine = ft_printf("hello, %s.\n", 0);
+// 	// retOrig = printf("hello, %s.", NULL);
 
 // 	// Testing for hex
 // 	// retMine = ft_printf("Hexadecimal integers: %-5x\n", 30);

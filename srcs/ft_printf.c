@@ -6,35 +6,40 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/18 10:48:09 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/18 16:25:11 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	convert(const char **fmt, va_list arg_list);
-static int	convert_type(const char **fmt, va_list arg_list);
+static int	convert(const char **fmt);
+static int	convert_type(const char **fmt, char *flags, int width, int precision);
 static void	get_flags(const char **fmt, char *flags);
-static int	get_width(const char **fmt, va_list arg_list);
-static int	convert_type_alpha(const char **fmt, va_list arg_list);
-static int	convert_type_ptr(const char **fmt, va_list arg_list);
-static int	convert_type_int(const char **fmt, va_list arg_list);
-static int	convert_type_hex(const char **fmt, va_list arg_list);
+static int	get_width(const char **fmt);
+static int	get_precision(const char **fmt);
+static int	convert_type_alpha(const char **fmt, char *flags, int width, int precision);
+static int	convert_type_ptr(const char **fmt, char *flags, int width, int precision);
+static int	convert_type_int(const char **fmt, char *flags, int width, int precision);
+static int	convert_type_hex(const char **fmt, char *flags, int width, int precision);
+static int	convert_type_percent(const char **fmt, char *flags, int width, int precision);
+static int	print_left(char *str, int width, char padding);
+static int	print_right(char *str, int width, char padding);
 static int	get_size_nbr(int n);
+
+va_list	g_arg_list;
 
 int			ft_printf(const char *fmt, ...)
 {
-	va_list	arg_list;
 	int		nb_printed_chars;
 	
 	nb_printed_chars = 0;
-	va_start(arg_list, fmt);
+	va_start(g_arg_list, fmt);
 	while (*fmt)
 	{
 		if (!ft_strncmp(fmt, "%%", 1))
 		{
 			fmt++;
-			nb_printed_chars += convert(&fmt, arg_list);
+			nb_printed_chars += convert(&fmt);
 		}
 		else
 		{
@@ -43,7 +48,7 @@ int			ft_printf(const char *fmt, ...)
 		}
 		fmt++;
 	}
-	va_end(arg_list);
+	va_end(g_arg_list);
 	return (nb_printed_chars);
 }
 
@@ -52,17 +57,23 @@ int			ft_printf(const char *fmt, ...)
 ** Return value: number of printed characters
 */
 
-static int	convert(const char **fmt, va_list arg_list)
+static int	convert(const char **fmt)
 {
 	int		nb_printed_chars;
 	char	flags[2];
 	int		width;
+	int		precision;
 
 	nb_printed_chars = 0;
 	get_flags(fmt, flags);
-	width = get_width(fmt, arg_list);
+	printf("Flag: %c\n", *flags);
+	width = get_width(fmt);
+	// printf("Position after get_width: \"%s\"\n", *fmt);
 	printf("Width: %d\n", width);
-	nb_printed_chars += convert_type(fmt, arg_list);
+	precision = get_precision(fmt);
+	// printf("Position after get_precision: \"%s\"\n", *fmt);
+	printf("Precision: %d\n", precision);
+	nb_printed_chars += convert_type(fmt, flags, width, precision);
 	return (nb_printed_chars);
 }
 
@@ -71,16 +82,14 @@ static void	get_flags(const char **fmt, char *flags)
 	if ((**fmt == '-' && *(*fmt + 1) == '0') ||
 			(**fmt == '0' && *(*fmt + 1) == '-'))
 	{
-		ft_putstr("\n/!\\ '0' flag ignored with '-' flag in format /!\\\n");
+		ft_putstr("\n/!\\ error: '0' flag ignored with '-' flag in format /!\\\n");
 		flags[0] = '\0';
 		*fmt += 2;
 	}
 	else if ((**fmt == '-' && *(*fmt + 1) == '-') ||
 			(**fmt == '0' && *(*fmt + 1) == '0'))
 	{
-		ft_putstr("\n/!\\ Repeated '");
-		ft_putchar(**fmt);
-		ft_putstr("' flag in format /!\\\n");
+		ft_printf("\n/!\\ error: repeated '%c' flag in format /!\\\n", **fmt);
 		flags[0] = '\0';
 		*fmt += 2;
 	}
@@ -93,14 +102,15 @@ static void	get_flags(const char **fmt, char *flags)
 		flags[0] = '\0';
 }
 
-static int	get_width(const char **fmt, va_list arg_list)
+static int	get_width(const char **fmt)
 {
 	int	width;
 
+	width = 0;
 	if (**fmt == '*')
 	{
 		(*fmt)++;
-		width = va_arg(arg_list, int);
+		width = va_arg(g_arg_list, int);
 	}
 	else if (ft_isdigit(**fmt))
 	{
@@ -110,73 +120,157 @@ static int	get_width(const char **fmt, va_list arg_list)
 	return (width);
 }
 
-static int	convert_type(const char **fmt, va_list arg_list)
+static int	get_precision(const char **fmt)
+{
+	int	precision;
+
+	precision = 0;
+	if (**fmt == '.' && ft_isdigit(*(*fmt + 1)))
+	{
+		(*fmt)++;
+		precision = ft_atoi(*fmt);
+		(*fmt) += get_size_nbr(precision);
+	}
+	return (precision);
+}
+
+static int	convert_type(const char **fmt, char *flags, int width, int precision)
 {
 	int		nb_printed_chars;
 
 	nb_printed_chars = 0;
 	if (ft_strchr("cs", **fmt))
-		nb_printed_chars = convert_type_alpha(fmt, arg_list);
+		nb_printed_chars = convert_type_alpha(fmt, flags, width, precision);
 	else if (**fmt == 'p')
-		nb_printed_chars = convert_type_ptr(fmt, arg_list);
+		nb_printed_chars = convert_type_ptr(fmt, flags, width, precision);
 	else if (ft_strchr("diu", **fmt))
-		nb_printed_chars = convert_type_int(fmt, arg_list);
+		nb_printed_chars = convert_type_int(fmt, flags, width, precision);
 	else if (ft_strchr("pxX", **fmt))
-		nb_printed_chars = convert_type_hex(fmt, arg_list);
+		nb_printed_chars = convert_type_hex(fmt, flags, width, precision);
 	else if (**fmt == '%')
-		nb_printed_chars = ft_putchar('%');
+		nb_printed_chars = convert_type_percent(fmt, flags, width, precision);
 	else
-	{
-		ft_putstr("\n/!\\ Support for %");
-		ft_putchar(**fmt);
-		ft_putstr(" specifier not yet implemented /!\\\n");
-	}
+		ft_printf("\n/!\\ error: support for %c specifier "
+		"not yet implemented /!\\\n", **fmt);
 	return (nb_printed_chars);
 }
 
-static int	convert_type_alpha(const char **fmt, va_list arg_list)
+static int	convert_type_alpha(const char **fmt, char *flags, int width, int precision)
 {
 	int		nb_printed_chars;
+	char	*str;
+	(void)flags;
+	(void)width;
+	(void)precision;
 
 	if (**fmt == 'c')
-		nb_printed_chars = ft_putchar(va_arg(arg_list, int));
+	{
+		if (!(str = malloc(2 * sizeof(char))))
+			return (0);
+		str[0] = va_arg(g_arg_list, int);
+		str[1] = '\0';
+	}
 	else
-		nb_printed_chars = ft_putstr(va_arg(arg_list, char *));
+		str = va_arg(g_arg_list, char *);
+	if (*flags == '-')
+		nb_printed_chars = print_left(str, width, ' ');
+	else if (*flags == '0')
+		ft_printf("\n/!\\ error: '0' flag used with %c format /!\\\n", **fmt);
+	else
+		nb_printed_chars = print_right(str, width, ' ');
+	if (**fmt == 'c')
+		free(str);
 	return (nb_printed_chars);
 }
 
-static int	convert_type_ptr(const char **fmt, va_list arg_list)
+static int	convert_type_ptr(const char **fmt, char *flags, int width, int precision)
 {
 	long long	nb_to_convert;
 	(void)fmt;
+	(void)flags;
+	(void)width;
+	(void)precision;
 
-	nb_to_convert = va_arg(arg_list, long long);
+	nb_to_convert = va_arg(g_arg_list, long long);
 	ft_putstr("0x");
 	ft_putnbr_base(nb_to_convert, "0123456789abcdef");
 	return (14);
 }
 
-static int	convert_type_int(const char **fmt, va_list arg_list)
+static int	convert_type_int(const char **fmt, char *flags, int width, int precision)
 {
 	int		nb_printed_chars;
+	char	*nb_to_print;
+	(void)precision;
 
 	if (**fmt == 'd' || **fmt == 'i')
-		nb_printed_chars = ft_putstr(ft_itoa(va_arg(arg_list, int)));
+		nb_to_print = ft_itoa(va_arg(g_arg_list, int));
+	else if (**fmt == 'u')
+		nb_to_print = ft_itoa(va_arg(g_arg_list, unsigned int));
+	if (*flags == '-')
+		nb_printed_chars = print_left(nb_to_print, width, ' ');
+	else if (*flags == '0')
+		 nb_printed_chars = print_right(nb_to_print, width, '0');
 	else
-		nb_printed_chars = ft_putstr(ft_itoa(va_arg(arg_list, unsigned int)));
+		nb_printed_chars = print_right(nb_to_print, width, ' ');
+	free(nb_to_print);
 	return (nb_printed_chars);
 }
 
-static int	convert_type_hex(const char **fmt, va_list arg_list)
+static int	convert_type_hex(const char **fmt, char *flags, int width, int precision)
 {
 	int		nb_to_convert;
+	(void)flags;
+	(void)width;
+	(void)precision;
 
-	nb_to_convert = va_arg(arg_list, int);
+	nb_to_convert = va_arg(g_arg_list, int);
 	if (**fmt == 'x')
 		ft_putnbr_base(nb_to_convert, "0123456789abcdef");
 	else if (**fmt == 'X')
 		ft_putnbr_base(nb_to_convert, "0123456789ABCDEF");
 	return (nb_to_convert >= 16 ? 2 : 1);
+}
+
+static int	convert_type_percent(const char **fmt, char *flags, int width, int precision)
+{
+	int		nb_printed_chars;
+	(void)fmt;
+	(void)precision;
+
+	nb_printed_chars = 0;
+	if (*flags == '-')
+		nb_printed_chars = print_left("%%", width, ' ');
+	else if (*flags == '0')
+		 nb_printed_chars = print_right("%%", width, '0');
+	else
+		nb_printed_chars = print_right("%%", width, ' ');
+	return (nb_printed_chars);
+}
+
+static int	print_left(char *str, int width, char padding)
+{
+	int		nb_printed_chars;
+
+	nb_printed_chars = ft_putstr(str);
+	width -= nb_printed_chars;
+	while (width-- > 0)
+		nb_printed_chars += ft_putchar(padding);
+	return (nb_printed_chars);
+}
+
+static int	print_right(char *str, int width, char padding)
+{
+	int		nb_printed_chars;
+
+	nb_printed_chars = 0;
+	if (*str == '-' && padding == '0')
+		nb_printed_chars += ft_putchar(*str++);
+	width -= ft_strlen(str);
+	while (width-- > 0)
+		nb_printed_chars += ft_putchar(padding);
+	nb_printed_chars += ft_putstr(str);
+	return (nb_printed_chars);
 }
 
 static int	get_size_nbr(int n)
@@ -192,16 +286,16 @@ int	main(int argc, char *argv[])
 {
 	(void)argc;
 	(void)argv;
-	// int retMine = 0;
+	int retMine = 0;
 	int retOrig = 0;
 
 	// Testing for char
-	// retMine = ft_printf("I'm %c yo\n", -5);
-	// retOrig = printf("I'm %c yo\n", -5);
+	// retMine = ft_printf("I'm %010c yo\n", -5);
+	// retOrig = printf("I'm %10c yo\n", -5);
 
 	// Testing for char *
-	// retMine = ft_printf("I'm %s yo\n", "twenty-five");
-	// retOrig = printf("I'm %s yo\n", "twenty-five");
+	// retMine = ft_printf("I'm %20s yo\n", "twenty-five");
+	// retOrig = printf("I'm %20s yo\n", "twenty-five");
 
 	// Testing for hex
 	// retMine = ft_printf("Hexadecimal integers: %x\n", 30);
@@ -212,16 +306,16 @@ int	main(int argc, char *argv[])
 	// retOrig = printf("RetMine's address: %p\n", &retMine);
 
 	// Testing for int d
-	// retMine = ft_printf("I'm %d yo\n", 25);
-	// retOrig = printf("I'm %0d yo\n", 25);
+	// retMine = ft_printf("I'm %5d yo\n", 25);
+	// retOrig = printf("I'm %5d yo\n", 25);
 
 	// Testing for int i
 	// retMine = ft_printf("I'm %i yo\n", 25);
 	// retOrig = printf("I'm %i yo\n", 25);
 
 	// Testing for int u
-	// retMine = ft_printf("I'm %u yo\n", -25);
-	// retOrig = printf("I'm %u yo\n", -25);
+	// retMine = ft_printf("I'm %u yo\n", 25);
+	// retOrig = printf("I'm %u yo\n", 25);
 
 	// Testing for %
 	// retMine = ft_printf("Percentage sign: %%\n");
@@ -240,13 +334,21 @@ int	main(int argc, char *argv[])
 	// retOrig = printf("I'm %55i yo\n", 25);
 
 	// Testing for width
-	// retMine = ft_printf("I'm %*i yo\n", 5, 25);
-	// retOrig = printf("I'm %*i yo\n", 5, 25);
+	// retMine = ft_printf("I'm %010i yo\n", -25);
+	// retOrig = printf("I'm %014f yo\n", -25.5);
 
-	// Testing for width
-	// retMine = ft_printf("I'm %*i yo\n", 5, 25);
-	retOrig = printf("I'm %.400f yo\n", 2.718281828);
+	// Testing for precision
+	// retMine = ft_printf("I'm %.5555555i yo\n", 25);
+	// retOrig = printf("I'm %.5i yo\n", 25);
 
-	// printf("RetMine: %d\n", retMine);
+	// Testing for floats
+	// retMine = ft_printf("I'm %.4f yo\n", 2.718281828);
+	// retOrig = printf("I'm %.2f yo\n", 2.715844448);
+
+	// Weird use case that outputs "I'm 00025 yo"
+	// retOrig = printf("I'm %-5.5i yo\n", 25);
+
+
+	printf("RetMine: %d\n", retMine);
 	printf("RetOrig: %d\n", retOrig);
 }

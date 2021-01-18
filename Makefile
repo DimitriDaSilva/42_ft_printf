@@ -31,7 +31,7 @@ CFLAGS	=	-Wall -Wextra -Werror
 
 # TO DELETE
 $(NAME):	${OBJS}
-			${CC} -o ${NAME} ${OBJS} ${CFLAGS}
+			${CC} -g -o ${NAME} ${OBJS} ${CFLAGS}
 
 # TO KEEP
 # $(NAME):	${OBJS}

@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 12:31:59 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/17 10:46:17 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/18 14:27:36 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@ static size_t	get_size_nbr(int n)
 	else if (-10 < n && n < 0)
 		return (2);
 	return (1 + get_size_nbr(n / 10));
-}
-
-static int		ft_abs(int n)
-{
-	return (n < 0 ? -n : n);
 }
 
 char			*ft_itoa(int n)

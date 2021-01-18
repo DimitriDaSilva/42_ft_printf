@@ -30,12 +30,12 @@ CFLAGS	=	-Wall -Wextra -Werror
 			${CC} ${CFLAGS} -c $^ -o ${<:.c=.o} -I${INCDIR}
 
 # TO DELETE
-# $(NAME):	${OBJS}
-# 			${CC} -o ${NAME} ${OBJS} ${CFLAGS}
+$(NAME):	${OBJS}
+			${CC} -o ${NAME} ${OBJS} ${CFLAGS}
 
 # TO KEEP
-$(NAME):	${OBJS}
-			${ARRC} ${NAME} ${OBJS}
+# $(NAME):	${OBJS}
+# 			${ARRC} ${NAME} ${OBJS}
 
 all:		${NAME}
 

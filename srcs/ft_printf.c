@@ -6,17 +6,17 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/18 16:25:11 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/18 20:37:16 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 static int	convert(const char **fmt);
-static int	convert_type(const char **fmt, char *flags, int width, int precision);
 static void	get_flags(const char **fmt, char *flags);
 static int	get_width(const char **fmt);
 static int	get_precision(const char **fmt);
+static int	convert_type(const char **fmt, char *flags, int width, int precision);
 static int	convert_type_alpha(const char **fmt, char *flags, int width, int precision);
 static int	convert_type_ptr(const char **fmt, char *flags, int width, int precision);
 static int	convert_type_int(const char **fmt, char *flags, int width, int precision);
@@ -66,13 +66,8 @@ static int	convert(const char **fmt)
 
 	nb_printed_chars = 0;
 	get_flags(fmt, flags);
-	printf("Flag: %c\n", *flags);
 	width = get_width(fmt);
-	// printf("Position after get_width: \"%s\"\n", *fmt);
-	printf("Width: %d\n", width);
 	precision = get_precision(fmt);
-	// printf("Position after get_precision: \"%s\"\n", *fmt);
-	printf("Precision: %d\n", precision);
 	nb_printed_chars += convert_type(fmt, flags, width, precision);
 	return (nb_printed_chars);
 }
@@ -82,14 +77,12 @@ static void	get_flags(const char **fmt, char *flags)
 	if ((**fmt == '-' && *(*fmt + 1) == '0') ||
 			(**fmt == '0' && *(*fmt + 1) == '-'))
 	{
-		ft_putstr("\n/!\\ error: '0' flag ignored with '-' flag in format /!\\\n");
 		flags[0] = '\0';
 		*fmt += 2;
 	}
 	else if ((**fmt == '-' && *(*fmt + 1) == '-') ||
 			(**fmt == '0' && *(*fmt + 1) == '0'))
 	{
-		ft_printf("\n/!\\ error: repeated '%c' flag in format /!\\\n", **fmt);
 		flags[0] = '\0';
 		*fmt += 2;
 	}
@@ -124,12 +117,17 @@ static int	get_precision(const char **fmt)
 {
 	int	precision;
 
-	precision = 0;
-	if (**fmt == '.' && ft_isdigit(*(*fmt + 1)))
+	precision = -1;
+	if (**fmt == '.')
 	{
 		(*fmt)++;
-		precision = ft_atoi(*fmt);
-		(*fmt) += get_size_nbr(precision);
+		if (!ft_isdigit(**fmt))
+			precision = 0;
+		else
+		{
+			precision = ft_atoi(*fmt);
+			(*fmt) += get_size_nbr(precision);
+		}
 	}
 	return (precision);
 }
@@ -149,9 +147,6 @@ static int	convert_type(const char **fmt, char *flags, int width, int precision)
 		nb_printed_chars = convert_type_hex(fmt, flags, width, precision);
 	else if (**fmt == '%')
 		nb_printed_chars = convert_type_percent(fmt, flags, width, precision);
-	else
-		ft_printf("\n/!\\ error: support for %c specifier "
-		"not yet implemented /!\\\n", **fmt);
 	return (nb_printed_chars);
 }
 
@@ -159,9 +154,6 @@ static int	convert_type_alpha(const char **fmt, char *flags, int width, int prec
 {
 	int		nb_printed_chars;
 	char	*str;
-	(void)flags;
-	(void)width;
-	(void)precision;
 
 	if (**fmt == 'c')
 	{
@@ -171,30 +163,54 @@ static int	convert_type_alpha(const char **fmt, char *flags, int width, int prec
 		str[1] = '\0';
 	}
 	else
-		str = va_arg(g_arg_list, char *);
+	{
+		if ((str = ft_strdup(va_arg(g_arg_list, char *))) && *str == 0)
+		{
+			free(str);
+			return (0);
+		}
+		else if (precision == 0)
+		{
+			fmt++;
+			return (0);
+		}
+		else if (precision != -1 && precision < (int)ft_strlen(str))
+			str[precision] = 0;
+	}
 	if (*flags == '-')
 		nb_printed_chars = print_left(str, width, ' ');
-	else if (*flags == '0')
-		ft_printf("\n/!\\ error: '0' flag used with %c format /!\\\n", **fmt);
-	else
+	else if (*flags == 0)
 		nb_printed_chars = print_right(str, width, ' ');
-	if (**fmt == 'c')
-		free(str);
+	free(str);
 	return (nb_printed_chars);
 }
 
 static int	convert_type_ptr(const char **fmt, char *flags, int width, int precision)
 {
 	long long	nb_to_convert;
+	int			nb_printed_chars;
 	(void)fmt;
-	(void)flags;
-	(void)width;
 	(void)precision;
 
+	nb_printed_chars = 14;
 	nb_to_convert = va_arg(g_arg_list, long long);
-	ft_putstr("0x");
-	ft_putnbr_base(nb_to_convert, "0123456789abcdef");
-	return (14);
+	if (*flags == '-')
+	{
+		ft_putstr("0x");
+		ft_putnbr_base(nb_to_convert, "0123456789abcdef");
+		width -= nb_printed_chars;
+		while (width-- > 0)
+			nb_printed_chars += ft_putchar(' ');
+	}
+	else
+	{
+		width -= nb_printed_chars;
+		while (width-- > 0)
+			nb_printed_chars += ft_putchar(' ');
+		ft_putstr("0x");
+		ft_putnbr_base(nb_to_convert, "0123456789abcdef");
+	}
+	return (nb_printed_chars);
 }
 
 static int	convert_type_int(const char **fmt, char *flags, int width, int precision)
@@ -220,31 +236,47 @@ static int	convert_type_int(const char **fmt, char *flags, int width, int precis
 static int	convert_type_hex(const char **fmt, char *flags, int width, int precision)
 {
 	int		nb_to_convert;
-	(void)flags;
-	(void)width;
+	int		nb_printed_chars;
+	char	base[17];
 	(void)precision;
 
 	nb_to_convert = va_arg(g_arg_list, int);
+	nb_printed_chars = nb_to_convert >= 16 ? 2 : 1;
 	if (**fmt == 'x')
-		ft_putnbr_base(nb_to_convert, "0123456789abcdef");
-	else if (**fmt == 'X')
-		ft_putnbr_base(nb_to_convert, "0123456789ABCDEF");
-	return (nb_to_convert >= 16 ? 2 : 1);
+		ft_strlcpy(base, "0123456789abcdef", 17);
+	else
+		ft_strlcpy(base, "0123456789ABCDEF", 17);
+	if (*flags == '-')
+	{
+		ft_putnbr_base(nb_to_convert, base);
+		width -= nb_printed_chars;
+		while (width-- > 0)
+			nb_printed_chars += ft_putchar(' ');
+	}
+	else
+	{
+		width -= nb_printed_chars;
+		while (width-- > 0)
+			nb_printed_chars += ft_putchar(' ');
+		ft_putnbr_base(nb_to_convert, base);
+	}
+	return (nb_printed_chars);
 }
 
 static int	convert_type_percent(const char **fmt, char *flags, int width, int precision)
 {
 	int		nb_printed_chars;
 	(void)fmt;
+	(void)width;
 	(void)precision;
 
 	nb_printed_chars = 0;
 	if (*flags == '-')
-		nb_printed_chars = print_left("%%", width, ' ');
+		nb_printed_chars = print_left("%", 0, ' ');
 	else if (*flags == '0')
-		 nb_printed_chars = print_right("%%", width, '0');
+		 nb_printed_chars = print_right("%", 0, '0');
 	else
-		nb_printed_chars = print_right("%%", width, ' ');
+		nb_printed_chars = print_right("%", 0, ' ');
 	return (nb_printed_chars);
 }
 
@@ -253,6 +285,8 @@ static int	print_left(char *str, int width, char padding)
 	int		nb_printed_chars;
 
 	nb_printed_chars = ft_putstr(str);
+	if (*str == 0)
+		nb_printed_chars += ft_putchar(0);
 	width -= nb_printed_chars;
 	while (width-- > 0)
 		nb_printed_chars += ft_putchar(padding);
@@ -266,10 +300,12 @@ static int	print_right(char *str, int width, char padding)
 	nb_printed_chars = 0;
 	if (*str == '-' && padding == '0')
 		nb_printed_chars += ft_putchar(*str++);
-	width -= ft_strlen(str);
+	width -= *str ? ft_strlen(str) : 1;
 	while (width-- > 0)
 		nb_printed_chars += ft_putchar(padding);
 	nb_printed_chars += ft_putstr(str);
+	if (*str == 0)
+		nb_printed_chars += ft_putchar(0);
 	return (nb_printed_chars);
 }
 
@@ -282,73 +318,73 @@ static int	get_size_nbr(int n)
 	return (1 + get_size_nbr(n / 10));
 }
 
-int	main(int argc, char *argv[])
-{
-	(void)argc;
-	(void)argv;
-	int retMine = 0;
-	int retOrig = 0;
+// int	main(int argc, char *argv[])
+// {
+// 	(void)argc;
+// 	(void)argv;
+// 	int retMine = 0;
+// 	int retOrig = 0;
 
-	// Testing for char
-	// retMine = ft_printf("I'm %010c yo\n", -5);
-	// retOrig = printf("I'm %10c yo\n", -5);
+// 	// Testing for char
+// 	// retMine = ft_printf("I'm %c yo\n", '\0');
+// 	// retOrig = printf("I'm %c yo\n", '\0');
 
-	// Testing for char *
-	// retMine = ft_printf("I'm %20s yo\n", "twenty-five");
-	// retOrig = printf("I'm %20s yo\n", "twenty-five");
+// 	// Testing for char *
+// 	retMine = ft_printf("%.3s\n", "hello");
+// 	retOrig = printf("%.3s\n", "hello");
 
-	// Testing for hex
-	// retMine = ft_printf("Hexadecimal integers: %x\n", 30);
-	// retOrig = printf("Hexadecimal integers: %x\n", 30);
+// 	// Testing for hex
+// 	// retMine = ft_printf("Hexadecimal integers: %-5x\n", 30);
+// 	// retOrig = printf("Hexadecimal integers: %-5x\n", 30);
 
-	// Testing for pointer
-	// retMine = ft_printf("RetMine's address: %p\n", &retMine);
-	// retOrig = printf("RetMine's address: %p\n", &retMine);
+// 	// Testing for pointer
+// 	// retMine = ft_printf("RetMine's address: %025p\n", &retMine);
+// 	// retOrig = printf("RetMine's address: %-*p\n", 25, &retMine);
 
-	// Testing for int d
-	// retMine = ft_printf("I'm %5d yo\n", 25);
-	// retOrig = printf("I'm %5d yo\n", 25);
+// 	// Testing for int d
+// 	// retMine = ft_printf("I'm %5d yo\n", 25);
+// 	// retOrig = printf("I'm %5d yo\n", 25);
 
-	// Testing for int i
-	// retMine = ft_printf("I'm %i yo\n", 25);
-	// retOrig = printf("I'm %i yo\n", 25);
+// 	// Testing for int i
+// 	// retMine = ft_printf("I'm %i yo\n", 25);
+// 	// retOrig = printf("I'm %i yo\n", 25);
 
-	// Testing for int u
-	// retMine = ft_printf("I'm %u yo\n", 25);
-	// retOrig = printf("I'm %u yo\n", 25);
+// 	// Testing for int u
+// 	// retMine = ft_printf("I'm %u yo\n", 25);
+// 	// retOrig = printf("I'm %u yo\n", 25);
 
-	// Testing for %
-	// retMine = ft_printf("Percentage sign: %%\n");
-	// retOrig = printf("Percentage sign: %%\n");
+// 	// Testing for %
+// 	// retMine = ft_printf("Percentage sign: %5%\n");
+// 	// retOrig = printf("Percentage sign: %5%\n");
 
-	// Testing for several types at once
-	// retMine = ft_printf("I'm %s\nI'm %d yo\n%c\n", "Dimitri", 25, 'd');
-	// retOrig = printf("I'm %s\nI'm %d yo\n%c\n", "Dimitri", 25, 'd');
+// 	// Testing for several types at once
+// 	// retMine = ft_printf("I'm %s\nI'm %d yo\n%c\n", "Dimitri", 25, 'd');
+// 	// retOrig = printf("I'm %s\nI'm %d yo\n%c\n", "Dimitri", 25, 'd');
 
-	// Testing for non implemented specifiers
-	// retMine = ft_printf("Float: %f\n", 4.5);
-	// retOrig = printf("Float: %f\n", 4.5);
+// 	// Testing for non implemented specifiers
+// 	// retMine = ft_printf("Float: %f\n", 4.5);
+// 	// retOrig = printf("Float: %f\n", 4.5);
 
-	// Testing for flags - and 0
-	// retMine = ft_printf("I'm %i yo\n", 25);
-	// retOrig = printf("I'm %55i yo\n", 25);
+// 	// Testing for flags - and 0
+// 	// retMine = ft_printf("I'm %i yo\n", 25);
+// 	// retOrig = printf("I'm %55i yo\n", 25);
 
-	// Testing for width
-	// retMine = ft_printf("I'm %010i yo\n", -25);
-	// retOrig = printf("I'm %014f yo\n", -25.5);
+// 	// Testing for width
+// 	// retMine = ft_printf("I'm %010i yo\n", -25);
+// 	// retOrig = printf("I'm %014f yo\n", -25.5);
 
-	// Testing for precision
-	// retMine = ft_printf("I'm %.5555555i yo\n", 25);
-	// retOrig = printf("I'm %.5i yo\n", 25);
+// 	// Testing for precision
+// 	// retMine = ft_printf("I'm %.5555555i yo\n", 25);
+// 	// retOrig = printf("I'm %.5i yo\n", 25);
 
-	// Testing for floats
-	// retMine = ft_printf("I'm %.4f yo\n", 2.718281828);
-	// retOrig = printf("I'm %.2f yo\n", 2.715844448);
+// 	// Testing for floats
+// 	// retMine = ft_printf("I'm %.4f yo\n", 2.718281828);
+// 	// retOrig = printf("I'm %.2f yo\n", 2.715844448);
 
-	// Weird use case that outputs "I'm 00025 yo"
-	// retOrig = printf("I'm %-5.5i yo\n", 25);
+// 	// Weird use case that outputs "I'm 00025 yo"
+// 	// retOrig = printf("I'm %-5.5i yo\n", 25);
 
 
-	printf("RetMine: %d\n", retMine);
-	printf("RetOrig: %d\n", retOrig);
-}
+// 	printf("RetMine: %d\n", retMine);
+// 	printf("RetOrig: %d\n", retOrig);
+// }

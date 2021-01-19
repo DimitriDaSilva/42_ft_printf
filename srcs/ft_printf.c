@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/19 19:01:28 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/19 20:07:42 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,14 @@ static int	convert(const char **fmt)
 	get_flags(fmt, flags);
 	width = get_width(fmt);
 	precision = get_precision(fmt);
+	if (width < 0)
+	{
+		flags[0] = '-';
+		width = ft_abs(width);
+	}
+	// printf("Flag: %c\n", *flags);
+	// printf("Width: %d\n", width);
+	// printf("Precision: %d\n", precision);
 	nb_printed_chars += convert_type(fmt, flags, width, precision);
 	return (nb_printed_chars);
 }
@@ -119,9 +127,16 @@ static int	get_precision(const char **fmt)
 	int	precision;
 
 	precision = -1;
-	if (**fmt == '.')
+	if (**fmt != '.')
+		return (precision);
+	(*fmt)++;
+	if (**fmt == '*')
 	{
 		(*fmt)++;
+		precision = va_arg(g_arg_list, int);
+	}
+	else
+	{
 		if (!ft_isdigit(**fmt))
 			return (0);
 		else
@@ -169,7 +184,7 @@ static int	convert_type_alpha(const char **fmt, char *flags, int width, int prec
 	}
 	else if (**fmt == 's')
 	{
-		if (!(str = va_arg(g_arg_list, char *)) && (precision >= 6 || precision == -1))
+		if (!(str = va_arg(g_arg_list, char *)) && (precision >= 6 || precision <= -1))
 			str = ft_strdup("(null)");
 		else if ((!str && precision < 6) || !*str)
 			str = ft_strdup("");
@@ -235,26 +250,25 @@ static int	convert_type_int(const char **fmt, char *flags, int width, int precis
 static int	convert_type_hex(const char **fmt, char *flags, int width, int precision)
 {
 	long long	nb_to_convert;
-	int		nb_printed_chars;
-	char	base[17];
+	int			nb_printed_chars;
 	char		*str_to_print;
 	(void)precision;
 
-	if (**fmt == 'x')
-		ft_strlcpy(base, "0123456789abcdef", 17);
-	else
-		ft_strlcpy(base, "0123456789ABCDEF", 17);
-	nb_printed_chars = 0;
 	nb_to_convert = va_arg(g_arg_list, long long);
-	str_to_print = ft_convert_base(nb_to_convert, base);
+	if (**fmt == 'x')
+		str_to_print = ft_convert_base(nb_to_convert, "0123456789abcdef");
+	else
+		str_to_print = ft_convert_base(nb_to_convert, "0123456789ABCDEF");
 	if (precision == 0 && *str_to_print == '0')
 		*str_to_print = ' ';
 	else
 		add_padding(&str_to_print, precision);
 	if (*flags == '-')
-		nb_printed_chars += print_left(str_to_print, width, ' ', **fmt);
-	else if (*flags == 0)
-		nb_printed_chars += print_right(str_to_print, width, ' ', **fmt);
+		nb_printed_chars = print_left(str_to_print, width, ' ', **fmt);
+	else if (*flags == '0' && precision == -1)
+		 nb_printed_chars = print_right(str_to_print, width, '0', **fmt);
+	else
+		nb_printed_chars = print_right(str_to_print, width, ' ', **fmt);
 	free(str_to_print);	
 	return (nb_printed_chars);
 }

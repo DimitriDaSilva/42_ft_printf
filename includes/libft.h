@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/18 14:26:30 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/19 18:53:57 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(char const *s1, char const *set);
 char				**ft_split(char const *s, char c);
-char				*ft_itoa(int n);
+char				*ft_itoa(long long n);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int					ft_putchar(char c);
 int					ft_putstr(char *str);
-void				ft_putnbr_base(long long nbr, char *base);
+char				*ft_convert_base(long long nbr, char *base_to);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
@@ -84,6 +84,6 @@ t_list				*ft_lstmap(t_list *lst,
 int					ft_printf(const char *format, ...);
 int					ft_power(int nb, int power);
 int					ft_sqrt(int nb);
-int					ft_abs(int n);
+long long			ft_abs(long long n);
 
 #endif

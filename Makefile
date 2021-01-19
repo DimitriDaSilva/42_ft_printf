@@ -27,11 +27,11 @@ RM		=	rm -f
 CFLAGS	=	-Wall -Wextra -Werror
 
 .c.o:
-			${CC} ${CFLAGS} -c $^ -o ${<:.c=.o} -I${INCDIR}
+			${CC} -g ${CFLAGS} -c $^ -o ${<:.c=.o} -I${INCDIR}
 
 # TO DELETE
 # $(NAME):	${OBJS}
-# 			${CC} -g -o ${NAME} ${OBJS} ${CFLAGS}
+# 			${CC} -o ${NAME} ${OBJS} ${CFLAGS}
 
 # TO KEEP
 $(NAME):	${OBJS}

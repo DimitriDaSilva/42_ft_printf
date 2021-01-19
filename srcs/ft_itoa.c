@@ -6,13 +6,13 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 12:31:59 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/18 14:27:36 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/19 18:52:12 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	get_size_nbr(int n)
+static size_t	get_size_nbr(long long n)
 {
 	if (0 <= n && n < 10)
 		return (1);
@@ -21,13 +21,11 @@ static size_t	get_size_nbr(int n)
 	return (1 + get_size_nbr(n / 10));
 }
 
-char			*ft_itoa(int n)
+char			*ft_itoa(long long n)
 {
 	char	*str;
 	size_t	size_nbr;
 
-	if (n == INT_MIN)
-		return (ft_strdup("-2147483648"));
 	size_nbr = get_size_nbr(n);
 	if (!(str = malloc((size_nbr + 1) * sizeof(char))))
 		return (0);

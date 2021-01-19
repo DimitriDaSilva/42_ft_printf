@@ -6,24 +6,36 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/19 20:07:42 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/19 23:40:55 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+typedef struct	s_format
+{
+	char		flags[2];
+	int			width;
+	int			precision;
+	char		size[2];
+	char		type;
+}				t_format;
+
 static int	convert(const char **fmt);
-static void	get_flags(const char **fmt, char *flags);
+static void get_settings(const char **fmt, t_format *settings);
+static char	*get_flags(const char **fmt);
 static int	get_width(const char **fmt);
 static int	get_precision(const char **fmt);
-static int	convert_type(const char **fmt, char *flags, int width, int precision);
-static int	convert_type_alpha(const char **fmt, char *flags, int width, int precision);
-static int	convert_type_ptr(const char **fmt, char *flags, int width, int precision);
-static int	convert_type_int(const char **fmt, char *flags, int width, int precision);
-static int	convert_type_hex(const char **fmt, char *flags, int width, int precision);
-static int	convert_type_percent(const char **fmt, char *flags, int width, int precision);
-static int	print_left(char *str, int width, char padding, char type);
-static int	print_right(char *str, int width, char padding, char type);
+static char	*get_size(const char **fmt);
+static int	print(const char **fmt, t_format *settings);
+static int	print_char(const char **fmt, t_format *settings);
+static int	print_str(const char **fmt, t_format *settings);
+static int	print_ptr(const char **fmt, t_format *settings);
+static int	print_int(const char **fmt, t_format *settings);
+static int	print_hex(const char **fmt, t_format *settings);
+static int	print_pct(const char **fmt, t_format *settings);
+static int	print_left(char *str, t_format *settings, char padding);
+static int	print_right(char *str, t_format *settings, char padding);
 static int	get_size_nbr(int n);
 static void add_padding(char **nb, int precision);
 
@@ -53,36 +65,35 @@ int			ft_printf(const char *fmt, ...)
 	return (nb_printed_chars);
 }
 
-/*
-** This function is called when a % is detected.
-** Return value: number of printed characters
-*/
-
 static int	convert(const char **fmt)
 {
-	int		nb_printed_chars;
-	char	flags[2];
-	int		width;
-	int		precision;
+	int			nb_printed_chars;
+	t_format	settings;
 
 	nb_printed_chars = 0;
-	get_flags(fmt, flags);
-	width = get_width(fmt);
-	precision = get_precision(fmt);
-	if (width < 0)
-	{
-		flags[0] = '-';
-		width = ft_abs(width);
-	}
-	// printf("Flag: %c\n", *flags);
-	// printf("Width: %d\n", width);
-	// printf("Precision: %d\n", precision);
-	nb_printed_chars += convert_type(fmt, flags, width, precision);
+	get_settings(fmt, &settings);
+	nb_printed_chars = print(fmt, &settings);
 	return (nb_printed_chars);
 }
 
-static void	get_flags(const char **fmt, char *flags)
+static void get_settings(const char **fmt, t_format *settings)
 {
+	settings->flags = get_flags(fmt);
+	settings->width = get_width(fmt);
+	settings->precision = get_precision(fmt);
+	settings->size = get_size(fmt);
+	settings->type = **fmt;
+	if (settings->width < 0)
+	{
+		settings->flags[0] = '-';
+		settings->width = ft_abs(settings->width);
+	}
+}
+
+static char	*get_flags(const char **fmt)
+{
+	char	flags[2];
+
 	if ((**fmt == '-' && *(*fmt + 1) == '-') ||
 			(**fmt == '0' && *(*fmt + 1) == '0'))
 	{
@@ -102,6 +113,8 @@ static void	get_flags(const char **fmt, char *flags)
 	}
 	else
 		flags[0] = '\0';
+	flags[1] = '\0';
+	return (flags);
 }
 
 static int	get_width(const char **fmt)
@@ -129,8 +142,7 @@ static int	get_precision(const char **fmt)
 	precision = -1;
 	if (**fmt != '.')
 		return (precision);
-	(*fmt)++;
-	if (**fmt == '*')
+	if ((*fmt)++ && **fmt == '*')
 	{
 		(*fmt)++;
 		precision = va_arg(g_arg_list, int);
@@ -152,62 +164,81 @@ static int	get_precision(const char **fmt)
 	return (precision);
 }
 
-static int	convert_type(const char **fmt, char *flags, int width, int precision)
+// To do 
+static char	*get_size(const char **fmt)
+{
+	char size[2];
+
+	(*fmt)++;
+	size[0] = 'l';
+	return (size);
+}
+
+static int	print(const char **fmt, t_format *settings)
 {
 	int		nb_printed_chars;
 
 	nb_printed_chars = 0;
-	if (ft_strchr("cs", **fmt))
-		nb_printed_chars = convert_type_alpha(fmt, flags, width, precision);
-	else if (**fmt == 'p')
-		nb_printed_chars = convert_type_ptr(fmt, flags, width, precision);
-	else if (ft_strchr("diu", **fmt))
-		nb_printed_chars = convert_type_int(fmt, flags, width, precision);
-	else if (ft_strchr("pxX", **fmt))
-		nb_printed_chars = convert_type_hex(fmt, flags, width, precision);
-	else if (**fmt == '%')
-		nb_printed_chars = convert_type_percent(fmt, flags, width, precision);
+	if ('c' == settings->type)
+		nb_printed_chars = print_char(fmt, settings);
+	else if ('s' == settings->type)
+		nb_printed_chars = print_str(fmt, settings);
+	else if ('p' == settings->type)
+		nb_printed_chars = print_ptr(fmt, settings);
+	else if (ft_strchr("diu", settings->type))
+		nb_printed_chars = print_int(fmt, settings);
+	else if (ft_strchr("pxX", settings->type))
+		nb_printed_chars = print_hex(fmt, settings);
+	else if ('%' == settings->type)
+		nb_printed_chars = print_pct(fmt, settings);
 	return (nb_printed_chars);
 }
 
-static int	convert_type_alpha(const char **fmt, char *flags, int width, int precision)
+static int	print_char(const char **fmt, t_format *settings)
 {
 	int		nb_printed_chars;
 	char	*str;
 
-	if (**fmt == 'c')
-	{
-		if (!(str = malloc(2 * sizeof(char))))
-			return (0);
-		str[0] = va_arg(g_arg_list, int);
-		str[1] = '\0';
-	}
-	else if (**fmt == 's')
-	{
-		if (!(str = va_arg(g_arg_list, char *)) && (precision >= 6 || precision <= -1))
-			str = ft_strdup("(null)");
-		else if ((!str && precision < 6) || !*str)
-			str = ft_strdup("");
-		else
-			str = ft_strdup(str);
-		if (precision != -1 && precision < (int)ft_strlen(str))
-			str[precision] = 0;
-	}
-	if (*flags == '-')
-		nb_printed_chars = print_left(str, width, ' ', **fmt);
-	else if (*flags == 0)
-		nb_printed_chars = print_right(str, width, ' ', **fmt);
+	if (!(str = malloc(2 * sizeof(char))))
+		return (0);
+	str[0] = va_arg(g_arg_list, int);
+	str[1] = '\0';
+	if (settings->flags[0] == '-')
+		nb_printed_chars = print_left(str, settings, ' ');
+	else if (settings->flags[0] == 0)
+		nb_printed_chars = print_right(str, settings, ' ');
 	free(str);
 	return (nb_printed_chars);
 }
 
-static int	convert_type_ptr(const char **fmt, char *flags, int width, int precision)
+static int	print_str(const char **fmt, t_format *settings)
+{
+	int		nb_printed_chars;
+	char	*str;
+
+	if (!(str = va_arg(g_arg_list, char *)) &&
+		(settings->precision >= 6 || settings->precision <= -1))
+		str = ft_strdup("(null)");
+	else if ((!str && settings->precision < 6) || !*str)
+		str = ft_strdup("");
+	else
+		str = ft_strdup(str);
+	if (settings->precision != -1 && settings->precision < (int)ft_strlen(str))
+		str[precision] = 0;
+	if (settings->flags[0] == '-')
+		nb_printed_chars = print_left(str, settings, ' ');
+	else if (settings->flags[0] == 0)
+		nb_printed_chars = print_right(str, settings, ' ');
+	free(str);
+	return (nb_printed_chars);
+}
+
+static int	print_ptr(const char **fmt, t_format *settings)
 {
 	long long	nb_to_convert;
 	int			nb_printed_chars;
 	char		*str_to_print;
 	(void)fmt;
-	(void)precision;
 
 	nb_printed_chars = 0;
 	nb_to_convert = va_arg(g_arg_list, long long);
@@ -215,122 +246,124 @@ static int	convert_type_ptr(const char **fmt, char *flags, int width, int precis
 		return (ft_putstr("(nil)"));
 	else
 		str_to_print = ft_convert_base(nb_to_convert, "0123456789abcdef");
-	if (*flags == '-')
-		nb_printed_chars += print_left(str_to_print, width, ' ', **fmt);
-	else if (*flags == 0)
-		nb_printed_chars += print_right(str_to_print, width, ' ', **fmt);
+	if (settings->flags[0] == '-')
+		nb_printed_chars += print_left(str_to_print, settings, ' ');
+	else if (settings->flags[0] == 0)
+		nb_printed_chars += print_right(str_to_print, settings, ' ');
 	free(str_to_print);	
 	return (nb_printed_chars);
 }
 
-static int	convert_type_int(const char **fmt, char *flags, int width, int precision)
+static int	print_int(const char **fmt, t_format *settings)
 {
 	int		nb_printed_chars;
 	char	*nb_to_print;
-	(void)precision;
 
-	if (**fmt == 'd' || **fmt == 'i')
+	if (settings->type == 'd' || settings->type == 'i')
 		nb_to_print = ft_itoa(va_arg(g_arg_list, int));
-	else if (**fmt == 'u')
+	else if (settings->type == 'u')
 		nb_to_print = ft_itoa(va_arg(g_arg_list, unsigned int));
-	if (precision == 0 && *nb_to_print == '0')
+	if (settings->precision == 0 && *nb_to_print == '0')
 		*nb_to_print = ' ';
 	else
-		add_padding(&nb_to_print, precision);
-	if (*flags == '-')
-		nb_printed_chars = print_left(nb_to_print, width, ' ', **fmt);
-	else if (*flags == '0' && precision == -1)
-		 nb_printed_chars = print_right(nb_to_print, width, '0', **fmt);
+		add_padding(&nb_to_print, settings->precision);
+	if (settings->flags[0] == '-')
+		nb_printed_chars = print_left(nb_to_print, settings, ' ');
+	else if (settings->flags[0] == '0' && settings->precision == -1)
+		 nb_printed_chars = print_right(nb_to_print, settings, '0');
 	else
-		nb_printed_chars = print_right(nb_to_print, width, ' ', **fmt);
+		nb_printed_chars = print_right(nb_to_print, settings, ' ');
 	free(nb_to_print);
 	return (nb_printed_chars);
 }
 
-static int	convert_type_hex(const char **fmt, char *flags, int width, int precision)
+static int	print_hex(const char **fmt, t_format *settings)
 {
 	long long	nb_to_convert;
 	int			nb_printed_chars;
 	char		*str_to_print;
-	(void)precision;
 
 	nb_to_convert = va_arg(g_arg_list, long long);
-	if (**fmt == 'x')
+	if (settings->type == 'x')
 		str_to_print = ft_convert_base(nb_to_convert, "0123456789abcdef");
 	else
 		str_to_print = ft_convert_base(nb_to_convert, "0123456789ABCDEF");
-	if (precision == 0 && *str_to_print == '0')
+	if (settings->precision == 0 && *str_to_print == '0')
 		*str_to_print = ' ';
 	else
-		add_padding(&str_to_print, precision);
-	if (*flags == '-')
-		nb_printed_chars = print_left(str_to_print, width, ' ', **fmt);
-	else if (*flags == '0' && precision == -1)
-		 nb_printed_chars = print_right(str_to_print, width, '0', **fmt);
+		add_padding(&str_to_print, settings->precision);
+	if (settings->flags[0] == '-')
+		nb_printed_chars = print_left(str_to_print, settings, ' ');
+	else if (settings->flags[0] == '0' && settings->precision == -1)
+		 nb_printed_chars = print_right(str_to_print, settings, '0');
 	else
-		nb_printed_chars = print_right(str_to_print, width, ' ', **fmt);
+		nb_printed_chars = print_right(str_to_print, settings, ' ');
 	free(str_to_print);	
 	return (nb_printed_chars);
 }
 
-static int	convert_type_percent(const char **fmt, char *flags, int width, int precision)
+static int	print_pct(const char **fmt, t_format *settings)
 {
 	int		nb_printed_chars;
-	(void)fmt;
-	(void)width;
-	(void)precision;
 
 	nb_printed_chars = 0;
-	if (*flags == '-')
-		nb_printed_chars = print_left("%", 0, ' ', '%');
-	else if (*flags == '0')
-		 nb_printed_chars = print_right("%", 0, '0', '%');
+	settings->width = 0;
+	if (settings->flags[0] == '-')
+		nb_printed_chars = print_left("%", settings, ' ');
+	else if (settings->flags[0] == '0')
+		 nb_printed_chars = print_right("%", settings, '0');
 	else
-		nb_printed_chars = print_right("%", 0, ' ', '%');
+		nb_printed_chars = print_right("%", settings, ' ');
 	return (nb_printed_chars);
 }
 
-static int	print_left(char *str, int width, char padding, char type)
+// Potential improvement
+	// else if (!ft_strchr("duixX", settings->type) || !*str == ' ')
+	// 	nb_printed_chars += ft_putstr(str);
+static int	print_left(char *str, t_format *settings, char padding)
 {
 	int		nb_printed_chars;
 
 	nb_printed_chars = 0;
-	if (type == 'p')
+	if (settings->type == 'p')
 		nb_printed_chars += ft_putstr("0x");
-	if (type == 'c' && *str == 0)
+	if (settings->type == 'c' && *str == 0)
 		nb_printed_chars += ft_putchar(0);
-	else if (ft_strchr("duixX", type) && *str == ' ')
+	else if (ft_strchr("duixX", settings->type) && *str == ' ')
 		;
 	else
 		nb_printed_chars += ft_putstr(str);
-	width -= nb_printed_chars;
-	while (width-- > 0)
+	settings->width -= nb_printed_chars;
+	while (settings->width-- > 0)
 		nb_printed_chars += ft_putchar(padding);
 	return (nb_printed_chars);
 }
 
-static int	print_right(char *str, int width, char padding, char type)
+// Potential improvement
+	// else if (!ft_strchr("duixX", settings->type) || !*str == ' ')
+	// 	nb_printed_chars += ft_putstr(str);
+static int	print_right(char *str, t_format *settings, char padding)
 {
 	int		nb_printed_chars;
 
 	nb_printed_chars = 0;
 	if (*str == '-' && padding == '0')
 		nb_printed_chars += ft_putchar(*str++);
-	if (type == 'c' && *str == 0)
-		width--;
-	else if (ft_strchr("duixX", type) && *str == ' ')
-		width++;
-	else if (type == 'p')
-		width -= ft_strlen("0x");
-	width -= nb_printed_chars;
-	width -= ft_strlen(str);
-	while (width-- > 0)
+	if (settings->type == 'c' && *str == 0)
+		settings->width--;
+	else if (ft_strchr("duixX", settings->type) && *str == ' ')
+		settings->width++;
+	else if (settings->type == 'p')
+		settings->width -= ft_strlen("0x");
+	settings->width -= nb_printed_chars;
+	settings->width -= ft_strlen(str);
+	while (settings->width-- > 0)
 		nb_printed_chars += ft_putchar(padding);
-	if (type == 'p')
+	if (settings->type == 'p')
 		nb_printed_chars += ft_putstr("0x");
-	if (type == 'c' && *str == 0)
+	if (settings->type == 'c' && *str == 0)
 		nb_printed_chars += ft_putchar(0);
-	else if (ft_strchr("duixX", type) && *str == ' ')
+	else if (ft_strchr("duixX", settings->type) && *str == ' ')
 		;
 	else
 		nb_printed_chars += ft_putstr(str);
@@ -348,7 +381,6 @@ static int	get_size_nbr(int n)
 
 /*
 ** Adds 0 at the left of ints when precision is higher than length of int
-** 
 ** @param:	- [char **nbr] 	Number in a str format. Ptr to a ptr because we
 ** 							need to free and allocate more space
 **  		- [int precision] Number passed after the . in the format. For
@@ -356,7 +388,6 @@ static int	get_size_nbr(int n)
 ** 								the number. If precision > length of the int,
 ** 								then we add add 0 to the left of the int
 ** @return: [void] The value is passed through the pointer **get_size_nbr
-** 
 ** Line-by-line comments:
 ** @10-12	Check if precision > nbr. The '-' doesn't count so we need to
 **			make a specific use case for it. If not, return.
@@ -364,7 +395,7 @@ static int	get_size_nbr(int n)
 ** @16-17	The '-' sign needs to go before the padding of 0s 
 */
 
-static void add_padding(char **nb, int precision)
+static void	add_padding(char **nb, int precision)
 {
 	int		length_old_nb;
 	int		length_new_nb;

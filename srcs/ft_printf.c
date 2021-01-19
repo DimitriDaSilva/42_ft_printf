@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/18 23:14:02 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/19 08:44:53 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static int	convert_type_ptr(const char **fmt, char *flags, int width, int precis
 static int	convert_type_int(const char **fmt, char *flags, int width, int precision);
 static int	convert_type_hex(const char **fmt, char *flags, int width, int precision);
 static int	convert_type_percent(const char **fmt, char *flags, int width, int precision);
-static int	print_left(char *str, int width, char padding);
-static int	print_right(char *str, int width, char padding);
+static int	print_left(char *str, int width, char padding, char type);
+static int	print_right(char *str, int width, char padding, char type);
 static int	get_size_nbr(int n);
 
 va_list	g_arg_list;
@@ -122,9 +122,13 @@ static int	get_precision(const char **fmt)
 	{
 		(*fmt)++;
 		if (!ft_isdigit(**fmt))
-			precision = 0;
+			return (0);
 		else
 		{
+			while (**fmt == '0')
+				(*fmt)++;
+			if (!ft_isdigit(**fmt))
+				return (0);
 			precision = ft_atoi(*fmt);
 			(*fmt) += get_size_nbr(precision);
 		}
@@ -154,7 +158,6 @@ static int	convert_type_alpha(const char **fmt, char *flags, int width, int prec
 {
 	int		nb_printed_chars;
 	char	*str;
-	// char	*tmp;
 
 	if (**fmt == 'c')
 	{
@@ -165,11 +168,12 @@ static int	convert_type_alpha(const char **fmt, char *flags, int width, int prec
 	}
 	else
 	{
-		// if (!(tmp = va_arg(g_arg_list, char *)))
-		// 	return (0);
-		// str = ft_strdup(tmp);
-		if (!(str = ft_strdup(va_arg(g_arg_list, char *))))
+		if (!(str = va_arg(g_arg_list, char *)))
+			str = ft_strdup("(null)");
+		else if (*str == 0)
 			return (0);
+		else
+			str = ft_strdup(str);
 		if (precision == 0)
 		{
 			fmt++;
@@ -179,9 +183,9 @@ static int	convert_type_alpha(const char **fmt, char *flags, int width, int prec
 			str[precision] = 0;
 	}
 	if (*flags == '-')
-		nb_printed_chars = print_left(str, width, ' ');
+		nb_printed_chars = print_left(str, width, ' ', **fmt);
 	else if (*flags == 0)
-		nb_printed_chars = print_right(str, width, ' ');
+		nb_printed_chars = print_right(str, width, ' ', **fmt);
 	free(str);
 	return (nb_printed_chars);
 }
@@ -225,11 +229,11 @@ static int	convert_type_int(const char **fmt, char *flags, int width, int precis
 	else if (**fmt == 'u')
 		nb_to_print = ft_itoa(va_arg(g_arg_list, unsigned int));
 	if (*flags == '-')
-		nb_printed_chars = print_left(nb_to_print, width, ' ');
+		nb_printed_chars = print_left(nb_to_print, width, ' ', **fmt);
 	else if (*flags == '0')
-		 nb_printed_chars = print_right(nb_to_print, width, '0');
+		 nb_printed_chars = print_right(nb_to_print, width, '0', **fmt);
 	else
-		nb_printed_chars = print_right(nb_to_print, width, ' ');
+		nb_printed_chars = print_right(nb_to_print, width, ' ', **fmt);
 	free(nb_to_print);
 	return (nb_printed_chars);
 }
@@ -273,28 +277,31 @@ static int	convert_type_percent(const char **fmt, char *flags, int width, int pr
 
 	nb_printed_chars = 0;
 	if (*flags == '-')
-		nb_printed_chars = print_left("%", 0, ' ');
+		nb_printed_chars = print_left("%", 0, ' ', '%');
 	else if (*flags == '0')
-		 nb_printed_chars = print_right("%", 0, '0');
+		 nb_printed_chars = print_right("%", 0, '0', '%');
 	else
-		nb_printed_chars = print_right("%", 0, ' ');
+		nb_printed_chars = print_right("%", 0, ' ', '%');
 	return (nb_printed_chars);
 }
 
-static int	print_left(char *str, int width, char padding)
+static int	print_left(char *str, int width, char padding, char type)
 {
 	int		nb_printed_chars;
 
-	nb_printed_chars = ft_putstr(str);
-	if (*str == 0)
-		nb_printed_chars += ft_putchar(0);
+	if (type == 'c' && *str == 0)
+		nb_printed_chars = ft_putchar(0);
+	else if (type == 's' && *str == 0)
+		nb_printed_chars = ft_putstr("(null)");
+	else
+		nb_printed_chars = ft_putstr(str);
 	width -= nb_printed_chars;
 	while (width-- > 0)
 		nb_printed_chars += ft_putchar(padding);
 	return (nb_printed_chars);
 }
 
-static int	print_right(char *str, int width, char padding)
+static int	print_right(char *str, int width, char padding, char type)
 {
 	int		nb_printed_chars;
 
@@ -304,9 +311,12 @@ static int	print_right(char *str, int width, char padding)
 	width -= *str ? ft_strlen(str) : 1;
 	while (width-- > 0)
 		nb_printed_chars += ft_putchar(padding);
-	nb_printed_chars += ft_putstr(str);
-	if (*str == 0)
+	if (type == 'c' && *str == 0)
 		nb_printed_chars += ft_putchar(0);
+	else if (type == 's' && *str == 0)
+		nb_printed_chars += ft_putstr("(null)");
+	else
+		nb_printed_chars += ft_putstr(str);
 	return (nb_printed_chars);
 }
 

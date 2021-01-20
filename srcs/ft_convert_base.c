@@ -6,20 +6,13 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 12:40:14 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/19 11:40:42 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/20 22:14:28 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#define ASCII_OFFSET_OTHERS 55
+#include "ft_convert_base.h"
 
-int		ft_custom_strchr(char *str, char to_find);
-static void		ft_putnbr_base(long long nbr, char *base, char *nbr_converted);
-static void		convert(long long nbr, char *base, int base_size, char *nbr_converted);
-static char		*ft_strncat(char *dest, char *src, unsigned int nb);
-static int		length_nbr(long long nbr, char *base);
-
-char	*ft_convert_base(long long nbr, char *base_to)
+char		*ft_convert_base(long long nbr, char *base_to)
 {
 	int		nbr_converted_len;
 	char	*nbr_converted;
@@ -33,10 +26,10 @@ char	*ft_convert_base(long long nbr, char *base_to)
 	return (nbr_converted);
 }
 
-static int		length_nbr(long long nbr, char *base)
+static int	length_nbr(long long nbr, char *base)
 {
-	int		base_size;
-	int		count;
+	int			base_size;
+	int			count;
 	long long	max;
 	long long	tmp;
 
@@ -71,7 +64,10 @@ static void	ft_putnbr_base(long long nbr, char *base, char *nbr_converted)
 	return ;
 }
 
-static void	convert(long long nbr, char *base, int base_size, char *nbr_converted)
+static void	convert(long long nbr,
+					char *base,
+					int base_size,
+					char *nbr_converted)
 {
 	if (nbr < 0)
 	{
@@ -85,20 +81,4 @@ static void	convert(long long nbr, char *base, int base_size, char *nbr_converte
 	}
 	else
 		ft_strncat(nbr_converted, &base[nbr], 1);
-}
-
-static char	*ft_strncat(char *dest, char *src, unsigned int nb)
-{
-	char *sav_d;
-
-	sav_d = dest;
-	while (*dest)
-		dest++;
-	while (nb && *src)
-	{
-		*dest++ = *src++;
-		nb--;
-	}
-	*dest = '\0';
-	return (sav_d);
 }

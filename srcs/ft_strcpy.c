@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_utils.h                                  :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/20 15:39:35 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/20 20:25:54 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/01/20 21:56:54 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/01/20 21:57:24 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_UTILS_H
-# define FT_PRINTF_UTILS_H
+char	*ft_strcpy(char *dest, const char *src)
+{
+	char *saved;
 
-# include "ft_printf.h"
-
-void	add_padding(char **nb, int precision);
-
-#endif
+	saved = dest;
+	while ((*dest++ = *src++) != '\0')
+		;
+	return (saved);
+}

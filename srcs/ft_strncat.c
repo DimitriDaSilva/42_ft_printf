@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_utils.h                                  :+:      :+:    :+:   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/20 15:39:35 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/20 20:25:54 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/01/20 21:49:04 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/01/20 21:50:22 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_UTILS_H
-# define FT_PRINTF_UTILS_H
+char	*ft_strncat(char *dest, char *src, unsigned int nb)
+{
+	char *sav_d;
 
-# include "ft_printf.h"
-
-void	add_padding(char **nb, int precision);
-
-#endif
+	sav_d = dest;
+	while (*dest)
+		dest++;
+	while (nb && *src)
+	{
+		*dest++ = *src++;
+		nb--;
+	}
+	*dest = '\0';
+	return (sav_d);
+}

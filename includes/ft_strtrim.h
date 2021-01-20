@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_convert_base2.c                                 :+:      :+:    :+:   */
+/*   ft_strtrim.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 14:21:09 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/19 10:38:59 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/01/20 21:43:18 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/01/20 22:16:18 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_custom_strchr(char *str, char to_find)
-{
-	char *sav_s;
+#ifndef FT_STRTRIM_H
+# define FT_STRTRIM_H
 
-	sav_s = str;
-	while (*str)
-	{
-		if (*str == to_find)
-			return (str - sav_s);
-		str++;
-	}
-	return (-1);
-}
+# include "libft.h"
+
+static size_t	get_length(char const *s1, char const *set);
+static void		trim(char *new_str,
+					size_t size_new_str,
+					char const *s1,
+					char const *set);
+
+#endif

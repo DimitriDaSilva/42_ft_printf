@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/20 15:40:43 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/20 19:25:38 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 ** 							need to free and allocate more space
 **  		- [int precision] Number passed after the . in the format. For
 ** 							ints, the precision defines the length of
-** 								the number. If precision > length of the int,
-** 								then we add add 0 to the left of the int
+** 							the number. If precision > length of the int,
+** 							then we add add 0 to the left of the int
 ** @return: [void] The value is passed through the pointer **get_size_nbr
 ** Line-by-line comments:
 ** @10-12	Check if precision > nbr. The '-' doesn't count so we need to

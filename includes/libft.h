@@ -6,17 +6,21 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/20 08:53:36 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/20 22:05:19 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-// To delete
+/*
+** To delete
+*/
 # include <stdio.h>
 
-// To keep
+/*
+** To keep
+*/
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
@@ -31,6 +35,15 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct		s_format
+{
+	char			flags[2];
+	int				width;
+	int				precision;
+	char			size[2];
+	char			type;
+}					t_format;
+
 void				*ft_memset(void *s, int c, size_t n);
 void				ft_bzero(void *s, size_t n);
 void				*ft_memcpy(void *dest, const void *src, size_t n);
@@ -39,7 +52,9 @@ void				*ft_memmove(void *dest, const void *src, size_t n);
 void				*ft_memchr(const void *s, int c, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 size_t				ft_strlen(const char *s);
+char				*ft_strcpy(char *dest, const char *src);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
+char				*ft_strncat(char *dest, char *src, unsigned int nb);
 size_t				ft_strlcat(char *dst, const char *src, size_t size);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
@@ -86,6 +101,5 @@ int					ft_power(int nb, int power);
 int					ft_sqrt(int nb);
 long long			ft_abs(long long n);
 size_t				get_size_nbr(long long n);
-
 
 #endif

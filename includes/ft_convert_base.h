@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_utils.h                                  :+:      :+:    :+:   */
+/*   ft_convert_base.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/20 15:39:35 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/20 20:25:54 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/01/20 20:30:07 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/01/20 22:16:06 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_UTILS_H
-# define FT_PRINTF_UTILS_H
+#ifndef FT_CONVERT_BASE_H
+# define FT_CONVERT_BASE_H
 
-# include "ft_printf.h"
+# include "libft.h"
 
-void	add_padding(char **nb, int precision);
+# define ASCII_OFFSET_OTHERS 55
+
+static int	length_nbr(long long nbr, char *base);
+static void	ft_putnbr_base(long long nbr, char *base, char *nbr_converted);
+static void	convert(long long nbr,
+					char *base,
+					int base_size,
+					char *nbr_converted);
 
 #endif

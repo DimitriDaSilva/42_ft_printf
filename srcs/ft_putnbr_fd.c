@@ -6,25 +6,28 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 18:55:24 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/16 18:49:08 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/20 22:00:23 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		convert_to_char(int nb)
+/*
+** Line-by-line comments:
+** @2		The INT_MIN edge case is not relevant as the number reaching
+**			the function convert_to_char() are between -9 and 9
+*/
+
+static int	convert_to_char(int nb)
 {
 	if (nb < 0)
-	{
 		nb *= -1;
-	}
 	return (nb + ASCII_OFFSET_NUM);
 }
 
-void	ft_putnbr_fd(int n, int fd)
+void		ft_putnbr_fd(int n, int fd)
 {
 	char	n_to_print;
-	char	hyphen;
 	int		remainder;
 
 	if (0 <= n && n < 10)
@@ -35,8 +38,7 @@ void	ft_putnbr_fd(int n, int fd)
 	}
 	else if (-10 < n && n < 0)
 	{
-		hyphen = '-';
-		write(fd, &hyphen, 1);
+		write(fd, "-", 1);
 		n_to_print = convert_to_char(n);
 		write(fd, &n_to_print, 1);
 		return ;

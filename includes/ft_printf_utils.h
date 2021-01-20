@@ -1,16 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_abs.c                                           :+:      :+:    :+:   */
+/*   ft_printf_utils.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/18 14:25:57 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/20 15:45:20 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/01/20 15:39:35 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/01/20 15:41:06 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-long long	ft_abs(long long n)
-{
-	return (n < 0 ? -n : n);
-}
+#ifndef FT_PRINTF_UTILS_H
+# define FT_PRINTF_UTILS_H
+
+# include "ft_printf.h"
+
+void	add_padding(char **nb, int precision);
+
+#endif

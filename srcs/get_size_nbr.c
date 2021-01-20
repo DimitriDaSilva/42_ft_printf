@@ -1,16 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_abs.c                                           :+:      :+:    :+:   */
+/*   get_size_nbr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/18 14:25:57 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/20 15:45:20 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/01/20 08:52:34 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/01/20 15:18:16 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-long long	ft_abs(long long n)
+#include "libft.h"
+
+size_t	get_size_nbr(long long n)
 {
-	return (n < 0 ? -n : n);
+	if (0 <= n && n < 10)
+		return (1);
+	else if (-10 < n && n < 0)
+		return (2);
+	return (1 + get_size_nbr(n / 10));
 }

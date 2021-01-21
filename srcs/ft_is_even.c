@@ -1,23 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ftoa.h                                          :+:      :+:    :+:   */
+/*   ft_is_even.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/21 08:32:33 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/21 23:20:17 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/01/21 22:18:00 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/01/21 22:18:34 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_FTOA_H
-# define FT_FTOA_H
-
-# include "libft.h"
-
-static char		*ft_round(double nb, int length, char *str_nb, int precision);
-static double	ft_remainder(double numer, double denom);
-static char		*increment(char *str_nb, int length);
-static int		get_new_length(char *str_nb, int length);
-
-#endif
+int	ft_is_even(int nb)
+{
+	return (nb % 2 == 0);
+}

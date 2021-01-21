@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/21 18:20:58 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/21 22:18:48 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,6 @@ int					ft_sqrt(int nb);
 long long			ft_abs(long long n);
 size_t				get_size_nbr(double nb);
 char				*ft_ftoa(double nb, int precision);
+int					ft_is_even(int nb);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/20 19:25:38 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/21 08:20:10 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	add_padding(char **nb, int precision)
 	char	*tmp_new_nb;
 	int		i;
 	int		j;
-
+ 
 	i = 0;
 	j = 0;
 	length_old_nb = (int)ft_strlen(*nb);

@@ -6,14 +6,17 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/20 22:08:42 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/21 08:23:50 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
 /*
-** Implementation of printf
+** Implementation of printf. All subsequent functions return the number of
+** printed characters
+** Besides ft_printf_utils, the files follow a logical order: 
+** ft_printf > ft_printf_settings > ft_printf_types1 > ft_printf_types2
 ** @param:	- [const char *] string inputted with specified formats
 **			- [...] variadic arguments that refer to the specifiied formatj
 ** @return:	[int] number of printed characters
@@ -45,7 +48,7 @@ int	ft_printf(const char *fmt, ...)
 /*
 ** Traverses fmt to get the settings and prints the output
 ** @param:	- [const char *] string inputted with specified formats
-** @return:	[type] return_value
+** @return:	[int] number of printed characters
 */
 
 int	convert(const char **fmt)

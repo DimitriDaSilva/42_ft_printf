@@ -6,17 +6,17 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 08:52:34 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/20 15:18:16 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/21 19:07:32 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	get_size_nbr(long long n)
+size_t	get_size_nbr(double nb)
 {
-	if (0 <= n && n < 10)
-		return (1);
-	else if (-10 < n && n < 0)
+	if (-10 < nb && 1 / nb < 0)
 		return (2);
-	return (1 + get_size_nbr(n / 10));
+	else if (0 <= nb && nb < 10)
+		return (1);
+	return (1 + get_size_nbr(nb / 10));
 }

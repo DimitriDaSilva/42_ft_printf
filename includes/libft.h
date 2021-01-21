@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/20 22:05:19 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/21 18:20:58 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int					ft_printf(const char *format, ...);
 int					ft_power(int nb, int power);
 int					ft_sqrt(int nb);
 long long			ft_abs(long long n);
-size_t				get_size_nbr(long long n);
+size_t				get_size_nbr(double nb);
+char				*ft_ftoa(double nb, int precision);
 
 #endif

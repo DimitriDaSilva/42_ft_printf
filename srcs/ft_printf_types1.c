@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/20 20:10:29 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/21 18:17:52 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	print(t_format *settings)
 		nb_printed_chars = print_hex(settings);
 	else if ('%' == settings->type)
 		nb_printed_chars = print_pct(settings);
+	else if ('f' == settings->type)
+		nb_printed_chars = print_flt(settings);
 	return (nb_printed_chars);
 }
 

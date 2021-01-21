@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/20 20:11:57 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/21 18:48:19 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,40 @@ int	print_pct(t_format *settings)
 		nb_printed_chars = print_right("%", settings, '0');
 	else
 		nb_printed_chars = print_right("%", settings, ' ');
+	return (nb_printed_chars);
+}
+
+/*
+** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
+** @return:	[int] number of printed characters
+** Line-by-line comments:
+** @8-9		Edge case: if precision == 0 && nb = 0, nothing at all to print
+** 			A space has been put as the first char of the nb_to_print to signal
+**			the subsequent function that this is a special case
+** @10-12	Edge case: when precision > lenght of number, add a padding of 0
+**			until total length is equal to precision
+** @12-17	Print based on the flag
+*/
+
+int	print_flt(t_format *settings)
+{
+	int		nb_printed_chars;
+	char	*nb_to_print;
+	int		float_precision;
+
+	
+	float_precision = settings->precision == -1 ? 6 : settings->precision;
+	// printf("\nPrecision: %d\n", float_precision);
+	nb_to_print = ft_ftoa(va_arg(g_arg_list, double), float_precision);
+	// printf("\n%s\n", nb_to_print);
+	add_padding(&nb_to_print, settings->precision);
+	if (settings->flags[0] == '-')
+		nb_printed_chars = print_left(nb_to_print, settings, ' ');
+	else if (settings->flags[0] == '0' && settings->precision == -1)
+		nb_printed_chars = print_right(nb_to_print, settings, '0');
+	else
+		nb_printed_chars = print_right(nb_to_print, settings, ' ');
+	free(nb_to_print);
 	return (nb_printed_chars);
 }
 

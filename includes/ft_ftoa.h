@@ -1,36 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_ftoa.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/14 12:31:59 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/21 18:26:35 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/01/21 08:32:33 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/01/21 19:18:21 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef FT_FTOA_H
+# define FT_FTOA_H
 
-char	*ft_itoa(long long n)
-{
-	char	*str;
-	size_t	size_nbr;
+# include "libft.h"
 
-	size_nbr = get_size_nbr(n);
-	if (!(str = malloc((size_nbr + 1) * sizeof(char))))
-		return (0);
-	str += size_nbr;
-	*str-- = '\0';
-	while (size_nbr--)
-	{
-		*str-- = ft_abs(n) % 10 + ASCII_OFFSET_NUM;
-		if (-10 < n && n < 0)
-		{
-			*str-- = '-';
-			break ;
-		}
-		n /= 10;
-	}
-	return (++str);
-}
+static void		ft_round(double nb, int length, char *str_nb, int precision);
+static double	ft_remainder(double numer, double denom);
+static int		ft_is_even(int c);
+
+#endif

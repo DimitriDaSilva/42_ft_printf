@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 12:31:13 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 13:29:24 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,14 @@ int	print(t_format *settings)
 int	print_char(t_format *settings)
 {
 	int		nb_printed_chars;
-	char	*str;
+	char	*str_to_print;
 
-	if (!(str = calloc(2, sizeof(char))))
+	nb_printed_chars = 0;
+	if (!(str_to_print = calloc(2, sizeof(char))))
 		return (0);
-	str[0] = va_arg(g_arg_list, int);
-	if (ft_strchr(settings->flags, '-'))
-		nb_printed_chars = print_left(str, settings, ' ');
-	else if (settings->flags[0] == 0)
-		nb_printed_chars = print_right(str, settings, ' ');
-	free(str);
+	str_to_print[0] = va_arg(g_arg_list, int);
+	nb_printed_chars += print_left_right(str_to_print, settings);
+	free(str_to_print);
 	return (nb_printed_chars);
 }
 
@@ -81,22 +79,21 @@ int	print_char(t_format *settings)
 int	print_str(t_format *settings)
 {
 	int		nb_printed_chars;
-	char	*str;
+	char	*str_to_print;
 
-	if (!(str = va_arg(g_arg_list, char *)) &&
+	nb_printed_chars = 0;
+	if (!(str_to_print = va_arg(g_arg_list, char *)) &&
 		(settings->precision >= 6 || settings->precision <= -1))
-		str = ft_strdup("(null)");
-	else if ((!str && settings->precision < 6) || !*str)
-		str = ft_strdup("");
+		str_to_print = ft_strdup("(null)");
+	else if ((!str_to_print && settings->precision < 6) || !*str_to_print)
+		str_to_print = ft_strdup("");
 	else
-		str = ft_strdup(str);
-	if (settings->precision != -1 && settings->precision < (int)ft_strlen(str))
-		str[settings->precision] = 0;
-	if (ft_strchr(settings->flags, '-'))
-		nb_printed_chars = print_left(str, settings, ' ');
-	else if (settings->flags[0] == 0)
-		nb_printed_chars = print_right(str, settings, ' ');
-	free(str);
+		str_to_print = ft_strdup(str_to_print);
+	if (settings->precision != -1 &&
+		settings->precision < (int)ft_strlen(str_to_print))
+		str_to_print[settings->precision] = 0;
+	nb_printed_chars += print_left_right(str_to_print, settings);
+	free(str_to_print);
 	return (nb_printed_chars);
 }
 
@@ -111,20 +108,19 @@ int	print_ptr(t_format *settings)
 {
 	long long	nb_to_convert;
 	int			nb_printed_chars;
-	char		*str_to_print;
+	char		*nb_to_print;
 
 	nb_printed_chars = 0;
 	nb_to_convert = va_arg(g_arg_list, long long);
 	if (nb_to_convert == 0)
 		return (ft_putstr("(nil)"));
 	else
-		str_to_print = ft_convert_base(nb_to_convert, "0123456789abcdef");
-	add_hex_prefix(&str_to_print, settings->type, settings->flags);
-	if (ft_strchr(settings->flags, '-'))
-		nb_printed_chars += print_left(str_to_print, settings, ' ');
-	else if (settings->flags[0] == 0)
-		nb_printed_chars += print_right(str_to_print, settings, ' ');
-	free(str_to_print);
+		nb_to_print = ft_convert_base(nb_to_convert, "0123456789abcdef");
+	if (ft_strchr(settings->flags, '0'))
+		add_padding(&nb_to_print, settings->width);
+	add_hex_prefix(&nb_to_print, settings->type, settings->flags);
+	nb_printed_chars += print_left_right(nb_to_print, settings);
+	free(nb_to_print);
 	return (nb_printed_chars);
 }
 
@@ -141,25 +137,22 @@ int	print_hex(t_format *settings)
 {
 	long long	nb_to_convert;
 	int			nb_printed_chars;
-	char		*str_to_print;
+	char		*nb_to_print;
 
+	nb_printed_chars = 0;
 	nb_to_convert = va_arg(g_arg_list, long long);
 	if (settings->type == 'x')
-		str_to_print = ft_convert_base(nb_to_convert, "0123456789abcdef");
+		nb_to_print = ft_convert_base(nb_to_convert, "0123456789abcdef");
 	else
-		str_to_print = ft_convert_base(nb_to_convert, "0123456789ABCDEF");
-	if (ft_strchr(settings->flags, '#') && ft_strchr(settings->flags, '0'))
-		add_padding(&str_to_print, settings->width - 2);
+		nb_to_print = ft_convert_base(nb_to_convert, "0123456789ABCDEF");
+	if (ft_strchr(settings->flags, '#') && ft_strchr(settings->flags, '0') &&
+		!is_all_zeros(nb_to_print))
+		add_padding(&nb_to_print, settings->width - 2);
 	else if (ft_strchr(settings->flags, '0'))
-		add_padding(&str_to_print, settings->width);
-	add_padding(&str_to_print, settings->precision);
-	add_hex_prefix(&str_to_print, settings->type, settings->flags);
-	if (ft_strchr(settings->flags, '-'))
-		nb_printed_chars = print_left(str_to_print, settings, ' ');
-	else if (ft_strchr(settings->flags, '0'))
-		nb_printed_chars = print_right(str_to_print, settings, '0');
-	else
-		nb_printed_chars = print_right(str_to_print, settings, ' ');
-	free(str_to_print);
+		add_padding(&nb_to_print, settings->width);
+	add_padding(&nb_to_print, settings->precision);
+	add_hex_prefix(&nb_to_print, settings->type, settings->flags);
+	nb_printed_chars += print_left_right(nb_to_print, settings);
+	free(nb_to_print);
 	return (nb_printed_chars);
 }

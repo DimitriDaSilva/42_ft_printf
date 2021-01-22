@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 09:56:22 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 13:36:38 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ void		get_settings(const char **fmt, t_format *settings)
 		position_flag = ft_strchr(settings->flags, '0') - settings->flags;
 		settings->flags[position_flag] = '9';
 	}
-	// printf("\nFlags used: %s\n", settings->flags);
-	// printf("\nWidth: %d\n", settings->width);
 }
 
 /*
@@ -71,26 +69,8 @@ static char	*get_flags(const char **fmt)
 		return (0);
 	while (ft_strchr("-0# +", **fmt))
 		flags[i++] = *(*fmt)++;
-	// printf("\nFlags used: %s\n", flags);
 	if (ft_strchr(flags, '0') && ft_strchr(flags, '-'))
 		flags[ft_strchr(flags, '0') - flags] = '9';
-
-	// if (!(flags = ft_calloc(6, sizeof(char))))
-	// 	return (0);
-	// if ((**fmt == '-' && *(*fmt + 1) == '-') ||
-	// 		(**fmt == '0' && *(*fmt + 1) == '0'))
-	// 	*fmt += 2;
-	// else if ((**fmt == '-' && *(*fmt + 1) == '0') ||
-	// 	(**fmt == '0' && *(*fmt + 1) == '-'))
-	// {
-	// 	flags[0] = '-';
-	// 	*fmt += 2;
-	// }
-	// else if (**fmt == '0' || **fmt == '-')
-	// {
-	// 	flags[0] = **fmt;
-	// 	(*fmt)++;
-	// }
 	return (flags);
 }
 

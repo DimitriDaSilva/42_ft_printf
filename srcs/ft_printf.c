@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/21 08:23:50 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 13:21:25 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 ** Implementation of printf. All subsequent functions return the number of
 ** printed characters
-** Besides ft_printf_utils, the files follow a logical order: 
+** Besides ft_printf_utils, the files follow a logical order:
 ** ft_printf > ft_printf_settings > ft_printf_types1 > ft_printf_types2
 ** @param:	- [const char *] string inputted with specified formats
 **			- [...] variadic arguments that refer to the specifiied formatj

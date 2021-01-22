@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 12:33:03 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 13:37:24 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 ** @return:	[type] return_value
 ** Line-by-line comments:
 ** @3-5		Check edge cases where no need to add sign: no flags used, the
-** 			number is negative, none of ' ' or '+' have been used	
+** 			number is negative, none of ' ' or '+' have been used
 ** @10		Order is important because if both flags ' ' and '+' have been
 **			used, the ' ' is ignored
 */
@@ -64,7 +64,7 @@ void	add_padding(char **nb, int precision)
 	char	*tmp_new_nb;
 	int		i;
 	int		j;
- 
+
 	i = 0;
 	j = 0;
 	length_old_nb = (int)ft_strlen(*nb);

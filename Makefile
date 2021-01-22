@@ -50,8 +50,10 @@ re:			fclean all
 run:		re
 			./${NAME} | cat -e
 
-normH:
+normH:		re
 			~/.norminette/norminette.rb ./${INCDIR}/*.h
 
-normC:
+normC:		re
 			~/.norminette/norminette.rb ${SRCS}
+
+norm:		normH normC

@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 08:29:08 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 09:04:37 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 13:28:48 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 ** @5		Size = length of decimal number + decimal point + nb of digits
 **			to put after the comma
 ** @8-10	Extracting the decimal part of the number and copying it to
-**			the new_string 
+**			the new_string
 */
 
-char	*ft_ftoa(double nb, int precision)
+char			*ft_ftoa(double nb, int precision)
 {
 	int		length;
 	char	*str_nb;
@@ -34,17 +34,15 @@ char	*ft_ftoa(double nb, int precision)
 	if (!(str_nb = calloc(length + 1, sizeof(char))))
 		return (0);
 	tmp = ft_itoa(nb);
-	// printf("\ntmp: \"%s\"\n", tmp);
 	if (-1 < nb && 1 / nb < 0 && (*str_nb = '-') != 0)
 		ft_strlcpy(str_nb + 1, tmp, length - precision + 1);
 	else
 		ft_strlcpy(str_nb, tmp, length - precision + 1);
 	free(tmp);
-	// printf("\nIn ftoa, string %s\n", str_nb);
 	if (precision > 0)
 		str_nb[length - 1 - precision] = '.';
 	while (precision-- > 0)
-		str_nb[length - 1 - precision] = ft_abs(nb *= 10) % 10 + ASCII_OFFSET_NUM;
+		str_nb[length - 1 - precision] = ft_abs(nb *= 10) % 10 + '0';
 	str_nb = ft_round(nb, length, str_nb);
 	return (str_nb);
 }
@@ -73,9 +71,9 @@ char	*ft_ftoa(double nb, int precision)
 ** @17-18	If we reached the . it means that the decimal part gets rounded up
 */
 
-static char	*ft_round(double nb, int length, char *str_nb)
+static char		*ft_round(double nb, int length, char *str_nb)
 {
-	double remainder;
+	double	remainder;
 	int		index_last_number;
 
 	index_last_number = length - 1;
@@ -99,7 +97,7 @@ static double	ft_remainder(double numer, double denom)
 {
 	if (numer < 0)
 		numer *= -1;
-	return (numer - (denom *(long long)(numer / denom)));
+	return (numer - (denom * (long long)(numer / denom)));
 }
 
 /*
@@ -112,7 +110,7 @@ static double	ft_remainder(double numer, double denom)
 ** Line-by-line comments:
 ** @8		Finding the index of the decimal point by making the difference of
 ** 			addresses
-** @8		Adapting the index 
+** @8		Adapting the index
 ** @9-10	If same length as before, we can simply copy everything and just
 ** 			change the relevant numbers
 ** @11-16	If not the same, we want to copy the '-' sign (if needed) and all
@@ -120,8 +118,8 @@ static double	ft_remainder(double numer, double denom)
 ** @17		Here we tackle the numbers before the decimal point
 */
 
-static char	*increment(char *str_nb, int length) 
-{	
+static char		*increment(char *str_nb, int length)
+{
 	char	*new_str_nb;
 	int		new_length;
 	int		i;
@@ -140,16 +138,8 @@ static char	*increment(char *str_nb, int length)
 			*new_str_nb = '-';
 		ft_strlcpy(new_str_nb + j, str_nb + i, length - i + 1);
 	}
-	// printf("\nString %s\n", new_str_nb);
-	// printf("\ni: %i | j: %i \n", i, j );
 	while (j-- >= 0 && (str_nb[j + 1] == '.' || str_nb[j + 1] == '0'))
-	{
-		if (str_nb[--i] == '9')
-			new_str_nb[j] = '0';
-		else
-			new_str_nb[j] += 1;
-	}
-	// printf("\nIn increment, string %s\n", new_str_nb);
+		new_str_nb[j] = str_nb[--i] == '9' ? '0' : new_str_nb[j] + 1;
 	free(str_nb);
 	return (new_str_nb);
 }

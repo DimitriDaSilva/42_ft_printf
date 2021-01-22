@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_size_nb.c                                      :+:      :+:    :+:   */
+/*   ft_printf_print.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/22 13:24:13 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 13:24:15 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/01/22 13:33:30 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/01/22 13:38:29 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef FT_PRINTF_PRINT_H
+# define FT_PRINTF_PRINT_H
 
-size_t	get_size_nb(double nb)
-{
-	if (-10 < nb && 1 / nb < 0)
-		return (2);
-	else if (0 <= nb && nb < 10)
-		return (1);
-	return (1 + get_size_nb(nb / 10));
-}
+# include "ft_printf.h"
+
+static int	print_left(char *str, t_format *settings);
+static int	print_right(char *str, t_format *settings);
+
+#endif

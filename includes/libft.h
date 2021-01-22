@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 16:29:21 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 19:34:29 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ typedef struct		s_list
 
 typedef struct		s_format
 {
-	char			flags[5];
+	char			flags[9];
 	int				width;
 	int				precision;
-	char			size[3];
+	char			size[9];
 	char			type;
 }					t_format;
 

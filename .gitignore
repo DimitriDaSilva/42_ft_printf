@@ -4,3 +4,5 @@ a.out
 *.sh
 pft/
 results.txt
+main.c
+test.sh

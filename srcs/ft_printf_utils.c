@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 13:37:24 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 18:36:59 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,20 @@ int		is_all_zeros(char *nb)
 		nb++;
 	}
 	return (1);
+}
+
+void	add_point(char **nb, t_format *settings)
+{
+	size_t	length;
+	char	*tmp_new_nb;
+
+	if (!ft_strchr(settings->flags, '#') || !(settings->precision == 0))
+		return ;
+	length = ft_strlen(*nb) + 1;
+	if (!(tmp_new_nb = calloc(length + 1, sizeof(char))))
+		return ;
+	ft_strlcpy(tmp_new_nb, *nb, length);
+	tmp_new_nb[length - 1] = '.';
+	free(*nb);
+	*nb = tmp_new_nb;
 }

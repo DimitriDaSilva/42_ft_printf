@@ -24,16 +24,11 @@ ARRC	=	ar rcs
 
 RM		=	rm -f
 
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror 
 
 .c.o:
 			${CC} -g ${CFLAGS} -c $^ -o ${<:.c=.o} -I${INCDIR}
 
-# TO DELETE
-# $(NAME):	${OBJS}
-# 			${CC} -o ${NAME} ${OBJS} ${CFLAGS}
-
-# TO KEEP
 $(NAME):	${OBJS}
 			${ARRC} ${NAME} ${OBJS}
 
@@ -48,7 +43,7 @@ fclean:		clean
 re:			fclean all
 
 run:		re
-			./${NAME} | cat -e
+			sh test.sh | cat -e
 
 normH:		re
 			~/.norminette/norminette.rb ./${INCDIR}/*.h

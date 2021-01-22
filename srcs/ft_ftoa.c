@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 08:29:08 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 15:17:48 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 21:20:01 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,21 @@ static char		*ft_round(double nb, int length, char *str_nb)
 
 	index_last_number = length - 1;
 	remainder = ft_remainder(nb * 10, 10);
-	if (str_nb[index_last_number] != '9' && 5 <= remainder)
+	if (str_nb[index_last_number] != '9' && 5 == remainder)
+	{
+		if (!ft_is_even(str_nb[index_last_number]))
+			str_nb[index_last_number] += 1;
+		return (str_nb);
+	}
+	else if (str_nb[index_last_number] != '9' && 5 <= remainder)
 	{
 		str_nb[index_last_number] += 1;
+		return (str_nb);
+	}
+	else if (str_nb[index_last_number] == '9' && 5 <= remainder &&
+			!ft_strchr(str_nb, '.'))
+	{
+		str_nb = increment(str_nb, length);
 		return (str_nb);
 	}
 	while (str_nb[index_last_number] == '9' && 5 <= remainder)
@@ -108,13 +120,15 @@ static double	ft_remainder(double numer, double denom)
 ** @return:	[char *] new str with either the same number of chars or with
 **                   an extra char (i.e. 99 -> 100)
 ** Line-by-line comments:
+** @3		i = old string index
+** @4		j = new string index
 ** @8		Finding the index of the decimal point by making the difference of
-** 			addresses
-** @8		Adapting the index
+** 			addresses or last index digit if no decimal point
+** @8		Adapting the index for the new string
 ** @9-10	If same length as before, we can simply copy everything and just
 ** 			change the relevant numbers
 ** @11-16	If not the same, we want to copy the '-' sign (if needed) and all
-**			characters after the decimal point (incl.)
+**			characters after the decimal point (if precision > 0)
 ** @17		Here we tackle the numbers before the decimal point
 */
 
@@ -128,7 +142,7 @@ static char		*increment(char *str_nb, int length)
 	new_length = get_new_length(str_nb, length);
 	if (!(new_str_nb = calloc(new_length + 1, sizeof(char))))
 		return (0);
-	i = ft_strchr(str_nb, '.') - str_nb;
+	i = ft_strchr(str_nb, '.') ? ft_strchr(str_nb, '.') - str_nb : length;
 	j = new_length == length ? i : i + 1;
 	if (new_length == length)
 		ft_strlcpy(new_str_nb, str_nb, length + 1);
@@ -136,10 +150,17 @@ static char		*increment(char *str_nb, int length)
 	{
 		if (*str_nb == '-')
 			*new_str_nb = '-';
-		ft_strlcpy(new_str_nb + j, str_nb + i, length - i + 1);
+		if (ft_strchr(str_nb, '.'))
+			ft_strlcpy(new_str_nb + j, str_nb + i, length - i + 1);
 	}
-	while (j-- >= 0 && (str_nb[j + 1] == '.' || str_nb[j + 1] == '0'))
-		new_str_nb[j] = str_nb[--i] == '9' ? '0' : new_str_nb[j] + 1;
+	while (j-- >= 0 && (new_str_nb[j + 1] == '.' ||
+			new_str_nb[j + 1] == '0' || new_str_nb[j + 1] == 0))
+	{
+		if (str_nb[--i] == 0 || str_nb[i] == '-')
+			new_str_nb[j] = '1';
+		else
+			new_str_nb[j] = str_nb[i] == '9' ? '0' : str_nb[i] + 1;
+	}
 	free(str_nb);
 	return (new_str_nb);
 }

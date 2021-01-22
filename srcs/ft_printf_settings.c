@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 15:52:56 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 21:13:19 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,12 @@
 
 void		get_settings(const char **fmt, t_format *settings)
 {
-	char	*flags;
-	char	*size;
 	int		position_flag;
 
-	flags = get_flags(fmt);
-	ft_strlcpy(settings->flags, flags, 6);
-	free(flags);
+	get_flags(fmt, settings->flags);
 	settings->width = get_width(fmt);
 	settings->precision = get_precision(fmt);
-	size = get_size(fmt);
-	ft_strlcpy(settings->size, size, 3);
-	free(size);
+	get_size(fmt, settings->size);
 	settings->type = **fmt;
 	if (settings->width < 0)
 	{
@@ -59,19 +53,16 @@ void		get_settings(const char **fmt, t_format *settings)
 ** @8-10	Edge case: when both 0 and - are used, 0 is ignored
 */
 
-static char	*get_flags(const char **fmt)
+static void	get_flags(const char **fmt, char *flags)
 {
-	char	*flags;
 	int		i;
 
 	i = 0;
-	if (!(flags = ft_calloc(6, sizeof(char))))
-		return (0);
 	while (ft_strchr("-0# +", **fmt))
 		flags[i++] = *(*fmt)++;
+	flags[i] = 0;
 	if (ft_strchr(flags, '0') && ft_strchr(flags, '-'))
 		flags[ft_strchr(flags, '0') - flags] = '9';
-	return (flags);
 }
 
 /*
@@ -157,17 +148,13 @@ static int	get_precision(const char **fmt)
 **			increment to go to the next field
 */
 
-static char	*get_size(const char **fmt)
+static void	get_size(const char **fmt, char *size)
 {
-	char	*size;
-
-	if (!(size = ft_calloc(3, sizeof(char))))
-		return (0);
 	if (!ft_strchr("lh", **fmt))
-		return (size);
+		return ;
 	size[0] = **fmt;
 	(*fmt)++;
 	if (**fmt == size[0])
 		size[1] = *(*fmt)++;
-	return (size);
+	size[2] = 0;
 }

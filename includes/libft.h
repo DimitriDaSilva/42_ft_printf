@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/21 22:18:48 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 09:57:43 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct		s_list
 
 typedef struct		s_format
 {
-	char			flags[2];
+	char			flags[5];
 	int				width;
 	int				precision;
 	char			size[2];
@@ -100,7 +100,7 @@ int					ft_printf(const char *format, ...);
 int					ft_power(int nb, int power);
 int					ft_sqrt(int nb);
 long long			ft_abs(long long n);
-size_t				get_size_nbr(double nb);
+size_t				get_size_nb(double nb);
 char				*ft_ftoa(double nb, int precision);
 int					ft_is_even(int nb);
 

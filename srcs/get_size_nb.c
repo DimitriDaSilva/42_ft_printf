@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_size_nbr.c                                     :+:      :+:    :+:   */
+/*   get_size_nb.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,11 +12,11 @@
 
 #include "libft.h"
 
-size_t	get_size_nbr(double nb)
+size_t	get_size_nb(double nb)
 {
 	if (-10 < nb && 1 / nb < 0)
 		return (2);
 	else if (0 <= nb && nb < 10)
 		return (1);
-	return (1 + get_size_nbr(nb / 10));
+	return (1 + get_size_nb(nb / 10));
 }

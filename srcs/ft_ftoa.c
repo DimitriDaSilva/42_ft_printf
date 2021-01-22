@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 08:29:08 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/21 23:44:08 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 09:04:37 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,22 @@ char	*ft_ftoa(double nb, int precision)
 	char	*str_nb;
 	char	*tmp;
 
-	if (precision <= 0 && -0.5 < nb && 1 / nb < 0)
-		return (ft_strdup("-0"));
-	else if (precision <= 0 && nb == (int)nb)
-		return (ft_itoa(nb));
-	else if (precision <= 0 && nb != (int)nb && 1 / nb < 0)
-		return (ft_itoa(nb - 1));
-	else if (precision <= 0 && nb != (int)nb)
-		return (ft_itoa(nb + 1));
-	length = get_size_nbr(nb) + 1 + precision;
-	// printf("\nLength: %d\n", length);
+	length = precision > 0 ? get_size_nb(nb) + 1 + precision : get_size_nb(nb);
 	if (!(str_nb = calloc(length + 1, sizeof(char))))
 		return (0);
 	tmp = ft_itoa(nb);
-	// printf("\n\"%s\"\n", tmp);
+	// printf("\ntmp: \"%s\"\n", tmp);
 	if (-1 < nb && 1 / nb < 0 && (*str_nb = '-') != 0)
-		ft_strlcpy(str_nb + 1, tmp, length - precision);
+		ft_strlcpy(str_nb + 1, tmp, length - precision + 1);
 	else
-		ft_strlcpy(str_nb, tmp, length - precision);
+		ft_strlcpy(str_nb, tmp, length - precision + 1);
 	free(tmp);
-	str_nb[length - 1 - precision] = '.';
+	// printf("\nIn ftoa, string %s\n", str_nb);
+	if (precision > 0)
+		str_nb[length - 1 - precision] = '.';
 	while (precision-- > 0)
 		str_nb[length - 1 - precision] = ft_abs(nb *= 10) % 10 + ASCII_OFFSET_NUM;
-	str_nb = ft_round(nb, length, str_nb, precision);
-	// printf("\nIn ftoa, string %s\n", str_nb);
+	str_nb = ft_round(nb, length, str_nb);
 	return (str_nb);
 }
 
@@ -62,7 +54,6 @@ char	*ft_ftoa(double nb, int precision)
 ** @param:	- [double] value to be converted into string
 **			- [int] total length of the number (sign incl.)
 **			- [char *] string formatted float
-**			- [int] the number of decimals after the decimal point
 ** @return:	[char *] either the same or a new string (in case the rounding
 **                   leads to an additional digit)
 ** Line-by-line comments:
@@ -82,15 +73,14 @@ char	*ft_ftoa(double nb, int precision)
 ** @17-18	If we reached the . it means that the decimal part gets rounded up
 */
 
-static char	*ft_round(double nb, int length, char *str_nb, int precision)
+static char	*ft_round(double nb, int length, char *str_nb)
 {
 	double remainder;
-	int	index_last_number;
+	int		index_last_number;
 
-	index_last_number = length - 1 - precision - 1;
+	index_last_number = length - 1;
 	remainder = ft_remainder(nb * 10, 10);
-	if (str_nb[index_last_number] != '9' && 5 <= remainder &&
-		!ft_is_even(str_nb[index_last_number]))
+	if (str_nb[index_last_number] != '9' && 5 <= remainder)
 	{
 		str_nb[index_last_number] += 1;
 		return (str_nb);
@@ -98,28 +88,12 @@ static char	*ft_round(double nb, int length, char *str_nb, int precision)
 	while (str_nb[index_last_number] == '9' && 5 <= remainder)
 		str_nb[index_last_number--] = '0';
 	if (ft_isdigit(str_nb[index_last_number]) &&
-		index_last_number != length - 1 - precision - 1)
+		index_last_number != length - 1)
 		str_nb[index_last_number] += 1;
 	else if (str_nb[index_last_number] == '.')
 		str_nb = increment(str_nb, length);
-	// printf("\nIn round, string %s\n", str_nb);
 	return (str_nb);
 }
-	// printf("Mid rounding up: \"%s\"\n", str_nb);
-	// printf("Before rounding up: \"%s\"\n", str_nb);
-	// printf("Precision: %i\n", precision);
-	// printf("Remainder: %lf\n", remainder);
-	// remainder = ft_abs(nb * 10) % 10;
-	// printf("Remainder: %lf\n", remainder);
-	// printf("Last digit: %c\n", str_nb[index_last_number]);
-	// if (str_nb[index_last_number] == '8' && 5 <= remainder)
-	// {
-	// 	str_nb[index_last_number] += 1;
-	// 	return ;
-	// }
-	// while (precision-- > 0)
-	// 	str_nb[length - 1 - precision] = ft_abs(nb *= 10) % 10 + ASCII_OFFSET_NUM;
-	// printf("After rounding up: \"%s\"\n", str_nb);
 
 static double	ft_remainder(double numer, double denom)
 {

@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/21 18:48:19 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 12:02:59 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,50 +16,35 @@
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
 ** @return:	[int] number of printed characters
 ** Line-by-line comments:
-** @12-13	Edge case: when precision > lenght of number, add a padding of 0
+** @8		Add sign ' ' or '+' basde on the flag used
+**			'-' sign is handled by ft_itoa()
+** @9		Edge case: when precision > lenght of number, add a padding of 0
 **			until total length is equal to precision
-** @14-19	Print based on the flag
+** @10-11	Edge case: if precision == 0, nb = 0 and flag = '+', only the '+'
+**			is printed
+** @12-17	Print based on the flag
 */
 
-int	print_hex(t_format *settings)
-{
-	long long	nb_to_convert;
-	int			nb_printed_chars;
-	char		*str_to_print;
-
-	nb_to_convert = va_arg(g_arg_list, long long);
-	if (settings->type == 'x')
-		str_to_print = ft_convert_base(nb_to_convert, "0123456789abcdef");
-	else
-		str_to_print = ft_convert_base(nb_to_convert, "0123456789ABCDEF");
-	add_padding(&str_to_print, settings->precision);
-	if (settings->flags[0] == '-')
-		nb_printed_chars = print_left(str_to_print, settings, ' ');
-	else if (settings->flags[0] == '0' && settings->precision == -1)
-		nb_printed_chars = print_right(str_to_print, settings, '0');
-	else
-		nb_printed_chars = print_right(str_to_print, settings, ' ');
-	free(str_to_print);
-	return (nb_printed_chars);
-}
-
-/*
-** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
-** @return:	[int] number of printed characters
-*/
-
-int	print_pct(t_format *settings)
+int	print_int(t_format *settings)
 {
 	int		nb_printed_chars;
+	char	*nb_to_print;
 
-	nb_printed_chars = 0;
-	settings->width = 0;
-	if (settings->flags[0] == '-')
-		nb_printed_chars = print_left("%", settings, ' ');
-	else if (settings->flags[0] == '0')
-		nb_printed_chars = print_right("%", settings, '0');
+	if (settings->type == 'd' || settings->type == 'i')
+		nb_to_print = ft_itoa(va_arg(g_arg_list, int));
+	else if (settings->type == 'u')
+		nb_to_print = ft_itoa(va_arg(g_arg_list, unsigned int));
+	add_sign(&nb_to_print, settings->flags);
+	add_padding(&nb_to_print, settings->precision);
+	if (!ft_strncmp(nb_to_print, "+0", 3) && settings->precision == 0)
+		nb_to_print[1] = '\0';
+	if (ft_strchr(settings->flags, '-'))
+		nb_printed_chars = print_left(nb_to_print, settings, ' ');
+	else if (ft_strchr(settings->flags, '0'))
+		nb_printed_chars = print_right(nb_to_print, settings, '0');
 	else
-		nb_printed_chars = print_right("%", settings, ' ');
+		nb_printed_chars = print_right(nb_to_print, settings, ' ');
+	free(nb_to_print);
 	return (nb_printed_chars);
 }
 
@@ -86,14 +71,35 @@ int	print_flt(t_format *settings)
 	// printf("\nPrecision: %d\n", float_precision);
 	nb_to_print = ft_ftoa(va_arg(g_arg_list, double), float_precision);
 	// printf("\n%s\n", nb_to_print);
+	add_sign(&nb_to_print, settings->flags);
 	add_padding(&nb_to_print, settings->precision);
-	if (settings->flags[0] == '-')
+	if (ft_strchr(settings->flags, '-'))
 		nb_printed_chars = print_left(nb_to_print, settings, ' ');
-	else if (settings->flags[0] == '0' && settings->precision == -1)
+	else if (ft_strchr(settings->flags, '0'))
 		nb_printed_chars = print_right(nb_to_print, settings, '0');
 	else
 		nb_printed_chars = print_right(nb_to_print, settings, ' ');
 	free(nb_to_print);
+	return (nb_printed_chars);
+}
+
+/*
+** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
+** @return:	[int] number of printed characters
+*/
+
+int	print_pct(t_format *settings)
+{
+	int		nb_printed_chars;
+
+	nb_printed_chars = 0;
+	settings->width = 0;
+	if (ft_strchr(settings->flags, '-'))
+		nb_printed_chars = print_left("%", settings, ' ');
+	else if (ft_strchr(settings->flags, '0'))
+		nb_printed_chars = print_right("%", settings, '0');
+	else
+		nb_printed_chars = print_right("%", settings, ' ');
 	return (nb_printed_chars);
 }
 
@@ -119,8 +125,11 @@ int	print_left(char *str, t_format *settings, char padding)
 	int		nb_printed_chars;
 
 	nb_printed_chars = 0;
-	if (settings->type == 'p')
-		nb_printed_chars += ft_putstr("0x");
+	// if (settings->type == 'p' || (settings->type == 'x' &&
+	// 	ft_strchr(settings->flags, '#')))
+	// 	nb_printed_chars += ft_putstr("0x");
+	// else if (settings->type == 'X' && ft_strchr(settings->flags, '#'))
+	// 	nb_printed_chars += ft_putstr("0X");
 	if (settings->type == 'c' && *str == 0)
 		nb_printed_chars += ft_putchar(0);
 	else if (!ft_strchr("duixX", settings->type) ||
@@ -160,21 +169,27 @@ int	print_right(char *str, t_format *settings, char padding)
 	int		nb_printed_chars;
 
 	nb_printed_chars = 0;
-	if (*str == '-' && padding == '0')
+	if (ft_strchr("-+ ", *str) && padding == '0')
 		nb_printed_chars += ft_putchar(*str++);
 	if (settings->type == 'c' && *str == 0)
 		settings->width--;
-	else if (ft_strchr("duixX", settings->type) && *str == '0'
-			&& settings->precision == 0)
+	else if (ft_strchr("duixX", settings->type) && *str == '0' &&
+			settings->precision == 0)
 		settings->width++;
-	else if (settings->type == 'p')
-		settings->width -= ft_strlen("0x");
+	// else if (settings->type == 'p' || (ft_strchr("xX", settings->type) &&
+	// 		ft_strchr(settings->flags, '#')))
+	// 	settings->width -= ft_strlen("0x");
 	settings->width -= nb_printed_chars;
 	settings->width -= ft_strlen(str);
 	while (settings->width-- > 0)
 		nb_printed_chars += ft_putchar(padding);
-	if (settings->type == 'p')
-		nb_printed_chars += ft_putstr("0x");
+	// if (settings->type == 'p' || (settings->type == 'x' &&
+	// 	ft_strchr(settings->flags, '#')))
+	// 	nb_printed_chars += ft_putstr("0x");
+	// else if (settings->type == 'X' && ft_strchr(settings->flags, '#'))
+	// 	nb_printed_chars += ft_putstr("0X");
+	// if (settings->type == 'p')
+	// 	nb_printed_chars += ft_putstr("0x");
 	if (settings->type == 'c' && *str == 0)
 		nb_printed_chars += ft_putchar(0);
 	else if (!ft_strchr("duixX", settings->type) ||

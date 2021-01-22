@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_convert_base.h                                  :+:      :+:    :+:   */
+/*   get_size_lg.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/20 20:30:07 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 16:30:13 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/01/22 13:24:13 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/01/22 15:30:22 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_CONVERT_BASE_H
-# define FT_CONVERT_BASE_H
+#include "libft.h"
 
-# include "libft.h"
-
-# define ASCII_OFFSET_OTHERS 55
-
-static int	length_nbr(unsigned long long nbr, char *base);
-static void	ft_putnbr_base(unsigned long long nbr,
-							char *base,
-							char *nbr_converted);
-static void	convert(unsigned long long nbr,
-					char *base,
-					int base_size,
-					char *nbr_converted);
-
-#endif
+size_t	get_size_lg(long long nb)
+{
+	if (0 <= nb && nb < 10)
+		return (1);
+	else if (-10 < nb && nb < 0)
+		return (2);
+	return (1 + get_size_lg(nb / 10));
+}

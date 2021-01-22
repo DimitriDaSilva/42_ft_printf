@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 08:29:08 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 13:28:48 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 15:17:48 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char			*ft_ftoa(double nb, int precision)
 	char	*str_nb;
 	char	*tmp;
 
-	length = precision > 0 ? get_size_nb(nb) + 1 + precision : get_size_nb(nb);
+	length = precision > 0 ? get_size_dl(nb) + 1 + precision : get_size_dl(nb);
 	if (!(str_nb = calloc(length + 1, sizeof(char))))
 		return (0);
 	tmp = ft_itoa(nb);

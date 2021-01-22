@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 09:57:43 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 16:29:21 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct		s_format
 	char			flags[5];
 	int				width;
 	int				precision;
-	char			size[2];
+	char			size[3];
 	char			type;
 }					t_format;
 
@@ -80,7 +80,7 @@ char				*ft_itoa(long long n);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int					ft_putchar(char c);
 int					ft_putstr(char *str);
-char				*ft_convert_base(long long nbr, char *base_to);
+char				*ft_convert_base(unsigned long long nbr, char *base_to);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
@@ -100,7 +100,8 @@ int					ft_printf(const char *format, ...);
 int					ft_power(int nb, int power);
 int					ft_sqrt(int nb);
 long long			ft_abs(long long n);
-size_t				get_size_nb(double nb);
+size_t				get_size_dl(double nb);
+size_t				get_size_lg(long long nb);
 char				*ft_ftoa(double nb, int precision);
 int					ft_is_even(int nb);
 

@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 12:31:59 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 09:05:35 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 15:55:38 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_itoa(long long n)
 	char	*str;
 	size_t	size_nbr;
 
-	size_nbr = get_size_nb(n);
+	size_nbr = get_size_lg(n);
 	if (!(str = malloc((size_nbr + 1) * sizeof(char))))
 		return (0);
 	str += size_nbr;

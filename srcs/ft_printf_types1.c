@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 13:29:24 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 16:33:28 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** @return:	[int] number of printed characters
 */
 
-int	print(t_format *settings)
+int	print_types(t_format *settings)
 {
 	int		nb_printed_chars;
 
@@ -29,8 +29,10 @@ int	print(t_format *settings)
 		nb_printed_chars = print_str(settings);
 	else if ('p' == settings->type)
 		nb_printed_chars = print_ptr(settings);
-	else if (ft_strchr("diu", settings->type))
+	else if (ft_strchr("di", settings->type))
 		nb_printed_chars = print_int(settings);
+	else if ('u' == settings->type)
+		nb_printed_chars = print_uint(settings);
 	else if (ft_strchr("xX", settings->type))
 		nb_printed_chars = print_hex(settings);
 	else if ('%' == settings->type)
@@ -135,12 +137,12 @@ int	print_ptr(t_format *settings)
 
 int	print_hex(t_format *settings)
 {
-	long long	nb_to_convert;
-	int			nb_printed_chars;
-	char		*nb_to_print;
+	unsigned long long	nb_to_convert;
+	int					nb_printed_chars;
+	char				*nb_to_print;
 
 	nb_printed_chars = 0;
-	nb_to_convert = va_arg(g_arg_list, long long);
+	nb_to_convert = va_arg(g_arg_list, unsigned long long int);
 	if (settings->type == 'x')
 		nb_to_print = ft_convert_base(nb_to_convert, "0123456789abcdef");
 	else

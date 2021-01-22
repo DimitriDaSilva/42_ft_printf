@@ -6,32 +6,30 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 12:40:14 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/20 22:14:28 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 17:05:19 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_convert_base.h"
 
-char		*ft_convert_base(long long nbr, char *base_to)
+char		*ft_convert_base(unsigned long long nbr, char *base_to)
 {
 	int		nbr_converted_len;
 	char	*nbr_converted;
 
 	nbr_converted_len = length_nbr(nbr, base_to);
-	nbr_converted = malloc(sizeof(char) * (nbr_converted_len + 2));
-	*nbr_converted = '\0';
-	if (nbr_converted == 0)
+	if (!(nbr_converted = ft_calloc(nbr_converted_len + 1, sizeof(char))))
 		return (0);
 	ft_putnbr_base(nbr, base_to, nbr_converted);
 	return (nbr_converted);
 }
 
-static int	length_nbr(long long nbr, char *base)
+static int	length_nbr(unsigned long long nbr, char *base)
 {
-	int			base_size;
-	int			count;
-	long long	max;
-	long long	tmp;
+	int					base_size;
+	int					count;
+	unsigned long long	max;
+	unsigned long long	tmp;
 
 	base_size = 0;
 	while (base[base_size] != '\0')
@@ -43,11 +41,15 @@ static int	length_nbr(long long nbr, char *base)
 	{
 		max = max * base_size;
 		count++;
+		if (max == 1152921504606846976)
+			break ;
 	}
 	return (count);
 }
 
-static void	ft_putnbr_base(long long nbr, char *base, char *nbr_converted)
+static void	ft_putnbr_base(unsigned long long nbr,
+							char *base,
+							char *nbr_converted)
 {
 	int		base_size;
 
@@ -64,17 +66,12 @@ static void	ft_putnbr_base(long long nbr, char *base, char *nbr_converted)
 	return ;
 }
 
-static void	convert(long long nbr,
+static void	convert(unsigned long long nbr,
 					char *base,
 					int base_size,
 					char *nbr_converted)
 {
-	if (nbr < 0)
-	{
-		ft_strncat(nbr_converted, "-", 1);
-		nbr *= -1;
-	}
-	if (nbr > base_size - 1)
+	if (nbr > (unsigned long long)base_size - 1)
 	{
 		convert(nbr / base_size, base, base_size, nbr_converted);
 		convert(nbr % base_size, base, base_size, nbr_converted);

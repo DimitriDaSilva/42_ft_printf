@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 13:21:25 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/22 17:06:10 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ int	convert(const char **fmt)
 	(*fmt)++;
 	nb_printed_chars = 0;
 	get_settings(fmt, &settings);
-	nb_printed_chars = print(&settings);
+	nb_printed_chars = print_types(&settings);
 	return (nb_printed_chars);
 }

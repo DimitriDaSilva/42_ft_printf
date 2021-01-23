@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 18:36:59 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/23 12:56:58 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,20 @@ void	add_padding(char **nb, int precision)
 	*nb = tmp_new_nb;
 }
 
+/*
+** With the flag #, hex numbers are prefixed with 0x or 0X
+** @param:	- [char **nbr] 	Number in a str format. Ptr to a ptr because we
+** 							need to free and allocate more space
+**			- [char] type here can be p, x or X
+**			- [char *] string with all the flags used
+** @return: [void] The value is passed through the pointer **nb
+** Line-by-line comments:
+** @4-5		Edge case: even if # used, if the nb is equal to 0, no prefix
+**			needs to be outputed
+**			Also checking if neither of 'p' or '#' have been used. If not,
+**			no hex prefix to output
+*/
+
 void	add_hex_prefix(char **nb, char type, char *flags)
 {
 	int		length;
@@ -111,6 +125,19 @@ int		is_all_zeros(char *nb)
 	}
 	return (1);
 }
+
+/*
+** If the flag # is used with a float, it forces a decimal point (even if
+** precision = 0)
+** @param:	- [char **nbr] 	Number in a str format. Ptr to a ptr because we
+** 							need to free and allocate more space
+**			- [t_format] all 5 fields: flags, width, precision, size, type
+** @return: [void] The value is passed through the pointer **nb
+** Line-by-line comments:
+** @4-6		Checking if neither # used nor precision = 0. If only #, then
+**			ft_ftoa took care of the point. If only precision, then no need
+**			for a decimal point
+*/
 
 void	add_point(char **nb, t_format *settings)
 {

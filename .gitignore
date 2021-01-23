@@ -5,4 +5,4 @@ a.out
 pft/
 results.txt
 main.c
-test.sh
+leak-check.sh

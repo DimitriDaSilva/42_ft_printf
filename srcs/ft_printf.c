@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 19:22:09 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/23 12:05:41 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 ** Line-by-line comments:
 ** @8		The address of fmt is passed so that subsequent functions can
 ** 			increment through the fmt string
-** @12		When finding a format specifier like %-10d, the subsequent
+** @11		When finding a format specifier like %-10d, the subsequent
 ** 			functions increment through "%-10" while here 'd' is incremented
 */
 

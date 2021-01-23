@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 21:20:28 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/23 12:57:52 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
 ** @return:	[int] number of printed characters
 ** Line-by-line comments:
-** @8		Add sign ' ' or '+' basde on the flag used
+** @8		Add sign ' ' or '+' based on the flag used
 **			'-' sign is handled by ft_itoa()
 ** @9		Edge case: when precision > lenght of number, add a padding of 0
 **			until total length is equal to precision
-** @10-11	Edge case: if precision == 0, nb = 0 and flag = '+', only the '+'
+** @12-15	Adding the padding of '0'. The 0s go before the signs
+** @17-18	Edge case: if precision == 0, nb = 0 and flag = '+', only the '+'
 **			is printed
-** @12-17	Print based on the flag
 */
 
 int	print_int(t_format *settings)
@@ -54,13 +54,13 @@ int	print_int(t_format *settings)
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
 ** @return:	[int] number of printed characters
 ** Line-by-line comments:
-** @8		Add sign ' ' or '+' basde on the flag used
+** @8		Add sign ' ' or '+' based on the flag used
 **			'-' sign is handled by ft_itoa()
 ** @9		Edge case: when precision > lenght of number, add a padding of 0
 **			until total length is equal to precision
-** @10-11	Edge case: if precision == 0, nb = 0 and flag = '+', only the '+'
+** @12-15	Adding the padding of '0'. The 0s go before the signs
+** @17-18	Edge case: if precision == 0, nb = 0 and flag = '+', only the '+'
 **			is printed
-** @12-17	Print based on the flag
 */
 
 int	print_uint(t_format *settings)
@@ -92,12 +92,10 @@ int	print_uint(t_format *settings)
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
 ** @return:	[int] number of printed characters
 ** Line-by-line comments:
-** @8-9		Edge case: if precision == 0 && nb = 0, nothing at all to print
-** 			A space has been put as the first char of the nb_to_print to signal
-**			the subsequent function that this is a special case
-** @10-12	Edge case: when precision > lenght of number, add a padding of 0
-**			until total length is equal to precision
-** @12-17	Print based on the flag
+** @6		-1 means no precision as been specified. 6 is the default
+** @8		If the flags # is used, if forces a decimal point (even if
+**			precision == 0)
+** @10-13	Adding the padding of '0'. The 0s go before the signs
 */
 
 int	print_flt(t_format *settings)

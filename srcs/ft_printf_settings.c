@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 21:13:19 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/23 12:24:24 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@
 ** @param:	- [const char *] string inputted with specified formats
 **			- [t_format] all 5 fields: flags, width, precision, size, type
 ** Line-by-line comments:
-** @6-10	Edge case: when width < 0, printf acts like it has the flag '-'
+** @8-12	Edge case: when width < 0, printf acts like it has the flag '-'
+** @13-18	Edge case: for certain type specifiers, when both the flag '0'
+** 			and a precision is used, the '0' is ignored
+** @17		'9' but could be anything else. Just to overwrite '0'
 */
 
 void		get_settings(const char **fmt, t_format *settings)
@@ -47,10 +50,7 @@ void		get_settings(const char **fmt, t_format *settings)
 ** @param:	- [const char *] string inputted with specified formats
 ** @return:	[char *] 0 or more flags among (-+0 #)
 ** Line-by-line comments:
-** @3-4		Calloc necessary as flags[2] memory would be deleted once
-**			we left the function
-** @5-7		Edge case: repeated flags
-** @8-10	Edge case: when both 0 and - are used, 0 is ignored
+** @7-8		Edge case: when both 0 and - are used, 0 is ignored
 */
 
 static void	get_flags(const char **fmt, char *flags)
@@ -143,7 +143,7 @@ static int	get_precision(const char **fmt)
 **					For instance, %lld represents a long long int
 ** Line-by-line comments:
 ** @5-6		Checking if **fmt is neither h nor l
-** @10-11	The second char can only either be the same as the first or not
+** @4-5		The second char can only either be the same as the first or not
 ** 			being a size specifier anymore. If it is, add it to size and
 **			increment to go to the next field
 */
@@ -152,8 +152,7 @@ static void	get_size(const char **fmt, char *size)
 {
 	if (!ft_strchr("lh", **fmt))
 		return ;
-	size[0] = **fmt;
-	(*fmt)++;
+	size[0] = *(*fmt)++;
 	if (**fmt == size[0])
 		size[1] = *(*fmt)++;
 	size[2] = 0;

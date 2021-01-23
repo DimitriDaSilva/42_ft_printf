@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 16:33:28 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/23 12:38:27 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	print_types(t_format *settings)
 ** @return:	[int] number of printed characters
 ** Line-by-line comments:
 ** @8-9		Malloc of size 2 because: (size of '-' or '0') + (size of '\0')
-** @7-10	Print based on the flag
 */
 
 int	print_char(t_format *settings)
@@ -73,9 +72,8 @@ int	print_char(t_format *settings)
 ** @7-8		Edge case: arg = NULL but precision doesn't allow enough space
 ** 			to print (null), so return emptyable string
 ** @9-10	Need to work with a duplicate because arg is const
-** @11-12	Edge case: A precision has been set and it's lower than the size
+** @12-14	Edge case: A precision has been set and it's lower than the size
 **			of the string to print ==> cut str by adding a NULL at precision
-** @13-16	Print based on the flag
 */
 
 int	print_str(t_format *settings)
@@ -103,7 +101,8 @@ int	print_str(t_format *settings)
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
 ** @return:	[int] number of printed characters
 ** Line-by-line comments:
-** @11-14	Print based on the flag
+** @11-12	Edge case: for pointers, when value = 0, ignores all other flags
+**			and print (nil)
 */
 
 int	print_ptr(t_format *settings)
@@ -132,7 +131,7 @@ int	print_ptr(t_format *settings)
 ** Line-by-line comments:
 ** @12-13	Edge case: when precision > lenght of number, add a padding of 0
 **			until total length is equal to precision
-** @14-19	Print based on the flag
+** @11-15	Adding the padding of '0'. The 0s go before the signs and "0x"
 */
 
 int	print_hex(t_format *settings)

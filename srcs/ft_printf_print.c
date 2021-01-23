@@ -6,11 +6,20 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 13:29:52 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 13:36:04 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/23 12:26:52 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_print.h"
+
+/*
+** Strings to print according to flags
+** @param:	- [char *] correctly formated string to print
+** 			- [t_format] all 5 fields: flags, width, precision, size, type
+** @return:	[int] number of printed characters
+** Line-by-line comments:
+** @4-7		Print based on the flag
+*/
 
 int			print_left_right(char *str, t_format *settings)
 {

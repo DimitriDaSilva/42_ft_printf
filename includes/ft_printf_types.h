@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/20 08:40:11 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 16:16:53 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/01/23 17:17:14 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/01/23 17:17:15 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 
 # include "ft_printf.h"
 
-int	print_types(t_format *settings);
-int	print_char(t_format *settings);
-int	print_str(t_format *settings);
-int	print_ptr(t_format *settings);
-int	print_int(t_format *settings);
-int	print_uint(t_format *settings);
-int	print_hex(t_format *settings);
-int	print_pct(t_format *settings);
-int	print_flt(t_format *settings);
-int	print_left_right(char *str, t_format *settings);
+void	print_types(t_format *settings);
+void	print_char(t_format *settings);
+void	print_str(t_format *settings);
+void	print_ptr(t_format *settings);
+void	print_int(t_format *settings);
+void	print_uint(t_format *settings);
+void	print_hex(t_format *settings);
+void	print_pct(t_format *settings);
+void	print_flt(t_format *settings);
+void	print_n(t_format *settings);
+void	print_left_right(char *str, t_format *settings);
 
 #endif

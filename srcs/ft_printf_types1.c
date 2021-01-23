@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/23 12:38:27 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/23 17:23:32 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,70 +18,61 @@
 ** @return:	[int] number of printed characters
 */
 
-int	print_types(t_format *settings)
+void	print_types(t_format *settings)
 {
-	int		nb_printed_chars;
-
-	nb_printed_chars = 0;
 	if ('c' == settings->type)
-		nb_printed_chars = print_char(settings);
+		print_char(settings);
 	else if ('s' == settings->type)
-		nb_printed_chars = print_str(settings);
+		print_str(settings);
 	else if ('p' == settings->type)
-		nb_printed_chars = print_ptr(settings);
+		print_ptr(settings);
 	else if (ft_strchr("di", settings->type))
-		nb_printed_chars = print_int(settings);
+		print_int(settings);
 	else if ('u' == settings->type)
-		nb_printed_chars = print_uint(settings);
+		print_uint(settings);
 	else if (ft_strchr("xX", settings->type))
-		nb_printed_chars = print_hex(settings);
+		print_hex(settings);
 	else if ('%' == settings->type)
-		nb_printed_chars = print_pct(settings);
+		print_pct(settings);
 	else if ('f' == settings->type)
-		nb_printed_chars = print_flt(settings);
-	return (nb_printed_chars);
+		print_flt(settings);
+	else if ('n' == settings->type)
+		print_n(settings);
 }
 
 /*
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
 ** @return:	[int] number of printed characters
-** Line-by-line comments:
-** @8-9		Malloc of size 2 because: (size of '-' or '0') + (size of '\0')
 */
 
-int	print_char(t_format *settings)
+void	print_char(t_format *settings)
 {
-	int		nb_printed_chars;
 	char	*str_to_print;
 
-	nb_printed_chars = 0;
 	if (!(str_to_print = calloc(2, sizeof(char))))
-		return (0);
+		return ;
 	str_to_print[0] = va_arg(g_arg_list, int);
-	nb_printed_chars += print_left_right(str_to_print, settings);
+	print_left_right(str_to_print, settings);
 	free(str_to_print);
-	return (nb_printed_chars);
 }
 
 /*
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
 ** @return:	[int] number of printed characters
 ** Line-by-line comments:
-** @4-6		Get argument from arg_list. If arg = NULL, print (null)
+** @3-4		Get argument from arg_list. If arg = NULL, print (null)
 **			Edge case: Precision allow enough spacae to print (null)
-** @7-8		Edge case: arg = NULL but precision doesn't allow enough space
+** @6-7		Edge case: arg = NULL but precision doesn't allow enough space
 ** 			to print (null), so return emptyable string
-** @9-10	Need to work with a duplicate because arg is const
-** @12-14	Edge case: A precision has been set and it's lower than the size
+** @8-9		Need to work with a duplicate because arg is const
+** @11-13	Edge case: A precision has been set and it's lower than the size
 **			of the string to print ==> cut str by adding a NULL at precision
 */
 
-int	print_str(t_format *settings)
+void	print_str(t_format *settings)
 {
-	int		nb_printed_chars;
 	char	*str_to_print;
 
-	nb_printed_chars = 0;
 	if (!(str_to_print = va_arg(g_arg_list, char *)) &&
 		(settings->precision >= 6 || settings->precision <= -1))
 		str_to_print = ft_strdup("(null)");
@@ -92,55 +83,50 @@ int	print_str(t_format *settings)
 	if (settings->precision != -1 &&
 		settings->precision < (int)ft_strlen(str_to_print))
 		str_to_print[settings->precision] = 0;
-	nb_printed_chars += print_left_right(str_to_print, settings);
+	print_left_right(str_to_print, settings);
 	free(str_to_print);
-	return (nb_printed_chars);
 }
 
 /*
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
 ** @return:	[int] number of printed characters
 ** Line-by-line comments:
-** @11-12	Edge case: for pointers, when value = 0, ignores all other flags
+** @5-9		Edge case: for pointers, when value = 0, ignores all other flags
 **			and print (nil)
 */
 
-int	print_ptr(t_format *settings)
+void	print_ptr(t_format *settings)
 {
 	long long	nb_to_convert;
-	int			nb_printed_chars;
 	char		*nb_to_print;
 
-	nb_printed_chars = 0;
 	nb_to_convert = va_arg(g_arg_list, long long);
 	if (nb_to_convert == 0)
-		return (ft_putstr("(nil)"));
+	{
+		g_count_printed_ch += ft_putstr("(nil)");
+		return ;
+	}
 	else
 		nb_to_print = ft_convert_base(nb_to_convert, "0123456789abcdef");
 	if (ft_strchr(settings->flags, '0'))
 		add_padding(&nb_to_print, settings->width);
 	add_hex_prefix(&nb_to_print, settings->type, settings->flags);
-	nb_printed_chars += print_left_right(nb_to_print, settings);
+	print_left_right(nb_to_print, settings);
 	free(nb_to_print);
-	return (nb_printed_chars);
 }
 
 /*
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
 ** @return:	[int] number of printed characters
 ** Line-by-line comments:
-** @12-13	Edge case: when precision > lenght of number, add a padding of 0
-**			until total length is equal to precision
-** @11-15	Adding the padding of '0'. The 0s go before the signs and "0x"
+** @9-13	Adding the padding of '0'. The 0s go before the signs and "0x"
 */
 
-int	print_hex(t_format *settings)
+void	print_hex(t_format *settings)
 {
 	unsigned long long	nb_to_convert;
-	int					nb_printed_chars;
 	char				*nb_to_print;
 
-	nb_printed_chars = 0;
 	nb_to_convert = va_arg(g_arg_list, unsigned long long int);
 	if (settings->type == 'x')
 		nb_to_print = ft_convert_base(nb_to_convert, "0123456789abcdef");
@@ -153,7 +139,6 @@ int	print_hex(t_format *settings)
 		add_padding(&nb_to_print, settings->width);
 	add_padding(&nb_to_print, settings->precision);
 	add_hex_prefix(&nb_to_print, settings->type, settings->flags);
-	nb_printed_chars += print_left_right(nb_to_print, settings);
+	print_left_right(nb_to_print, settings);
 	free(nb_to_print);
-	return (nb_printed_chars);
 }

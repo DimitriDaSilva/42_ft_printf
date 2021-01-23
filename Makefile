@@ -43,7 +43,7 @@ fclean:		clean
 re:			fclean all
 
 run:		re
-			sh test.sh | cat -e
+			sh leak-check.sh | cat -e
 
 normH:		re
 			~/.norminette/norminette.rb ./${INCDIR}/*.h

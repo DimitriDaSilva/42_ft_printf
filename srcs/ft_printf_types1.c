@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/23 17:23:32 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/23 20:35:44 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	print_types(t_format *settings)
 	else if ('p' == settings->type)
 		print_ptr(settings);
 	else if (ft_strchr("di", settings->type))
-		print_int(settings);
+		print_int_signed(settings);
 	else if ('u' == settings->type)
-		print_uint(settings);
+		print_int_unsigned(settings);
 	else if (ft_strchr("xX", settings->type))
 		print_hex(settings);
 	else if ('%' == settings->type)
@@ -38,6 +38,8 @@ void	print_types(t_format *settings)
 		print_flt(settings);
 	else if ('n' == settings->type)
 		print_n(settings);
+	else if ('e' == settings->type)
+		print_exp(settings);
 }
 
 /*
@@ -52,7 +54,7 @@ void	print_char(t_format *settings)
 	if (!(str_to_print = calloc(2, sizeof(char))))
 		return ;
 	str_to_print[0] = va_arg(g_arg_list, int);
-	print_left_right(str_to_print, settings);
+	print_left_right(settings, str_to_print);
 	free(str_to_print);
 }
 
@@ -83,7 +85,7 @@ void	print_str(t_format *settings)
 	if (settings->precision != -1 &&
 		settings->precision < (int)ft_strlen(str_to_print))
 		str_to_print[settings->precision] = 0;
-	print_left_right(str_to_print, settings);
+	print_left_right(settings, str_to_print);
 	free(str_to_print);
 }
 
@@ -111,7 +113,7 @@ void	print_ptr(t_format *settings)
 	if (ft_strchr(settings->flags, '0'))
 		add_padding(&nb_to_print, settings->width);
 	add_hex_prefix(&nb_to_print, settings->type, settings->flags);
-	print_left_right(nb_to_print, settings);
+	print_left_right(settings, nb_to_print);
 	free(nb_to_print);
 }
 
@@ -139,6 +141,6 @@ void	print_hex(t_format *settings)
 		add_padding(&nb_to_print, settings->width);
 	add_padding(&nb_to_print, settings->precision);
 	add_hex_prefix(&nb_to_print, settings->type, settings->flags);
-	print_left_right(nb_to_print, settings);
+	print_left_right(settings, nb_to_print);
 	free(nb_to_print);
 }

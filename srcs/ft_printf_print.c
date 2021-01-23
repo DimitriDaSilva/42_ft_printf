@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 13:29:52 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/23 19:03:52 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/23 20:09:01 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** 			- [t_format] all 5 fields: flags, width, precision, size, type
 */
 
-void		print_left_right(char *str, t_format *settings)
+void		print_left_right(t_format *settings, char *str)
 {
 	if (ft_strchr(settings->flags, '-'))
 		print_left(str, settings);

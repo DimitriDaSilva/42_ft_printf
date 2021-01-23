@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 17:17:14 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/23 17:17:15 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/23 20:17:28 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ void	print_types(t_format *settings);
 void	print_char(t_format *settings);
 void	print_str(t_format *settings);
 void	print_ptr(t_format *settings);
-void	print_int(t_format *settings);
-void	print_uint(t_format *settings);
 void	print_hex(t_format *settings);
+void	print_int_signed(t_format *settings);
+void	print_int_unsigned(t_format *settings);
+void	print_int(t_format *settings, char *nb_to_print);
+void	print_n(t_format *settings);
 void	print_pct(t_format *settings);
 void	print_flt(t_format *settings);
-void	print_n(t_format *settings);
-void	print_left_right(char *str, t_format *settings);
+void	print_exp(t_format *settings);
+void	print_left_right(t_format *settings, char *str);
 
 #endif

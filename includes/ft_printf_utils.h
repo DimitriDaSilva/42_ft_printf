@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:39:35 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 18:29:05 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/23 21:40:36 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,7 @@ void	add_sign(char **nb, char *flags);
 void	add_hex_prefix(char **nb, char type, char *flags);
 int		is_all_zeros(char *nb);
 void	add_point(char **nb, t_format *settings);
+void	get_exponent(double *nb, char **exponent);
+void	add_exponent(char **nb, char **exponent);
 
 #endif

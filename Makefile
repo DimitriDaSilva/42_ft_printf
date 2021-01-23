@@ -42,7 +42,10 @@ fclean:		clean
 
 re:			fclean all
 
-run:		re
+run:		all
+			sh testing.sh | cat -e
+
+runLC:		all
 			sh leak-check.sh | cat -e
 
 normH:		re

@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 19:53:42 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/23 21:58:25 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/24 11:47:33 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,15 @@ void	print_exp(t_format *settings)
 	nb = va_arg(g_arg_list, double);
 	get_exponent(&nb, &exponent);
 	nb_to_print = ft_ftoa(nb, float_precision);
+	add_point(&nb_to_print, settings);
 	add_exponent(&nb_to_print, &exponent);
+	adjust_rounding(nb_to_print);
+	add_sign(&nb_to_print, settings->flags);
+	if (ft_strchr(settings->flags, '0') && ft_strchr("+- ", *nb_to_print))
+		add_padding(&nb_to_print, settings->width - 1);
+	else if (ft_strchr(settings->flags, '0'))
+		add_padding(&nb_to_print, settings->width);
+	add_padding(&nb_to_print, settings->precision);
 	print_left_right(settings, nb_to_print);
 	free(nb_to_print);
 }

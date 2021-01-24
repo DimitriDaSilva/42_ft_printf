@@ -48,10 +48,10 @@ run:		all
 runLC:		all
 			sh leak-check.sh | cat -e
 
-normH:		re
+normH:		all
 			~/.norminette/norminette.rb ./${INCDIR}/*.h
 
-normC:		re
+normC:		all
 			~/.norminette/norminette.rb ${SRCS}
 
 norm:		normH normC

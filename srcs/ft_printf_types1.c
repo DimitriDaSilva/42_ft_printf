@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/23 20:35:44 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/24 15:26:22 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,14 @@ void	print_types(t_format *settings)
 		print_hex(settings);
 	else if ('%' == settings->type)
 		print_pct(settings);
-	else if ('f' == settings->type)
-		print_flt(settings);
 	else if ('n' == settings->type)
 		print_n(settings);
+	else if ('f' == settings->type)
+		print_flt(settings);
 	else if ('e' == settings->type)
 		print_exp(settings);
+	else if ('g' == settings->type)
+		print_g(settings);
 }
 
 /*

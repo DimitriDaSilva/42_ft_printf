@@ -6,13 +6,13 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 20:34:17 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/24 11:38:45 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/24 20:22:40 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	get_exponent(double *nb, char **exponent)
+void	get_exp_str(double *nb, char **exponent)
 {
 	int		count;
 	double	cpy;
@@ -94,4 +94,27 @@ void	increment(char *nb, char sign)
 		else
 			nb[i] = nb[i] == '0' ? '9' : nb[i] - 1;
 	}
+}
+
+int		get_exp_nb(double nb)
+{
+	int		count;
+	double	cpy;
+
+	count = 0;
+	cpy = nb;
+	while ((-1 < nb && 1 / nb < 0) || (0 < nb && nb < 1))
+	{
+		nb *= 10;
+		if (cpy == nb)
+			break ;
+		count--;
+	}
+	nb = ft_round(nb);
+	while (nb <= -10 || 10 <= nb)
+	{
+		nb /= 10;
+		count++;
+	}
+	return (count);
 }

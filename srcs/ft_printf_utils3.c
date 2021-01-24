@@ -1,36 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_printf_utils3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/14 12:31:59 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/24 20:42:17 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/01/24 20:22:59 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/01/24 21:20:09 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-char	*ft_itoa(long long n)
+size_t	get_count_int(double nb)
 {
-	char	*str;
-	size_t	size_nbr;
+	size_t	count;
 
-	size_nbr = get_size_lg(n);
-	if (!(str = malloc((size_nbr + 1) * sizeof(char))))
-		return (0);
-	str += size_nbr;
-	*str-- = '\0';
-	while (size_nbr--)
+	nb = ft_abs_dl(nb);
+	if (nb < 1)
+		return (1);
+	count = 0;
+	while (nb > 1)
 	{
-		*str-- = ft_abs_lg(n) % 10 + ASCII_OFFSET_NUM;
-		if (-10 < n && n < 0)
-		{
-			*str-- = '-';
-			break ;
-		}
-		n /= 10;
+		nb /= 10;
+		count++;
 	}
-	return (++str);
+	return (count);
+}
+
+void	remove_trailing_zero(char *nb)
+{
+	if (*nb == '-')
+		nb++;
+	if (*nb == '0')
+		nb++;
+	while(*nb && !is_all_zeros(nb))
+		nb++;
+	if (*nb == 0)
+		return ;
+	else if (*(nb - 1) == '.')
+		*(nb - 1) = 0;
+	else
+		*nb = 0;
 }

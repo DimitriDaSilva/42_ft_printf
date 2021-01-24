@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 19:53:42 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/24 11:47:33 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/24 21:45:14 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	print_exp(t_format *settings)
 
 	float_precision = settings->precision <= -1 ? 6 : settings->precision;
 	nb = va_arg(g_arg_list, double);
-	get_exponent(&nb, &exponent);
+	get_exp_str(&nb, &exponent);
 	nb_to_print = ft_ftoa(nb, float_precision);
 	add_point(&nb_to_print, settings);
 	add_exponent(&nb_to_print, &exponent);
@@ -62,4 +62,65 @@ void	print_exp(t_format *settings)
 	add_padding(&nb_to_print, settings->precision);
 	print_left_right(settings, nb_to_print);
 	free(nb_to_print);
+}
+
+void	print_g(t_format *settings)
+{
+	double	nb;
+	int		exponent;
+	int		actual_precision;
+	
+	nb = va_arg(g_arg_list, double);
+	exponent = get_exp_nb(nb);
+	actual_precision = settings->precision <= -1 ? 6 : settings->precision;
+	if (settings->precision == 0)
+		actual_precision  = 1;
+	if (-4 <= exponent && exponent < actual_precision)
+		print_g_flt(settings, nb, actual_precision - 1 - exponent);
+	else
+		print_g_exp(settings, nb, actual_precision - 1);
+	// double	nb;
+	// int		exponent;
+	// int		actual_precision;
+	
+	// nb = va_arg(g_arg_list, double);
+	// exponent = get_exp_nb(nb);
+	// actual_precision = settings->precision <= -1 ? 6 : settings->precision;
+	// if ((exponent < -4 || actual_precision <= exponent) && nb != 0 &&
+	// 	(exponent != 0 || get_size_lg(ft_abs_lg(ft_round(nb))) > 1))
+	// 	print_g_exp(settings, nb, actual_precision);
+	// else
+	// 	print_g_flt(settings, nb, actual_precision);
+}
+
+void	print_g_flt(t_format *settings, double nb, int precision)
+{
+	char	*nb_to_print;
+	// size_t	nb_int_part;
+
+	// nb_int_part = get_count_int(nb);
+	// printf("Nb_int_part: \"%ld\"\n", nb_int_part);
+	nb_to_print = ft_ftoa(nb, precision);
+	// nb_to_print = ft_ftoa(nb, precision - nb_int_part);
+	// printf("Nb_to_print: \"%s\"\n", nb_to_print);
+	if (!ft_strchr(settings->flags, '#'))
+		remove_trailing_zero(nb_to_print);
+	add_point(&nb_to_print, settings);
+	add_sign(&nb_to_print, settings->flags);
+	if (ft_strchr(settings->flags, '0') && ft_strchr("+- ", *nb_to_print))
+		add_padding(&nb_to_print, settings->width - 1);
+	else if (ft_strchr(settings->flags, '0'))
+		add_padding(&nb_to_print, settings->width);
+	// add_padding(&nb_to_print, settings->precision);
+	print_left_right(settings, nb_to_print);
+	free(nb_to_print);
+}
+
+void	print_g_exp(t_format *settings, double nb, int precision)
+{
+	(void)settings;
+	(void)nb;
+	(void)precision;
+	ft_printf("%%e");
+	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 20:34:43 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/24 10:56:14 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/24 21:23:49 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,7 @@ int		is_all_zeros(char *nb)
 **			- [t_format] all 5 fields: flags, width, precision, size, type
 ** @return: [void] The value is passed through the pointer **nb
 ** Line-by-line comments:
-** @4-6		Checking if neither # used nor precision = 0. If only #, then
-**			ft_ftoa took care of the point. If only precision, then no need
-**			for a decimal point
+** @4-6		Checking if # not used or if a decimal point is already there
 */
 
 void	add_point(char **nb, t_format *settings)
@@ -144,7 +142,7 @@ void	add_point(char **nb, t_format *settings)
 	size_t	length;
 	char	*tmp_new_nb;
 
-	if (!ft_strchr(settings->flags, '#') || !(settings->precision == 0))
+	if (!ft_strchr(settings->flags, '#') || ft_strchr(*nb, '.'))
 		return ;
 	length = ft_strlen(*nb) + 1;
 	if (!(tmp_new_nb = calloc(length + 1, sizeof(char))))

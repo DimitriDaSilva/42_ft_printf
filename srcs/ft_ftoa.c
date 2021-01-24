@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 08:29:08 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/24 10:46:17 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/24 20:42:26 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char			*ft_ftoa(double nb, int precision)
 	if (precision > 0)
 		str_nb[length - 1 - precision] = '.';
 	while (precision-- > 0)
-		str_nb[length - 1 - precision] = ft_abs(nb *= 10) % 10 + '0';
+		str_nb[length - 1 - precision] = ft_abs_lg(nb *= 10) % 10 + '0';
 	str_nb = round_after_decimal(nb, length, str_nb);
 	return (str_nb);
 }

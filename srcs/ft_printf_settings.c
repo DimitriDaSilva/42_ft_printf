@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/23 12:24:24 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/24 20:42:09 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void		get_settings(const char **fmt, t_format *settings)
 	if (settings->width < 0)
 	{
 		settings->flags[0] = '-';
-		settings->width = ft_abs(settings->width);
+		settings->width = ft_abs_lg(settings->width);
 	}
 	if (ft_strchr(settings->flags, '0') &&
 		ft_strchr("diuxX", settings->type) && settings->precision >= 0)

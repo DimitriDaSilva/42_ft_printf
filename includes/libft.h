@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/24 10:46:07 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/24 20:41:16 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,10 @@ int					ft_is_even(int nb);
 double				ft_remainder(double numer, double denom);
 int					ft_power(int nb, int power);
 int					ft_sqrt(int nb);
-long long			ft_abs(long long n);
+long long			ft_abs_lg(long long n);
+double				ft_abs_dl(double n);
 size_t				get_size_dl(double nb);
 size_t				get_size_lg(long long nb);
+int					ft_round(double nb);
 
 #endif

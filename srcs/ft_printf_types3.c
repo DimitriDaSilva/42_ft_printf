@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 19:53:42 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/24 21:54:17 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/25 08:26:30 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,21 @@ void	print_g_flt(t_format *settings, double nb, int precision)
 
 void	print_g_exp(t_format *settings, double nb, int precision)
 {
-	(void)settings;
-	(void)nb;
-	(void)precision;
-	ft_printf("%%e");
-	return ;
+	char	*nb_to_print;
+	char	*exponent;
+
+	get_exp_str(&nb, &exponent);
+	nb_to_print = ft_ftoa(nb, precision);
+	add_point(&nb_to_print, settings);
+	add_exponent(&nb_to_print, &exponent);
+	adjust_rounding(nb_to_print);
+	if (!ft_strchr(settings->flags, '#'))
+		remove_middle_zero(nb_to_print);
+	add_sign(&nb_to_print, settings->flags);
+	if (ft_strchr(settings->flags, '0') && ft_strchr("+- ", *nb_to_print))
+		add_padding(&nb_to_print, settings->width - 1);
+	else if (ft_strchr(settings->flags, '0'))
+		add_padding(&nb_to_print, settings->width);
+	print_left_right(settings, nb_to_print);
+	free(nb_to_print);
 }

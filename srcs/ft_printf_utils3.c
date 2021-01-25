@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 20:22:59 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/24 21:20:09 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/25 08:26:35 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,23 @@ void	remove_trailing_zero(char *nb)
 		*(nb - 1) = 0;
 	else
 		*nb = 0;
+}
+
+void	remove_middle_zero(char *nb)
+{
+	int 	i;
+	size_t	length;
+
+	length = ft_strlen(nb);
+	i = length - 1;
+	while (nb[i + 1] != 'e')
+		i--;
+	while (nb[i] == '0')
+		i--;
+	if (i == 0)
+		return ;
+	else if (nb[i] == '.')
+		ft_strlcpy(nb + i, nb + length - 4, 5);
+	else
+		ft_strlcpy(nb + i + 1, nb + length - 4, 5);
 }

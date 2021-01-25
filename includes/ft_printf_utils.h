@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:39:35 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/24 20:53:34 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/25 08:19:10 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ void	increment(char *nb, char sign);
 int		get_exp_nb(double nb);
 size_t	get_count_int(double nb);
 void	remove_trailing_zero(char *nb);
+void	remove_middle_zero(char *nb);
 
 #endif

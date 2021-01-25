@@ -6,16 +6,16 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/24 15:26:22 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/25 09:22:55 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_types.h"
 
 /*
-** Call different print function depending on the type
+** Call different print function depending on the type and passing doing the
+** settings gathered by get_settings()
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
-** @return:	[int] number of printed characters
 */
 
 void	print_types(t_format *settings)
@@ -46,7 +46,6 @@ void	print_types(t_format *settings)
 
 /*
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
-** @return:	[int] number of printed characters
 */
 
 void	print_char(t_format *settings)
@@ -62,14 +61,13 @@ void	print_char(t_format *settings)
 
 /*
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
-** @return:	[int] number of printed characters
 ** Line-by-line comments:
 ** @3-4		Get argument from arg_list. If arg = NULL, print (null)
 **			Edge case: Precision allow enough spacae to print (null)
 ** @6-7		Edge case: arg = NULL but precision doesn't allow enough space
 ** 			to print (null), so return emptyable string
 ** @8-9		Need to work with a duplicate because arg is const
-** @11-13	Edge case: A precision has been set and it's lower than the size
+** @10-12	Edge case: A precision has been set and it's lower than the size
 **			of the string to print ==> cut str by adding a NULL at precision
 */
 
@@ -93,7 +91,6 @@ void	print_str(t_format *settings)
 
 /*
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
-** @return:	[int] number of printed characters
 ** Line-by-line comments:
 ** @5-9		Edge case: for pointers, when value = 0, ignores all other flags
 **			and print (nil)
@@ -121,9 +118,11 @@ void	print_ptr(t_format *settings)
 
 /*
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
-** @return:	[int] number of printed characters
 ** Line-by-line comments:
-** @9-13	Adding the padding of '0'. The 0s go before the signs and "0x"
+** @9-13	Adding the padding of '0' associated with the '0' flags. The 0s
+**			go before the signs
+** @14		Adding the padding of '0' associated with the fact that precision
+**			would be higher than length of number (if so left-padded with 0)
 */
 
 void	print_hex(t_format *settings)

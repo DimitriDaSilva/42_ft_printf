@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 13:29:52 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/23 20:09:01 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/25 10:42:39 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 ** Strings to print according to flags
-** @param:	- [char *] correctly formated string to print
+** @param:	- [char *] correctly formatted string to print
 ** 			- [t_format] all 5 fields: flags, width, precision, size, type
 */
 

@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/23 17:19:56 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/25 09:02:48 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int		ft_printf(const char *fmt, ...)
 /*
 ** Traverses fmt to get the settings and prints the output
 ** @param:	- [const char *] string inputted with specified formats
-** @return:	[int] number of printed characters
 */
 
 void	convert(const char **fmt)

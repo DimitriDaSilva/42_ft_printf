@@ -6,21 +6,13 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/24 20:41:16 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/01/25 13:53:15 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-/*
-** To delete
-*/
-# include <stdio.h>
-
-/*
-** To keep
-*/
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>

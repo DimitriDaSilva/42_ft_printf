@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 20:34:43 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/24 21:23:49 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/05 15:17:36 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	add_sign(char **nb, char *flags)
 		ft_strchr(flags, '+')))
 		return ;
 	length = 1 + (int)ft_strlen(*nb);
-	if (!(tmp_new_nb = calloc(length + 1, sizeof(char))))
+	if (!(tmp_new_nb = ft_calloc(length + 1, sizeof(char))))
 		return ;
 	*tmp_new_nb = ft_strchr(flags, '+') ? '+' : ' ';
 	ft_strlcpy(tmp_new_nb + 1, *nb, length);
@@ -72,7 +72,7 @@ void	add_padding(char **nb, int precision)
 		(!ft_strchr("-+ ", (*nb)[i]) && length_old_nb >= precision))
 		return ;
 	length_new_nb = ft_strchr("-+ ", (*nb)[i]) ? precision + 2 : precision;
-	if (!(tmp_new_nb = calloc(length_new_nb + 1, sizeof(char))))
+	if (!(tmp_new_nb = ft_calloc(length_new_nb + 1, sizeof(char))))
 		return ;
 	if (ft_strchr("-+ ", (*nb)[i]) && length_new_nb--)
 		tmp_new_nb[j++] = (*nb)[i++];
@@ -106,7 +106,7 @@ void	add_hex_prefix(char **nb, char type, char *flags)
 	if (!(type == 'p' || ft_strchr(flags, '#')) || is_all_zeros(*nb))
 		return ;
 	length = (int)ft_strlen(*nb) + 2;
-	if (!(tmp_new_nb = calloc(length + 1, sizeof(char))))
+	if (!(tmp_new_nb = ft_calloc(length + 1, sizeof(char))))
 		return ;
 	tmp_new_nb[0] = '0';
 	tmp_new_nb[1] = (type == 'X') ? 'X' : 'x';
@@ -145,7 +145,7 @@ void	add_point(char **nb, t_format *settings)
 	if (!ft_strchr(settings->flags, '#') || ft_strchr(*nb, '.'))
 		return ;
 	length = ft_strlen(*nb) + 1;
-	if (!(tmp_new_nb = calloc(length + 1, sizeof(char))))
+	if (!(tmp_new_nb = ft_calloc(length + 1, sizeof(char))))
 		return ;
 	ft_strlcpy(tmp_new_nb, *nb, length);
 	tmp_new_nb[length - 1] = '.';

@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 08:29:08 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/24 20:42:26 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/05 14:58:45 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char			*ft_ftoa(double nb, int precision)
 	char	*tmp;
 
 	length = precision > 0 ? get_size_dl(nb) + 1 + precision : get_size_dl(nb);
-	if (!(str_nb = calloc(length + 1, sizeof(char))))
+	if (!(str_nb = ft_calloc(length + 1, sizeof(char))))
 		return (0);
 	tmp = ft_itoa(nb);
 	if (-1 < nb && 1 / nb < 0)
@@ -143,7 +143,7 @@ static char		*round_before_decimal(char *str_nb, int length)
 	int		j;
 
 	new_length = get_new_length(str_nb, length);
-	if (!(new_str_nb = calloc(new_length + 1, sizeof(char))))
+	if (!(new_str_nb = ft_calloc(new_length + 1, sizeof(char))))
 		return (0);
 	i = ft_strchr(str_nb, '.') ? ft_strchr(str_nb, '.') - str_nb : length;
 	j = new_length == length ? i : i + 1;

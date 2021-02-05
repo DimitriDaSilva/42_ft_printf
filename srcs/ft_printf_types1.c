@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/25 09:22:55 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/05 15:17:06 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	print_char(t_format *settings)
 {
 	char	*str_to_print;
 
-	if (!(str_to_print = calloc(2, sizeof(char))))
+	if (!(str_to_print = ft_calloc(2, sizeof(char))))
 		return ;
 	str_to_print[0] = va_arg(g_arg_list, int);
 	print_left_right(settings, str_to_print);

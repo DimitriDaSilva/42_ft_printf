@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 08:29:08 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/05 14:58:45 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/14 19:55:54 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 ** @21		Checking if number beyond precision is >= 5 and rounding if needed
 */
 
-char			*ft_ftoa(double nb, int precision)
+char			*ft_ftoa(long double nb, int precision)
 {
 	int		length;
 	char	*str_nb;
@@ -48,7 +48,10 @@ char			*ft_ftoa(double nb, int precision)
 	if (precision > 0)
 		str_nb[length - 1 - precision] = '.';
 	while (precision-- > 0)
-		str_nb[length - 1 - precision] = ft_abs_lg(nb *= 10) % 10 + '0';
+	{
+		nb *= 10;
+		str_nb[length - 1 - precision] = ft_abs_lg(nb) % 10 + '0';
+	}
 	str_nb = round_after_decimal(nb, length, str_nb);
 	return (str_nb);
 }
@@ -81,10 +84,10 @@ char			*ft_ftoa(double nb, int precision)
 **			remainder >= 5
 */
 
-static char		*round_after_decimal(double nb, int length, char *str_nb)
+static char		*round_after_decimal(long double nb, int length, char *str_nb)
 {
-	double	remainder;
-	int		i;
+	long double	remainder;
+	int			i;
 
 	i = length - 1;
 	remainder = ft_remainder(nb * 10, 10);
@@ -143,7 +146,7 @@ static char		*round_before_decimal(char *str_nb, int length)
 	int		j;
 
 	new_length = get_new_length(str_nb, length);
-	if (!(new_str_nb = ft_calloc(new_length + 1, sizeof(char))))
+	if (!(new_str_nb = malloc((new_length + 1) * sizeof(char))))
 		return (0);
 	i = ft_strchr(str_nb, '.') ? ft_strchr(str_nb, '.') - str_nb : length;
 	j = new_length == length ? i : i + 1;
@@ -151,7 +154,7 @@ static char		*round_before_decimal(char *str_nb, int length)
 	while (j-- >= 0 && (new_str_nb[j + 1] == '.' ||
 			new_str_nb[j + 1] == '0' || new_str_nb[j + 1] == 0))
 	{
-		if (str_nb[--i] == 0 || str_nb[i] == '-')
+		if (--i < 0 || str_nb[i] == '-')
 			new_str_nb[j] = '1';
 		else
 			new_str_nb[j] = str_nb[i] == '9' ? '0' : str_nb[i] + 1;

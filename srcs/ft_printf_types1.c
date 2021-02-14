@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/05 15:17:06 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/14 17:35:56 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ void	print_str(t_format *settings)
 {
 	char	*str_to_print;
 
-	if (!(str_to_print = va_arg(g_arg_list, char *)) &&
-		(settings->precision >= 6 || settings->precision <= -1))
+	str_to_print = va_arg(g_arg_list, char *);
+	if (!str_to_print)
 		str_to_print = ft_strdup("(null)");
-	else if ((!str_to_print && settings->precision < 6) || !*str_to_print)
+	else if (!*str_to_print)
 		str_to_print = ft_strdup("");
 	else
 		str_to_print = ft_strdup(str_to_print);
@@ -92,8 +92,9 @@ void	print_str(t_format *settings)
 /*
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
 ** Line-by-line comments:
-** @5-9		Edge case: for pointers, when value = 0, ignores all other flags
-**			and print (nil)
+** @5-6		Edge case: for pointers, when value = 0, print 0x0. Needs a
+**			special case because add_hex_prefix() isn't supposed to put
+**			0x prefix if the number is all zeros
 */
 
 void	print_ptr(t_format *settings)
@@ -103,15 +104,13 @@ void	print_ptr(t_format *settings)
 
 	nb_to_convert = va_arg(g_arg_list, long long);
 	if (nb_to_convert == 0)
-	{
-		g_count_printed_ch += ft_putstr("(nil)");
-		return ;
-	}
+		nb_to_print = ft_strdup("0x0");
 	else
 		nb_to_print = ft_convert_base(nb_to_convert, "0123456789abcdef");
 	if (ft_strchr(settings->flags, '0'))
 		add_padding(&nb_to_print, settings->width);
-	add_hex_prefix(&nb_to_print, settings->type, settings->flags);
+	if (nb_to_convert != 0)
+		add_hex_prefix(&nb_to_print, settings->type, settings->flags);
 	print_left_right(settings, nb_to_print);
 	free(nb_to_print);
 }

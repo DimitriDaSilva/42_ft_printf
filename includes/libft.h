@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/25 13:53:15 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/14 19:23:33 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int					ft_memcmp(const void *s1, const void *s2, size_t n);
 ** CONVERSION FUNCTIONS
 */
 
-char				*ft_ftoa(double nb, int precision);
+char				*ft_ftoa(long double nb, int precision);
 char				*ft_convert_base(unsigned long long nbr, char *base_to);
 char				*ft_itoa(long long n);
 int					ft_atoi(const char *str);
@@ -126,7 +126,7 @@ t_list				*ft_lstmap(t_list *lst,
 */
 
 int					ft_is_even(int nb);
-double				ft_remainder(double numer, double denom);
+long double			ft_remainder(long double numer, long double denom);
 int					ft_power(int nb, int power);
 int					ft_sqrt(int nb);
 long long			ft_abs_lg(long long n);

@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/25 10:42:39 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/14 17:02:29 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,14 @@ void	print_n(t_format *settings)
 
 void	print_pct(t_format *settings)
 {
-	settings->width = 0;
-	print_left_right(settings, "%");
+	char	*str_to_print;
+
+	str_to_print = malloc(2 * sizeof(char));
+	if (!str_to_print)
+		return ;
+	str_to_print[0] = '%';
+	str_to_print[1] = 0;
+	if (ft_strchr(settings->flags, '0'))
+		add_padding(&str_to_print, settings->width);
+	print_left_right(settings, str_to_print);
 }

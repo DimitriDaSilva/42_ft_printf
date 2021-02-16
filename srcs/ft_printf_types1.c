@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_types1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/14 17:35:56 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/16 15:48:26 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,10 @@ void	print_str(t_format *settings)
 
 void	print_ptr(t_format *settings)
 {
-	long long	nb_to_convert;
-	char		*nb_to_print;
+	unsigned long long	nb_to_convert;
+	char				*nb_to_print;
 
-	nb_to_convert = va_arg(g_arg_list, long long);
+	nb_to_convert = va_arg(g_arg_list, unsigned long long int);
 	if (nb_to_convert == 0)
 		nb_to_print = ft_strdup("0x0");
 	else

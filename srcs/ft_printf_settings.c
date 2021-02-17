@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_settings.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/17 16:45:21 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/17 22:37:43 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ static void	get_flags(const char **fmt, char *flags)
 	int		i;
 
 	i = 0;
+	ft_memset(flags, 0, 9);
 	while (ft_strchr("-0# +", **fmt))
 		flags[i++] = *(*fmt)++;
-	flags[i] = 0;
 	if (ft_strchr(flags, '0') && ft_strchr(flags, '-'))
 		flags[ft_strchr(flags, '0') - flags] = '9';
 }

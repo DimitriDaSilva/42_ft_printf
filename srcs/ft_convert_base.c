@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_convert_base.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 12:40:14 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/22 17:05:19 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/17 22:19:09 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char		*ft_convert_base(unsigned long long nbr, char *base_to)
 	char	*nbr_converted;
 
 	nbr_converted_len = length_nbr(nbr, base_to);
-	if (!(nbr_converted = ft_calloc(nbr_converted_len + 1, sizeof(char))))
+	if (!(nbr_converted = ft_calloc(nbr_converted_len + 2, sizeof(char))))
 		return (0);
 	ft_putnbr_base(nbr, base_to, nbr_converted);
 	return (nbr_converted);
@@ -31,12 +31,10 @@ static int	length_nbr(unsigned long long nbr, char *base)
 	unsigned long long	max;
 	unsigned long long	tmp;
 
-	base_size = 0;
-	while (base[base_size] != '\0')
-		base_size++;
+	base_size = ft_strlen(base);
 	count = 0;
 	max = 1;
-	tmp = (nbr > 0) ? nbr : nbr * (-1);
+	tmp = ft_abs(nbr);
 	while (max <= tmp)
 	{
 		max = max * base_size;
@@ -59,9 +57,7 @@ static void	ft_putnbr_base(unsigned long long nbr,
 		*(nbr_converted + 1) = '\0';
 		return ;
 	}
-	base_size = 0;
-	while (base[base_size] != '\0')
-		base_size++;
+	base_size = ft_strlen(base);
 	convert(nbr, base, base_size, nbr_converted);
 	return ;
 }
@@ -71,7 +67,7 @@ static void	convert(unsigned long long nbr,
 					int base_size,
 					char *nbr_converted)
 {
-	if (nbr > (unsigned long long)base_size - 1)
+	if (nbr > (unsigned long long)(base_size - 1))
 	{
 		convert(nbr / base_size, base, base_size, nbr_converted);
 		convert(nbr % base_size, base, base_size, nbr_converted);

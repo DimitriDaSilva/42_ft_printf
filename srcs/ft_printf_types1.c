@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/16 15:48:26 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/17 22:21:06 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	print_ptr(t_format *settings)
 
 	nb_to_convert = va_arg(g_arg_list, unsigned long long int);
 	if (nb_to_convert == 0)
-		nb_to_print = ft_strdup("0x0");
+		nb_to_print = ft_strdup("(nil)");
 	else
 		nb_to_print = ft_convert_base(nb_to_convert, "0123456789abcdef");
 	if (ft_strchr(settings->flags, '0'))

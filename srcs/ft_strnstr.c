@@ -3,36 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 09:33:52 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/16 19:11:22 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/16 10:34:44 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+char		*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	char	*sav_big;
-	char	*sav_little;
+	size_t	little_len;
 
-	if (!len)
-		return (0);
-	if (!(*little))
+	little_len = ft_strlen(little);
+	if (little_len == 0)
 		return ((char *)big);
-	while (*big)
+	if (len == 0)
+		return (0);
+	while (*(char *)big && (int)(len - little_len) != -1)
 	{
-		sav_big = (char *)big;
-		sav_little = (char *)little;
-		while (len-- != 0 && *big++ == *little++)
-		{
-			if (*little == '\0')
-				return (sav_big);
-		}
-		if (len == 0)
-			return (0);
-		little = sav_little;
+		if (!ft_strncmp((char *)big, (char *)little, little_len))
+			return ((char *)big);
+		len--;
+		big++;
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_types3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: dda-silv <dda-silv@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 19:53:42 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/16 15:22:07 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/17 18:39:34 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ void	print_flt(t_format *settings)
 	int		float_precision;
 
 	float_precision = settings->precision <= -1 ? 6 : settings->precision;
-	nb_to_print = ft_ftoa(va_arg(g_arg_list, double), float_precision);
+	if (!ft_strncmp(settings->size, "l", 2))
+		nb_to_print = ft_ftoa(va_arg(g_arg_list, long double), float_precision);
+	else
+		nb_to_print = ft_ftoa(va_arg(g_arg_list, double), float_precision);
 	add_point(&nb_to_print, settings);
 	add_sign(&nb_to_print, settings->flags);
 	if (ft_strchr(settings->flags, '0') && ft_strchr("+- ", *nb_to_print))
@@ -74,7 +77,10 @@ void	print_exp(t_format *settings)
 	double	nb;
 
 	float_precision = settings->precision <= -1 ? 6 : settings->precision;
-	nb = va_arg(g_arg_list, double);
+	if (!ft_strncmp(settings->size, "l", 2))
+		nb = va_arg(g_arg_list, long double);
+	else
+		nb = va_arg(g_arg_list, double);
 	get_exp_str(&nb, &exponent);
 	nb_to_print = ft_ftoa(nb, float_precision);
 	add_point(&nb_to_print, settings);
@@ -109,7 +115,10 @@ void	print_g(t_format *settings)
 	int		exponent;
 	int		actual_precision;
 
-	nb = va_arg(g_arg_list, double);
+	if (!ft_strncmp(settings->size, "l", 2))
+		nb = va_arg(g_arg_list, long double);
+	else
+		nb = va_arg(g_arg_list, double);
 	exponent = get_exp_nb(nb);
 	actual_precision = settings->precision <= -1 ? 6 : settings->precision;
 	if (settings->precision == 0)
@@ -144,7 +153,7 @@ void	print_g_flt(t_format *settings, double nb, int precision)
 {
 	char	*nb_to_print;
 
-	if (0.9 < ft_abs_dl(nb) && ft_abs_dl(nb) < 1)
+	if (0.9 < ft_fabs(nb) && ft_fabs(nb) < 1)
 		precision++;
 	nb_to_print = ft_ftoa(nb, precision);
 	if (!ft_strchr(settings->flags, '#'))

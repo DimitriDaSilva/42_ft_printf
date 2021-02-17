@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_settings.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dda-silv <dda-silv@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/24 20:42:09 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/17 16:45:21 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void		get_settings(const char **fmt, t_format *settings)
 	if (settings->width < 0)
 	{
 		settings->flags[0] = '-';
-		settings->width = ft_abs_lg(settings->width);
+		settings->width = ft_abs(settings->width);
 	}
 	if (ft_strchr(settings->flags, '0') &&
 		ft_strchr("diuxX", settings->type) && settings->precision >= 0)
@@ -150,6 +150,7 @@ static int	get_precision(const char **fmt)
 
 static void	get_size(const char **fmt, char *size)
 {
+	ft_memset(size, 0, 9);
 	if (!ft_strchr("lh", **fmt))
 		return ;
 	size[0] = *(*fmt)++;

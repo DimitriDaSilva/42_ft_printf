@@ -3,15 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dda-silv <dda-silv@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/14 19:23:33 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/17 17:23:51 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+
+/*
+** TO DELETE
+*/
+
+# include <stdio.h>
+#include <math.h>
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -129,10 +136,11 @@ int					ft_is_even(int nb);
 long double			ft_remainder(long double numer, long double denom);
 int					ft_power(int nb, int power);
 int					ft_sqrt(int nb);
-long long			ft_abs_lg(long long n);
-double				ft_abs_dl(double n);
+long long			ft_abs(long long n);
+double				ft_fabs(double n);
 size_t				get_size_dl(double nb);
 size_t				get_size_lg(long long nb);
 int					ft_round(double nb);
+long double			ft_roundf(long double nb, int decimal_places);
 
 #endif

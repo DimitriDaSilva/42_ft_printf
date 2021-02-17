@@ -24,7 +24,7 @@ ARRC	=	ar rcs
 
 RM		=	rm -f
 
-CFLAGS	=	-Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror # -g -fsanitize=address
 
 .c.o:
 			${CC} -g ${CFLAGS} -c $^ -o ${<:.c=.o} -I${INCDIR}
@@ -33,6 +33,8 @@ $(NAME):	${OBJS}
 			${ARRC} ${NAME} ${OBJS}
 
 all:		${NAME}
+
+bonus:		${NAME}
 
 clean:
 			${RM} ${OBJS} ${BONUS_OBJS}

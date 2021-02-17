@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dda-silv <dda-silv@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 20:22:59 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/25 11:02:11 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/17 15:53:40 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ size_t	get_count_int(double nb)
 {
 	size_t	count;
 
-	nb = ft_abs_dl(nb);
+	nb = ft_fabs(nb);
 	if (nb < 1)
 		return (1);
 	count = 0;

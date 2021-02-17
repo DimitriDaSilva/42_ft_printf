@@ -2,10 +2,10 @@ a.out
 *.o
 *.a
 *.sh
-pft/
+*.swp
 results.txt
-main.c
-leak-check.sh
 .DS_Store
 a.out.dSYM/
 tester_tripouille/
+tester_gavinfielder/
+testing/

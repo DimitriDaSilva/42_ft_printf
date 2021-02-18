@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 20:30:07 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/17 21:08:05 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 08:46:52 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,8 @@
 
 # define ASCII_OFFSET_OTHERS 55
 
-static int	length_nbr(unsigned long long nbr, char *base);
+static int	length_nbr(unsigned long long nbr, int base_size);
 static void	ft_putnbr_base(unsigned long long nbr,
-							char *base,
-							char *nbr_converted);
-static void	convert(unsigned long long nbr,
 					char *base,
 					int base_size,
 					char *nbr_converted);

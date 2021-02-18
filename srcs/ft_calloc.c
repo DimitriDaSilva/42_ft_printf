@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 18:25:20 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/16 09:54:57 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 09:29:16 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		return (0);
 	if (!(mem = malloc(nmemb * size)))
 		return (0);
-	ft_memset(mem, 0, nmemb * size);
+	ft_bzero(mem, nmemb * size);
 	return (mem);
 }

@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/17 22:39:33 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/17 23:55:46 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,6 @@ int		ft_printf(const char *fmt, ...)
 	return (g_count_printed_ch);
 }
 
-void	clean_settings(t_format *settings)
-{
-	ft_memset(settings->flags, 0, 9);
-	settings->width = 0;
-	settings->precision = -1;
-	ft_memset(settings->size, 0, 9);
-	settings->type = 0;
-}
-
 /*
 ** Traverses fmt to get the settings and prints the output
 ** @param:	- [const char *] string inputted with specified formats
@@ -64,5 +55,4 @@ void	convert(const char **fmt)
 	(*fmt)++;
 	get_settings(fmt, &settings);
 	print_types(&settings);
-	clean_settings(&settings);
 }

@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 21:49:04 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/17 22:05:43 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 09:48:30 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,8 @@ char	*ft_strncat(char *dest, char *src, unsigned int nb)
 	sav_d = dest;
 	while (*dest)
 		dest++;
-	while (nb && *src)
-	{
+	while (nb-- && *src)
 		*dest++ = *src++;
-		nb--;
-	}
 	*dest = '\0';
 	return (sav_d);
 }

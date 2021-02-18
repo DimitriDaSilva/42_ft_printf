@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/17 22:21:06 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 10:55:58 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,14 +126,14 @@ void	print_ptr(t_format *settings)
 
 void	print_hex(t_format *settings)
 {
-	unsigned long long	nb_to_convert;
+	unsigned int 		nb_to_convert;
 	char				*nb_to_print;
 
-	nb_to_convert = va_arg(g_arg_list, unsigned long long int);
+	nb_to_convert = va_arg(g_arg_list, unsigned int);
 	if (settings->type == 'x')
-		nb_to_print = ft_convert_base(nb_to_convert, "0123456789abcdef");
+		nb_to_print = ft_convert_base((unsigned long long)nb_to_convert, "0123456789abcdef");
 	else
-		nb_to_print = ft_convert_base(nb_to_convert, "0123456789ABCDEF");
+		nb_to_print = ft_convert_base((unsigned long long)nb_to_convert, "0123456789ABCDEF");
 	if (ft_strchr(settings->flags, '#') && ft_strchr(settings->flags, '0') &&
 		!is_all_zeros(nb_to_print))
 		add_padding(&nb_to_print, settings->width - 2);

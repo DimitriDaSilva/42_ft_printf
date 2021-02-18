@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_types2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/14 17:02:29 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 11:38:11 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,10 @@ void	print_int(t_format *settings, char *nb_to_print)
 
 void	print_n(t_format *settings)
 {
-	long long int	*nb;
+	(void)settings;
+	int	*nb;
 
-	if (!ft_strncmp(settings->size, "ll", 3))
-		nb = va_arg(g_arg_list, long long int *);
-	else if (!ft_strncmp(settings->size, "l", 2))
-		nb = (long long int *)va_arg(g_arg_list, long int *);
-	else
-		nb = (long long int *)va_arg(g_arg_list, int *);
+	nb = va_arg(g_arg_list, int *);
 	*nb = g_count_printed_ch;
 }
 
@@ -107,12 +103,12 @@ void	print_pct(t_format *settings)
 {
 	char	*str_to_print;
 
-	str_to_print = malloc(2 * sizeof(char));
+	str_to_print = ft_calloc(2, sizeof(char));
 	if (!str_to_print)
 		return ;
-	str_to_print[0] = '%';
-	str_to_print[1] = 0;
+	*str_to_print = '%';
 	if (ft_strchr(settings->flags, '0'))
 		add_padding(&str_to_print, settings->width);
 	print_left_right(settings, str_to_print);
+	free(str_to_print);
 }

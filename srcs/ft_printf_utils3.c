@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 20:22:59 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/17 15:53:40 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 18:40:33 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,17 @@ size_t	get_count_int(double nb)
 /*
 ** @param:	- [char *] String formatted float number
 ** Line-by-line comments:
-** @5-6		Checking the index after which we find only 0
-** @7-8		If that index comes right after the decimal point, we can
+** @1-2		If no decimal point, then no trailing zeros to remove
+** @7-8		Checking the index after which we find only 0
+** @9-10	If that index comes right after the decimal point, we can
 **			place NULL to overwrite it
-** @9-10	Else we overwrite the '0' with a NULL terminator
+** @11-12	Else we overwrite the '0' with a NULL terminator
 */
 
 void	remove_trailing_zero(char *nb)
 {
+	if (!ft_strchr(nb, '.'))
+		return ;
 	if (*nb == '-')
 		nb++;
 	if (*nb == '0')

@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 11:54:17 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 20:05:20 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,17 @@ void	print_types(t_format *settings)
 
 void	print_char(t_format *settings)
 {
-	char	*str_to_print;
+	wchar_t	*str_to_print;
 
-	if (!(str_to_print = ft_calloc(2, sizeof(char))))
+	if (!(str_to_print = ft_calloc(2, sizeof(wchar_t))))
 		return ;
-	str_to_print[0] = va_arg(g_arg_list, int);
-	print_left_right(settings, str_to_print);
+	if (!ft_strncmp(settings->size, "ll", 3))
+		*str_to_print = va_arg(g_arg_list, unsigned long long);
+	else if (!ft_strncmp(settings->size, "l", 2))
+		*str_to_print = va_arg(g_arg_list, unsigned long);
+	else
+		*str_to_print = va_arg(g_arg_list, int);
+	print_left_right(settings, (char *)str_to_print);
 	free(str_to_print);
 }
 
@@ -126,10 +131,15 @@ void	print_ptr(t_format *settings)
 
 void	print_hex(t_format *settings)
 {
-	unsigned int 		nb_to_convert;
+	unsigned long long	nb_to_convert;
 	char				*nb_to_print;
 
-	nb_to_convert = va_arg(g_arg_list, unsigned int);
+	if (!ft_strncmp(settings->size, "ll", 3))
+		nb_to_convert = va_arg(g_arg_list, unsigned long long);
+	else if (!ft_strncmp(settings->size, "l", 2))
+		nb_to_convert = va_arg(g_arg_list, unsigned long);
+	else
+		nb_to_convert = va_arg(g_arg_list, unsigned int);
 	if (settings->type == 'x')
 		nb_to_print = ft_convert_base((unsigned long long)nb_to_convert, "0123456789abcdef");
 	else

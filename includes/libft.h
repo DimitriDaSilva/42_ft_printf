@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 15:17:19 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 19:29:17 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int					ft_memcmp(const void *s1, const void *s2, size_t n);
 char				*ft_ftoa(long double nb, int precision);
 char				*ft_convert_base(unsigned long long nbr, char *base_to);
 char				*ft_itoa(long long n);
-int					ft_atoi(const char *str);
+char				*ft_ultoa(unsigned long long n);
+long long			ft_atoi(const char *str);
 
 /*
 ** PRINTING FUNCTIONS
@@ -139,8 +140,8 @@ long long			ft_power(long long nb, long long power);
 int					ft_sqrt(int nb);
 long long			ft_abs(long long n);
 double				ft_fabs(double n);
-size_t				get_size_dl(double nb);
-size_t				get_size_lg(long long nb);
+size_t				get_len_int(long long nb);
+size_t				get_len_uint(unsigned long long nb);
 int					ft_round(double nb);
 long double			ft_roundf(long double nb, int decimal_places);
 

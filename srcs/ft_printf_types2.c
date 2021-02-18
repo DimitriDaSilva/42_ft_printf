@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 15:46:30 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 19:58:56 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ void	print_int_unsigned(t_format *settings)
 	char	*nb_to_print;
 
 	if (!ft_strncmp(settings->size, "ll", 3))
-		nb_to_print = ft_itoa(va_arg(g_arg_list, unsigned long long int));
+		nb_to_print = ft_ultoa(va_arg(g_arg_list, unsigned long long int));
 	else if (!ft_strncmp(settings->size, "l", 2))
-		nb_to_print = ft_itoa(va_arg(g_arg_list, unsigned long int));
+		nb_to_print = ft_ultoa(va_arg(g_arg_list, unsigned long int));
 	else
-		nb_to_print = ft_itoa(va_arg(g_arg_list, unsigned int));
+		nb_to_print = ft_ultoa(va_arg(g_arg_list, unsigned int));
 	print_int(settings, nb_to_print);
 }
 
@@ -87,10 +87,14 @@ void	print_int(t_format *settings, char *nb_to_print)
 
 void	print_n(t_format *settings)
 {
-	int	*nb;
+	long long	*nb;
 
-	(void)settings;
-	nb = va_arg(g_arg_list, int *);
+	if (!ft_strncmp(settings->size, "ll", 3))
+		nb = va_arg(g_arg_list, long long int *);
+	else if (!ft_strncmp(settings->size, "l", 2))
+		nb = (long long *)va_arg(g_arg_list, long int *);
+	else
+		nb = (long long *)va_arg(g_arg_list, int *);
 	*nb = g_count_printed_ch;
 }
 

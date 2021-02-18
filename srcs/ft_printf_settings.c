@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/17 22:37:43 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 19:24:23 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int	get_width(const char **fmt)
 	else if (ft_isdigit(**fmt))
 	{
 		width = ft_atoi(*fmt);
-		(*fmt) += get_size_lg(width);
+		(*fmt) += get_len_int(width);
 	}
 	return (width);
 }
@@ -131,7 +131,7 @@ static int	get_precision(const char **fmt)
 			if (!ft_isdigit(**fmt))
 				return (0);
 			precision = ft_atoi(*fmt);
-			(*fmt) += get_size_lg(precision);
+			(*fmt) += get_len_int(precision);
 		}
 	}
 	return (precision);

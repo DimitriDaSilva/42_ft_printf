@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 08:29:08 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 09:26:26 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 12:54:32 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ char			*ft_ftoa(long double nb, int precision)
 	length = precision > 0 ? get_size_dl(nb) + 1 + precision : get_size_dl(nb);
 	if (!(str_nb = ft_calloc(length + 1, sizeof(char))))
 		return (0);
-	tmp = ft_itoa(nb);
+	if (nb >= LONG_MAX)
+		tmp = ft_strdup("9223372036854775808");
+	else
+		tmp = ft_itoa(nb);
 	if (-1 < nb && 1 / nb < 0)
 	{
 		*str_nb = '-';
@@ -49,8 +52,13 @@ char			*ft_ftoa(long double nb, int precision)
 		str_nb[length - 1 - precision] = '.';
 	while (precision-- > 0)
 	{
-		nb *= 10;
-		str_nb[length - 1 - precision] = ft_abs(nb) % 10 + '0';
+		if (nb == LONG_MIN || nb >= LONG_MAX)
+			str_nb[length - 1 - precision] = '0';
+		else
+		{
+			nb *= 10;
+			str_nb[length - 1 - precision] = ft_abs(nb) % 10 + '0';
+		}
 	}
 	str_nb = round_after_decimal(nb, length, str_nb);
 	return (str_nb);
@@ -89,6 +97,8 @@ static char		*round_after_decimal(long double nb, int length, char *str_nb)
 	long double	remainder;
 	int			i;
 
+	if (nb == LONG_MIN || nb >= LONG_MAX)
+		return (str_nb);
 	i = length - 1;
 	remainder = ft_remainder(nb * 10, 10);
 	if (remainder < 5)

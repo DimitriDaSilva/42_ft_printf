@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 19:53:42 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 15:38:29 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 17:08:59 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,16 @@ void	print_flt(t_format *settings)
 
 void	print_exp(t_format *settings)
 {
-	char	*nb_to_print;
-	int		float_precision;
-	char	*exponent;
-	double	nb;
+	char		*nb_to_print;
+	int			float_precision;
+	char		*exponent;
+	long double	nb;
 
 	float_precision = settings->precision <= -1 ? 6 : settings->precision;
 	if (!ft_strncmp(settings->size, "l", 2))
 		nb = va_arg(g_arg_list, long double);
 	else
-		nb = va_arg(g_arg_list, double);
+		nb = va_arg(g_arg_list, long double);
 	get_exp_str(&nb, &exponent);
 	nb_to_print = ft_ftoa(nb, float_precision);
 	add_point(&nb_to_print, settings);

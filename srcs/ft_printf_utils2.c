@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 20:34:17 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 15:49:59 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 17:07:15 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 **			after being multiplicated by 10 then it means = 0
 */
 
-void	get_exp_str(double *nb, char **exponent)
+void	get_exp_str(long double *nb, char **exponent)
 {
-	int		count;
-	double	cpy;
+	int			count;
+	long double	cpy;
 
 	count = 0;
 	cpy = *nb;

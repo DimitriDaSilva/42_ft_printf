@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 20:34:17 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 17:07:15 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 17:13:46 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,10 +160,10 @@ void	increment(char *nb, char sign)
 **			after being multiplicated by 10 then it means = 0
 */
 
-int		get_exp_nb(double nb)
+int		get_exp_nb(long double nb)
 {
-	int		count;
-	double	cpy;
+	int			count;
+	long double	cpy;
 
 	count = 0;
 	cpy = nb;

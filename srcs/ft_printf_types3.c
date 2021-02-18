@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 19:53:42 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 17:08:59 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 17:15:52 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	print_exp(t_format *settings)
 	if (!ft_strncmp(settings->size, "l", 2))
 		nb = va_arg(g_arg_list, long double);
 	else
-		nb = va_arg(g_arg_list, long double);
+		nb = va_arg(g_arg_list, double);
 	get_exp_str(&nb, &exponent);
 	nb_to_print = ft_ftoa(nb, float_precision);
 	add_point(&nb_to_print, settings);
@@ -111,9 +111,9 @@ void	print_exp(t_format *settings)
 
 void	print_g(t_format *settings)
 {
-	double	nb;
-	int		exponent;
-	int		actual_precision;
+	long double	nb;
+	int			exponent;
+	int			actual_precision;
 
 	if (!ft_strncmp(settings->size, "l", 2))
 		nb = va_arg(g_arg_list, long double);
@@ -149,7 +149,7 @@ void	print_g(t_format *settings)
 **			go before the signs
 */
 
-void	print_g_flt(t_format *settings, double nb, int precision)
+void	print_g_flt(t_format *settings, long double nb, int precision)
 {
 	char	*nb_to_print;
 
@@ -196,7 +196,7 @@ void	print_g_flt(t_format *settings, double nb, int precision)
 **			go before the signs
 */
 
-void	print_g_exp(t_format *settings, double nb, int precision)
+void	print_g_exp(t_format *settings, long double nb, int precision)
 {
 	char	*nb_to_print;
 	char	*exponent;

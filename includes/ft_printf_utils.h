@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:39:35 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 17:07:48 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 17:13:21 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	get_exp_str(long double *nb, char **exponent);
 void	add_exponent(char **nb, char **exponent);
 void	adjust_rounding(char *nb);
 void	increment(char *nb, char sign);
-int		get_exp_nb(double nb);
+int		get_exp_nb(long double nb);
 size_t	get_count_int(double nb);
 void	remove_trailing_zero(char *nb);
 void	remove_middle_zero(char *nb);

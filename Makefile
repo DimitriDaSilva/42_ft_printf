@@ -24,7 +24,7 @@ ARRC	=	ar rcs
 
 RM		=	rm -f
 
-CFLAGS	=	-Wall -Wextra -Werror # -g -fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror # -fsanitize=address
 
 .c.o:
 			${CC} -g ${CFLAGS} -c $^ -o ${<:.c=.o} -I${INCDIR}
@@ -45,15 +45,23 @@ fclean:		clean
 re:			fclean all
 
 run:		all
-			sh testing.sh | cat -e
+			sh ./testing/testing.sh | cat -e
 
 runLC:		all
-			sh leak-check.sh | cat -e
+			sh ./testing/leak-check.sh | cat -e
 
-normH:		all
-			~/.norminette/norminette.rb ./${INCDIR}/*.h
+old_normH:
+			~/.old_norminette/norminette.rb ./${INCDIR}/*.h
 
-normC:		all
-			~/.norminette/norminette.rb ${SRCS}
+old_normC:
+			~/.old_norminette/norminette.rb ${SRCS}
 
-norm:		normH normC
+old_norm:	old_normH old_normC
+
+normH:
+			norminette ./${INCDIR}/*.h
+
+normC:
+			norminette ${SRCS}
+
+norm:		normC normH

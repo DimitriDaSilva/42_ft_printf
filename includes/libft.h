@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 10:15:13 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 15:17:19 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ t_list				*ft_lstmap(t_list *lst,
 
 int					ft_is_even(int nb);
 long double			ft_remainder(long double numer, long double denom);
-int					ft_power(int nb, int power);
+long long			ft_power(long long nb, long long power);
 int					ft_sqrt(int nb);
 long long			ft_abs(long long n);
 double				ft_fabs(double n);

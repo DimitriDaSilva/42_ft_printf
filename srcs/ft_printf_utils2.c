@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 20:34:17 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/25 11:01:08 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 15:49:59 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ void	add_exponent(char **nb, char **exponent)
 	char	*tmp;
 
 	i = ft_strlen(*nb);
-	if (!(tmp = malloc((i + 4 + 1) * sizeof(char))))
+	if (!(tmp = ft_calloc(i + 4 + 1, sizeof(char))))
 		return ;
 	ft_strcpy(tmp, *nb);
 	tmp[i] = 'e';
-	tmp[i + 1] = 0;
+	// tmp[i + 1] = 0;
 	ft_strncat(tmp + i + 1, *exponent, 3);
-	tmp[i + 5] = '\0';
+	// tmp[i + 4] = '\0';
 	free(*exponent);
 	free(*nb);
 	*nb = tmp;

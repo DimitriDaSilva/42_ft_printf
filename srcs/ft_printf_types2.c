@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 11:38:11 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/18 15:46:30 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ void	print_int(t_format *settings, char *nb_to_print)
 
 void	print_n(t_format *settings)
 {
-	(void)settings;
 	int	*nb;
 
+	(void)settings;
 	nb = va_arg(g_arg_list, int *);
 	*nb = g_count_printed_ch;
 }

@@ -1,7 +1,6 @@
 a.out
 *.o
 *.a
-*.sh
 *.swp
 results.txt
 .DS_Store

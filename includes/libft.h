@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/19 13:27:27 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/19 17:49:27 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char				*ft_convert_base(unsigned long long nbr, char *base_to);
 char				*ft_itoa(long long n);
 char				*ft_ultoa(unsigned long long n);
 long long			ft_atoi(const char *str);
+size_t				ft_wcstombs(char *s, wchar_t *pwcs, size_t size);
 
 /*
 ** PRINTING FUNCTIONS

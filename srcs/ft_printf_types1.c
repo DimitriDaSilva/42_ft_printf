@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/19 12:50:44 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/19 18:49:17 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,26 @@ void	print_types(t_format *settings)
 void	print_char(t_format *settings)
 {
 	char	*str_to_print;
+	wchar_t	*wide_str_to_print;
 
-	if (!(str_to_print = ft_calloc(2, sizeof(char))))
-		return ;
-	if (!ft_strncmp(settings->size, "ll", 3))
-		*str_to_print = va_arg(g_arg_list, unsigned long long);
-	else if (!ft_strncmp(settings->size, "l", 2))
-		*str_to_print = va_arg(g_arg_list, unsigned long);
+	if (!ft_strncmp(settings->size, "l", 2))
+	{
+		if (!(str_to_print = ft_calloc(1, sizeof(wchar_t) + sizeof(char))))
+			return ;
+		if (!(wide_str_to_print = ft_calloc(1, sizeof(wchar_t))))
+			return ;
+		*wide_str_to_print = va_arg(g_arg_list, unsigned int);
+		wcstombs(str_to_print, wide_str_to_print, sizeof(str_to_print));
+		free(wide_str_to_print);
+	}
 	else
+	{
+		if (!(str_to_print = ft_calloc(2, sizeof(char))))
+			return ;
 		*str_to_print = va_arg(g_arg_list, int);
-	print_left_right(settings, str_to_print);
-	free(str_to_print);
+	}
+		print_left_right(settings, str_to_print);
+		free(str_to_print);
 }
 
 /*
@@ -79,13 +88,23 @@ void	print_char(t_format *settings)
 void	print_str(t_format *settings)
 {
 	char	*str_to_print;
+	wchar_t	*wide_str_to_print;
 
-	str_to_print = va_arg(g_arg_list, char *);
+	if (!ft_strncmp(settings->size, "l", 2))
+	{
+		wide_str_to_print = va_arg(g_arg_list, wchar_t *);
+		if (!(str_to_print = ft_calloc(1, sizeof(wide_str_to_print) + 1)))
+			return ;
+		wcstombs(str_to_print, wide_str_to_print, sizeof(str_to_print));
+		free(wide_str_to_print);
+	}
+	else
+		str_to_print = va_arg(g_arg_list, char *);
 	if (!str_to_print)
 		str_to_print = ft_strdup("(null)");
 	else if (!*str_to_print)
 		str_to_print = ft_strdup("");
-	else
+	else if (ft_strncmp(settings->size, "l", 2))
 		str_to_print = ft_strdup(str_to_print);
 	if (settings->precision != -1 &&
 		settings->precision < (int)ft_strlen(str_to_print))

@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 19:29:17 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/19 13:27:27 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ int					ft_sqrt(int nb);
 long long			ft_abs(long long n);
 double				ft_fabs(double n);
 size_t				get_len_int(long long nb);
+size_t				get_len_float(long double nb);
 size_t				get_len_uint(unsigned long long nb);
 int					ft_round(double nb);
 long double			ft_roundf(long double nb, int decimal_places);

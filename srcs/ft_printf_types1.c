@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 20:05:20 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/19 12:50:44 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	print_types(t_format *settings)
 
 void	print_char(t_format *settings)
 {
-	wchar_t	*str_to_print;
+	char	*str_to_print;
 
-	if (!(str_to_print = ft_calloc(2, sizeof(wchar_t))))
+	if (!(str_to_print = ft_calloc(2, sizeof(char))))
 		return ;
 	if (!ft_strncmp(settings->size, "ll", 3))
 		*str_to_print = va_arg(g_arg_list, unsigned long long);
@@ -60,7 +60,7 @@ void	print_char(t_format *settings)
 		*str_to_print = va_arg(g_arg_list, unsigned long);
 	else
 		*str_to_print = va_arg(g_arg_list, int);
-	print_left_right(settings, (char *)str_to_print);
+	print_left_right(settings, str_to_print);
 	free(str_to_print);
 }
 

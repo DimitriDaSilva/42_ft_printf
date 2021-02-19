@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 18:52:55 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 19:00:07 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/19 13:14:47 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	main(int argc, char *argv[])
 
 
 	// Bugs not fixed
-	printf("Orig: %ld\n", LONG_MIN - 1);
-	ft_printf("Mine: %ld\n", LONG_MIN - 1);
+	printf("Orig: %f\n", LONG_MAX * 1.0);
+	ft_printf("Mine: %f\n", LONG_MAX * 1.0);
 
 
 	(void)argc;

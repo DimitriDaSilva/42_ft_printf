@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 08:29:08 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 19:27:50 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/19 14:22:01 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char			*ft_ftoa(long double nb, int precision)
 	char	*str_nb;
 	char	*tmp;
 
-	length = precision > 0 ? get_len_int(nb) + 1 + precision : get_len_int(nb);
+	length = precision > 0 ? get_len_float(nb) + 1 + precision : get_len_float(nb);
 	if (!(str_nb = ft_calloc(length + 1, sizeof(char))))
 		return (0);
 	if (nb >= LONG_MAX)

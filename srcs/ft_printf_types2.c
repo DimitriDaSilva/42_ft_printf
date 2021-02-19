@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 19:58:56 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/19 13:05:11 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,25 @@ void	print_int(t_format *settings, char *nb_to_print)
 
 void	print_n(t_format *settings)
 {
-	long long	*nb;
+	long long	*nb_ll;
+	long 		*nb_l;
+	int 		*nb;
 
 	if (!ft_strncmp(settings->size, "ll", 3))
-		nb = va_arg(g_arg_list, long long int *);
+	{
+		nb_ll = va_arg(g_arg_list, long long int *);
+		*nb_ll = g_count_printed_ch;
+	}
 	else if (!ft_strncmp(settings->size, "l", 2))
-		nb = (long long *)va_arg(g_arg_list, long int *);
+	{
+		nb_l = va_arg(g_arg_list, long int *);
+		*nb_l = g_count_printed_ch;
+	}
 	else
-		nb = (long long *)va_arg(g_arg_list, int *);
-	*nb = g_count_printed_ch;
+	{
+		nb = va_arg(g_arg_list, int *);
+		*nb = g_count_printed_ch;
+	}
 }
 
 /*

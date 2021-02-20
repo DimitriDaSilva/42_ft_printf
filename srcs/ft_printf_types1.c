@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/20 19:56:23 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/20 20:35:51 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	print_char(t_format *settings)
 		*str_to_print = va_arg(g_arg_list, int);
 	}
 	print_left_right(settings, str_to_print);
-	free(str_to_print);
 }
 
 /*
@@ -126,7 +125,6 @@ void	print_str(t_format *settings)
 		settings->precision < (int)ft_strlen(str_to_print))
 		str_to_print[settings->precision] = 0;
 	print_left_right(settings, str_to_print);
-	free(str_to_print);
 }
 
 /*
@@ -152,7 +150,6 @@ void	print_ptr(t_format *settings)
 	if (nb_to_convert != 0)
 		add_hex_prefix(&nb_to_print, settings->type, settings->flags);
 	print_left_right(settings, nb_to_print);
-	free(nb_to_print);
 }
 
 /*
@@ -173,12 +170,16 @@ void	print_hex(t_format *settings)
 		nb_to_convert = va_arg(g_arg_list, unsigned long long);
 	else if (!ft_strncmp(settings->size, "l", 2))
 		nb_to_convert = va_arg(g_arg_list, unsigned long);
+	else if (!ft_strncmp(settings->size, "hh", 3))
+		nb_to_convert = (unsigned char)va_arg(g_arg_list, unsigned int);
+	else if (!ft_strncmp(settings->size, "h", 2))
+		nb_to_convert = (short unsigned)va_arg(g_arg_list, unsigned int);
 	else
 		nb_to_convert = va_arg(g_arg_list, unsigned int);
 	if (settings->type == 'x')
-		nb_to_print = ft_convert_base((unsigned long long)nb_to_convert, "0123456789abcdef");
+		nb_to_print = ft_convert_base(nb_to_convert, "0123456789abcdef");
 	else
-		nb_to_print = ft_convert_base((unsigned long long)nb_to_convert, "0123456789ABCDEF");
+		nb_to_print = ft_convert_base(nb_to_convert, "0123456789ABCDEF");
 	if (ft_strchr(settings->flags, '#') && ft_strchr(settings->flags, '0') &&
 		!is_all_zeros(nb_to_print))
 		add_padding(&nb_to_print, settings->width - 2);
@@ -187,5 +188,4 @@ void	print_hex(t_format *settings)
 	add_padding(&nb_to_print, settings->precision);
 	add_hex_prefix(&nb_to_print, settings->type, settings->flags);
 	print_left_right(settings, nb_to_print);
-	free(nb_to_print);
 }

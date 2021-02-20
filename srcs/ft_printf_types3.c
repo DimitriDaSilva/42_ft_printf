@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 19:53:42 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 18:37:28 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/20 20:33:40 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	print_flt(t_format *settings)
 		add_padding(&nb_to_print, settings->width);
 	add_padding(&nb_to_print, settings->precision);
 	print_left_right(settings, nb_to_print);
-	free(nb_to_print);
 }
 
 /*
@@ -93,7 +92,6 @@ void	print_exp(t_format *settings)
 		add_padding(&nb_to_print, settings->width);
 	add_padding(&nb_to_print, settings->precision);
 	print_left_right(settings, nb_to_print);
-	free(nb_to_print);
 }
 
 /*
@@ -165,7 +163,6 @@ void	print_g_flt(t_format *settings, long double nb, int precision)
 	else if (ft_strchr(settings->flags, '0'))
 		add_padding(&nb_to_print, settings->width);
 	print_left_right(settings, nb_to_print);
-	free(nb_to_print);
 }
 
 /*
@@ -214,5 +211,4 @@ void	print_g_exp(t_format *settings, long double nb, int precision)
 	else if (ft_strchr(settings->flags, '0'))
 		add_padding(&nb_to_print, settings->width);
 	print_left_right(settings, nb_to_print);
-	free(nb_to_print);
 }

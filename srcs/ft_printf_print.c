@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_print.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 13:29:52 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/01/25 10:42:39 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/20 20:33:14 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void		print_left_right(t_format *settings, char *str)
 		print_left(str, settings);
 	else
 		print_right(str, settings);
+	free(str);
 }
 
 /*

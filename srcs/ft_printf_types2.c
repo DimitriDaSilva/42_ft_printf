@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/19 13:05:11 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/20 20:34:06 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ void	print_int_signed(t_format *settings)
 		nb_to_print = ft_itoa(va_arg(g_arg_list, long long int));
 	else if (!ft_strncmp(settings->size, "l", 2))
 		nb_to_print = ft_itoa(va_arg(g_arg_list, long int));
+	else if (!ft_strncmp(settings->size, "hh", 3))
+		nb_to_print = ft_itoa((char)va_arg(g_arg_list, int));
+	else if (!ft_strncmp(settings->size, "h", 2))
+		nb_to_print = ft_itoa((short int)va_arg(g_arg_list, int));
 	else
 		nb_to_print = ft_itoa(va_arg(g_arg_list, int));
 	print_int(settings, nb_to_print);
@@ -45,6 +49,10 @@ void	print_int_unsigned(t_format *settings)
 		nb_to_print = ft_ultoa(va_arg(g_arg_list, unsigned long long int));
 	else if (!ft_strncmp(settings->size, "l", 2))
 		nb_to_print = ft_ultoa(va_arg(g_arg_list, unsigned long int));
+	else if (!ft_strncmp(settings->size, "hh", 3))
+		nb_to_print = ft_itoa((unsigned char)va_arg(g_arg_list, unsigned int));
+	else if (!ft_strncmp(settings->size, "h", 2))
+		nb_to_print = ft_itoa((short unsigned)va_arg(g_arg_list, unsigned int));
 	else
 		nb_to_print = ft_ultoa(va_arg(g_arg_list, unsigned int));
 	print_int(settings, nb_to_print);
@@ -75,7 +83,6 @@ void	print_int(t_format *settings, char *nb_to_print)
 	if (!ft_strncmp(nb_to_print, "+0", 3) && settings->precision == 0)
 		nb_to_print[1] = '\0';
 	print_left_right(settings, nb_to_print);
-	free(nb_to_print);
 }
 
 /*
@@ -83,29 +90,26 @@ void	print_int(t_format *settings, char *nb_to_print)
 ** printed char in this variable. The count doesn't restart between printing
 ** of each number or string
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
+** Line-by-line comments:
+** @3		We take the biggest value arg and after we cast it to the proper
+**			data type
 */
 
 void	print_n(t_format *settings)
 {
-	long long	*nb_ll;
-	long 		*nb_l;
-	int 		*nb;
+	void 		*nb;
 
+	nb = va_arg(g_arg_list, long long int *);
 	if (!ft_strncmp(settings->size, "ll", 3))
-	{
-		nb_ll = va_arg(g_arg_list, long long int *);
-		*nb_ll = g_count_printed_ch;
-	}
+		*(long long *)nb = g_count_printed_ch;
 	else if (!ft_strncmp(settings->size, "l", 2))
-	{
-		nb_l = va_arg(g_arg_list, long int *);
-		*nb_l = g_count_printed_ch;
-	}
+		*(long *)nb = g_count_printed_ch;
+	else if (!ft_strncmp(settings->size, "hh", 3))
+		*(char *)nb = g_count_printed_ch;
+	else if (!ft_strncmp(settings->size, "h", 2))
+		*(short *)nb = g_count_printed_ch;
 	else
-	{
-		nb = va_arg(g_arg_list, int *);
-		*nb = g_count_printed_ch;
-	}
+		*(int *)nb = g_count_printed_ch;
 }
 
 /*
@@ -124,5 +128,4 @@ void	print_pct(t_format *settings)
 	if (ft_strchr(settings->flags, '0'))
 		add_padding(&str_to_print, settings->width);
 	print_left_right(settings, str_to_print);
-	free(str_to_print);
 }

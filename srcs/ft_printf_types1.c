@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/19 18:49:17 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/19 20:10:00 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ void	print_str(t_format *settings)
 	if (!ft_strncmp(settings->size, "l", 2))
 	{
 		wide_str_to_print = va_arg(g_arg_list, wchar_t *);
-		if (!(str_to_print = ft_calloc(1, sizeof(wide_str_to_print) + 1)))
+		if (!(str_to_print = ft_calloc(ft_wcslen(wide_str_to_print) + 10, sizeof(char))))
 			return ;
 		wcstombs(str_to_print, wide_str_to_print, sizeof(str_to_print));
-		free(wide_str_to_print);
+		// free(wide_str_to_print);
 	}
 	else
 		str_to_print = va_arg(g_arg_list, char *);

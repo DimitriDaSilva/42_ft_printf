@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_wcstombs.c                                      :+:      :+:    :+:   */
+/*   ft_wstrtostr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 17:39:08 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/20 10:42:25 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/20 11:41:31 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_wcstombs(char *s, wchar_t *pwcs, size_t size)
+size_t	ft_wstrtostr(char *s, wchar_t *pwcs, size_t size)
 {
 	int		i;
 

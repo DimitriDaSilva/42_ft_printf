@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/19 20:04:32 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/20 10:27:37 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <unistd.h>
 # include <limits.h>
 # include <stdarg.h>
+# include <wchar.h>
 
 # define ASCII_OFFSET_NUM 48
 # define ASCII_OFFSET_ALPHA 32
@@ -67,6 +68,7 @@ char				*ft_itoa(long long n);
 char				*ft_ultoa(unsigned long long n);
 long long			ft_atoi(const char *str);
 size_t				ft_wcstombs(char *s, wchar_t *pwcs, size_t size);
+// char				*ft_wcstombs(char *s, wchar_t *pwcs, size_t size);
 
 /*
 ** PRINTING FUNCTIONS

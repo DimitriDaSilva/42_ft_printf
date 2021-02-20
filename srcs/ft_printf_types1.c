@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/19 20:10:00 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/20 10:45:33 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,17 @@ void	print_types(t_format *settings)
 void	print_char(t_format *settings)
 {
 	char	*str_to_print;
-	wchar_t	*wide_str_to_print;
+	wchar_t	*w_str;
 
 	if (!ft_strncmp(settings->size, "l", 2))
 	{
-		if (!(str_to_print = ft_calloc(1, sizeof(wchar_t) + sizeof(char))))
+		if (!(str_to_print = ft_calloc(1, sizeof(wchar_t))))
 			return ;
-		if (!(wide_str_to_print = ft_calloc(1, sizeof(wchar_t))))
+		if (!(w_str = ft_calloc(2, sizeof(wchar_t))))
 			return ;
-		*wide_str_to_print = va_arg(g_arg_list, unsigned int);
-		wcstombs(str_to_print, wide_str_to_print, sizeof(str_to_print));
-		free(wide_str_to_print);
+		*w_str = va_arg(g_arg_list, unsigned int);
+		wcstombs(str_to_print, w_str, sizeof(str_to_print));
+		free(w_str);
 	}
 	else
 	{
@@ -88,15 +88,14 @@ void	print_char(t_format *settings)
 void	print_str(t_format *settings)
 {
 	char	*str_to_print;
-	wchar_t	*wide_str_to_print;
+	wchar_t	*w_str;
 
 	if (!ft_strncmp(settings->size, "l", 2))
 	{
-		wide_str_to_print = va_arg(g_arg_list, wchar_t *);
-		if (!(str_to_print = ft_calloc(ft_wcslen(wide_str_to_print) + 10, sizeof(char))))
+		w_str = va_arg(g_arg_list, wchar_t *);
+		if (!(str_to_print = ft_calloc(ft_wcslen(w_str), sizeof(wchar_t))))
 			return ;
-		wcstombs(str_to_print, wide_str_to_print, sizeof(str_to_print));
-		// free(wide_str_to_print);
+		wcstombs(str_to_print, w_str, ft_wcslen(w_str) * sizeof(wchar_t));
 	}
 	else
 		str_to_print = va_arg(g_arg_list, char *);

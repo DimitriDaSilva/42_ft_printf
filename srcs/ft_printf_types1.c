@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/20 11:37:38 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/20 12:46:08 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,15 @@ void	print_types(t_format *settings)
 void	print_char(t_format *settings)
 {
 	char	*str_to_print;
-	wchar_t	*wstr;
+	wchar_t	wc;
 
 	if (!ft_strncmp(settings->size, "l", 2))
 	{
-		if (!(str_to_print = ft_calloc(1, sizeof(wchar_t))))
+		wc = va_arg(g_arg_list, unsigned int);
+		str_to_print = ft_calloc(ft_wcharlen(wc) + 1, sizeof(char));
+		if (!str_to_print)
 			return ;
-		if (!(wstr = ft_calloc(2, sizeof(wchar_t))))
-			return ;
-		*wstr = va_arg(g_arg_list, unsigned int);
-		wcstombs(str_to_print, wstr, sizeof(str_to_print));
-		free(wstr);
+		ft_wctostr(str_to_print, wc, ft_wcharlen(wc));
 	}
 	else
 	{
@@ -69,8 +67,8 @@ void	print_char(t_format *settings)
 			return ;
 		*str_to_print = va_arg(g_arg_list, int);
 	}
-		print_left_right(settings, str_to_print);
-		free(str_to_print);
+	print_left_right(settings, str_to_print);
+	free(str_to_print);
 }
 
 /*
@@ -93,15 +91,16 @@ void	print_str(t_format *settings)
 	if (!ft_strncmp(settings->size, "l", 2))
 	{
 		wstr = va_arg(g_arg_list, wchar_t *);
-		if (!(str_to_print = ft_calloc(ft_wstrlen(wstr), sizeof(wchar_t))))
+		str_to_print = ft_calloc(ft_wstrlen(wstr) + 1, sizeof(char));
+		if (!str_to_print)
 			return ;
-		wcstombs(str_to_print, wstr, ft_wstrlen(wstr) * sizeof(wchar_t));
+		ft_wstrtostr(str_to_print, wstr, ft_wstrlen(wstr));
 	}
 	else
 		str_to_print = va_arg(g_arg_list, char *);
 	if (!str_to_print)
 		str_to_print = ft_strdup("(null)");
-	else if (!*str_to_print)
+	else if (!*str_to_print && ft_strncmp(settings->size, "l", 2))
 		str_to_print = ft_strdup("");
 	else if (ft_strncmp(settings->size, "l", 2))
 		str_to_print = ft_strdup(str_to_print);

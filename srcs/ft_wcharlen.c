@@ -6,11 +6,15 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 11:51:26 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/20 11:51:59 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/20 13:22:19 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+/*
+** Useful resource for wide characters: https://en.wikipedia.org/wiki/UTF-8
+*/
 
 /*
 ** Get length of a wide char

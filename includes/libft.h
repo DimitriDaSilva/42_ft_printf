@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:45:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/20 12:23:06 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/20 19:47:01 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(char const *s1, char const *set);
 char				**ft_split(char const *s, char c);
 size_t				ft_wstrlen(wchar_t *wstr);
-size_t				ft_wcharlen(wchar_t wc);
+size_t				ft_wclen(wchar_t wc);
 
 /*
 ** CHAR FUNCTIONS

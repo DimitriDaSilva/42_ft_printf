@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/20 12:46:08 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/20 19:56:23 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,15 @@ void	print_types(t_format *settings)
 
 /*
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
+** Line-by-line comments:
+** @4-11	Case: %lc (wide character that can be from 1 to 3 bytes).
+**			We are converting the wide char into a string based on UTF
+**			encoding
+** @7		We check how many single-byte char will be needed to convert from
+**			wide char to UTF encoding (it can be from 1 to 4 bytes based on the
+**			value of the binary representing the wide char)
+** @8		Convert wide character to single-byte string
+** @12-17	Case: %c
 */
 
 void	print_char(t_format *settings)
@@ -55,11 +64,11 @@ void	print_char(t_format *settings)
 
 	if (!ft_strncmp(settings->size, "l", 2))
 	{
-		wc = va_arg(g_arg_list, unsigned int);
-		str_to_print = ft_calloc(ft_wcharlen(wc) + 1, sizeof(char));
+		wc = va_arg(g_arg_list, wchar_t);
+		str_to_print = ft_calloc(ft_wclen(wc) + 1, sizeof(char));
 		if (!str_to_print)
 			return ;
-		ft_wctostr(str_to_print, wc, ft_wcharlen(wc));
+		ft_wctostr(str_to_print, wc, ft_wclen(wc));
 	}
 	else
 	{
@@ -74,12 +83,21 @@ void	print_char(t_format *settings)
 /*
 ** @param:	- [t_format] all 5 fields: flags, width, precision, size, type
 ** Line-by-line comments:
-** @3-4		Get argument from arg_list. If arg = NULL, print (null)
-**			Edge case: Precision allow enough spacae to print (null)
-** @6-7		Edge case: arg = NULL but precision doesn't allow enough space
-** 			to print (null), so return emptyable string
-** @8-9		Need to work with a duplicate because arg is const
-** @10-12	Edge case: A precision has been set and it's lower than the size
+** @4-11	Case: %ls (wide character string)
+**			We are converting the wide char string into a string based on UTF
+**			encoding
+** @6		We check how many single-byte char will be needed to convert from
+**			wide char string to char string based on UTF encoding
+**			Each wide char of the string can require up to 4 byte (i.e. 4 chars)
+** @12-13	Case: %s
+** @14-15	Edge case: NULL pointer passed as arg
+** @16-17	Edge case: empty string (i.e. "") passed as arg. We need to check
+**			we aren't in a %ls case, in which case we already allocated 1 byte
+**			with a NULL terminator
+** @18-19	Standard %s case but we need to make sure we are in %ls case
+**			because the str_to_print has already been allocated
+** 			Also in std case, we need to work with a duplicate because arg is const
+** @20-22	Edge case: A precision has been set and it's lower than the size
 **			of the string to print ==> cut str by adding a NULL at precision
 */
 

@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:02:54 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/20 13:22:13 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/20 19:47:01 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 ** @param:	- [wchar_t *] wide char string
 ** @return:	[size_t] length of the wide char string
 ** Line-by-line comments:
-** @7		Each char can have a variable size (from 1 to 4 bytes)
+** @7		A wide char to be encoded to UTF (see ft_wctostr.c for more on that)
+**			maybe require 1 to 4 separate bytes
 */
 
 size_t	ft_wstrlen(wchar_t *wstr)
@@ -31,7 +32,7 @@ size_t	ft_wstrlen(wchar_t *wstr)
 	wlen = 0;
 	while (*wstr != L'\0')
 	{
-		wlen += ft_wcharlen(*wstr);
+		wlen += ft_wclen(*wstr);
 		wstr++;
 	}
 	return (wlen);

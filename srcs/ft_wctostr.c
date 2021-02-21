@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 12:16:17 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/20 19:47:01 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/21 21:43:19 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@
 **			combined with the operand 3F (111111 in binary). After that, we
 **			apply the 80 mask (10000000) with the OR operator
 ** @8		For 3-byte UTF - 16 code points:
-** @10		1st char: we bit shift right by 12 to get the left-most 4 bits and we
-**			mask it	with 1110xxxx (i.e. 0xE0)
+** @10		1st char: we bit shift right by 12 to get the left-most 4 bits
+**			and we mask it with 1110xxxx (i.e. 0xE0)
 ** @11		2nd char: we need to right shift 6 bits to get the second byte. Then
 **			exact same reasoning as in line 6
 ** @12		3rd: char: exact same reasoninng as in line 6
 ** @14		For 4-byte UTF - 21 code points:
-** @16		1st char: we bit shift right by 16 to get the left-most 3 bits and we
-**			mask it	with 11110xxx (i.e. 0xF0)
+** @16		1st char: we bit shift right by 16 to get the left-most 3 bits
+**			and we mask it with 11110xxx (i.e. 0xF0)
 ** @17		2nd: char: exact same reasoninng as in line 11
 ** @17		3rd: char: exact same reasoninng as in line 11
 ** @17		4th: char: exact same reasoninng as in line 6

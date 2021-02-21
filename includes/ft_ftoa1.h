@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ftoa.h                                          :+:      :+:    :+:   */
+/*   ft_ftoa1.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 08:32:33 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/14 19:55:49 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/21 21:41:56 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_FTOA_H
-# define FT_FTOA_H
+#ifndef FT_FTOA1_H
+# define FT_FTOA1_H
 
 # include "libft.h"
 
-static char		*round_after_decimal(long double nb, int length, char *str_nb);
-static char		*round_before_decimal(char *str_nb, int length);
-static int		get_new_length(char *str_nb, int length);
-static void		copy_after_decimal(char *str_nb,
-									char *new_str_nb,
-									int length,
-									int new_length);
+static int	get_length(long double nb, int precision);
+static void	get_integral_part(char **str_nb,
+		long double nb,
+		int precision,
+		int length);
+static void	get_fractional_part(char **str_nb,
+		long double nb,
+		int precision,
+		int length);
+static char	*round_after_decimal(long double nb, int length, char *str_nb);
+char		*round_before_decimal(char *str_nb, int length);
 
 #endif

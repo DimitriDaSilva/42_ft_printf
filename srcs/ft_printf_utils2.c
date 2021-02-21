@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 20:34:17 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 17:13:46 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/21 20:07:17 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ void	add_exponent(char **nb, char **exponent)
 		return ;
 	ft_strcpy(tmp, *nb);
 	tmp[i] = 'e';
-	// tmp[i + 1] = 0;
+	tmp[i + 1] = 0;
 	ft_strncat(tmp + i + 1, *exponent, 3);
-	// tmp[i + 4] = '\0';
+	tmp[i + 4] = '\0';
 	free(*exponent);
 	free(*nb);
 	*nb = tmp;

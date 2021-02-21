@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/20 20:35:51 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/21 20:05:11 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ void	print_char(t_format *settings)
 **			with a NULL terminator
 ** @18-19	Standard %s case but we need to make sure we are in %ls case
 **			because the str_to_print has already been allocated
-** 			Also in std case, we need to work with a duplicate because arg is const
+** 			Also in std case, we need to work with a duplicate because arg is
+**			const
 ** @20-22	Edge case: A precision has been set and it's lower than the size
 **			of the string to print ==> cut str by adding a NULL at precision
 */

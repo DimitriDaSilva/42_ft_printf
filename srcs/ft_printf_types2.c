@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/21 10:57:07 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/21 20:05:28 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	print_int(t_format *settings, char *nb_to_print)
 
 void	print_n(t_format *settings)
 {
-	void 		*nb;
+	void	*nb;
 
 	nb = va_arg(g_arg_list, long long int *);
 	if (!ft_strncmp(settings->size, "ll", 3))

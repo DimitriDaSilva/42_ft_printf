@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 17:39:08 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/20 19:47:01 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/21 21:42:36 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 ** @7		A wide char to be encoded to UTF (see ft_wctostr.c for more on that)
 **			maybe require 1 to 4 separate bytes
 ** @11		wc_len chars will be copied to s so we need to move that many
-**			addresses 
+**			addresses
 */
 
 void	ft_wstrtostr(char *s, wchar_t *wstr, size_t wstr_len)

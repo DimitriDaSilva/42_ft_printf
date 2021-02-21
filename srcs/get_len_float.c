@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 13:24:13 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/19 13:27:08 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/21 12:28:44 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 size_t	get_len_float(long double nb)
 {
-	if (0 <= nb && nb < 10)
-		return (1);
-	else if (-10 < nb && nb < 0)
+	if (-10 < nb && 1 / nb < 0)
 		return (2);
+	else if (0 <= nb && nb < 10)
+		return (1);
 	return (1 + get_len_int(nb / 10));
 }

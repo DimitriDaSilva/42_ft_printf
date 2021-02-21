@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 08:29:08 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/19 14:22:01 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/21 11:11:56 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char			*ft_ftoa(long double nb, int precision)
 		str_nb[length - 1 - precision] = '.';
 	while (precision-- > 0)
 	{
-		if (nb == LONG_MIN || nb >= LONG_MAX)
+		if (nb == LONG_MIN || nb >= LONG_MAX || ft_remainder(nb, 1) == 0)
 			str_nb[length - 1 - precision] = '0';
 		else
 		{

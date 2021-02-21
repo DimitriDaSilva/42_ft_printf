@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:47:48 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/20 20:34:06 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/21 10:57:07 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	print_int(t_format *settings, char *nb_to_print)
 		add_padding(&nb_to_print, settings->width);
 	add_padding(&nb_to_print, settings->precision);
 	if (!ft_strncmp(nb_to_print, "+0", 3) && settings->precision == 0)
+		nb_to_print[1] = '\0';
+	else if (!ft_strncmp(nb_to_print, " 0", 3) && settings->precision == 0)
 		nb_to_print[1] = '\0';
 	print_left_right(settings, nb_to_print);
 }

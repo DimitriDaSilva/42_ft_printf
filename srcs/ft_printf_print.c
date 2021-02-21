@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 13:29:52 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/20 20:33:14 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/21 08:42:53 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static void	print_left(char *str, t_format *settings)
 	count_printed_ch = 0;
 	if (settings->type == 'c' && *str == 0)
 		count_printed_ch += ft_putchar(0);
-	else if (!ft_strchr("duixX", settings->type) ||
-			!(*str == '0' && settings->precision == 0))
+	else if (!ft_strchr("duixX", settings->type)
+			|| !(*str == '0' && *(str + 1) == '\0' && settings->precision == 0))
 		count_printed_ch += ft_putstr(str);
 	settings->width -= count_printed_ch;
 	while (settings->width-- > 0)
@@ -95,7 +95,7 @@ static void	print_right(char *str, t_format *settings)
 		g_count_printed_ch += ft_putchar(' ');
 	if (settings->type == 'c' && *str == 0)
 		g_count_printed_ch += ft_putchar(0);
-	else if (!ft_strchr("duixX", settings->type) ||
-			!(*str == '0' && settings->precision == 0))
+	else if (!ft_strchr("duixX", settings->type)
+			|| !(*str == '0' && *(str + 1) == '\0' && settings->precision == 0))
 		g_count_printed_ch += ft_putstr(str);
 }

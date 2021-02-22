@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ftoa1.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: dds <dda-silv@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 08:32:33 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/21 21:41:56 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/22 17:11:59 by dds              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	get_integral_part(char **str_nb,
 		int precision,
 		int length);
 static void	get_fractional_part(char **str_nb,
-		long double nb,
+		long double *nb,
 		int precision,
 		int length);
 static char	*round_after_decimal(long double nb, int length, char *str_nb);

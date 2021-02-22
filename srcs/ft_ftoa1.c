@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ftoa1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: dds <dda-silv@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 08:29:08 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/21 21:41:43 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/22 17:19:56 by dds              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@
 ** @param:	- [float] nb to convert
 **			- [int] nb of digits after the decimal point
 ** @return:	[char *] string formatted float number
+** Line-by-line comments:
+** @11-12	Checking if number beyond precision is >= 5 and rounding if needed
+**			We only do the check if the number is not limit because in round
+**			after decimal we need to multiply the number by 10 to get the next
+**			fractional number
 */
 
 char		*ft_ftoa(long double nb, int precision)
@@ -30,7 +35,9 @@ char		*ft_ftoa(long double nb, int precision)
 		return (0);
 	get_integral_part(&str_nb, nb, precision, length);
 	if (precision > 0)
-		get_fractional_part(&str_nb, nb, precision, length);
+		get_fractional_part(&str_nb, &nb, precision, length);
+	if (!(nb == LONG_MIN || nb >= LONG_MAX))
+		str_nb = round_after_decimal(nb, length, str_nb);
 	return (str_nb);
 }
 
@@ -40,8 +47,9 @@ char		*ft_ftoa(long double nb, int precision)
 **			- [int] number of digits after decimal point to output
 ** @return:	[int] length of the string that will receive the float
 ** Line-by-line comments:
-** @4		Length of decimal number + decimal point + nb of digits
+** @4		Length of integral part + decimal point + nb of digits
 **			to put after the comma
+** @6		If precision == 0, then the length of the integral part is enough
 */
 
 static int	get_length(long double nb, int precision)
@@ -83,7 +91,7 @@ static void	get_integral_part(char **str_nb,
 	if (-1 < nb && 1 / nb < 0)
 	{
 		**str_nb = '-';
-		ft_strlcpy(*(str_nb + 1), tmp, length - precision + 1);
+		ft_strlcpy(*(str_nb) + 1, tmp, length - precision + 1);
 	}
 	else
 		ft_strlcpy(*str_nb, tmp, length - precision + 1);
@@ -96,32 +104,29 @@ static void	get_integral_part(char **str_nb,
 **			- [type] param_value
 ** @return:	[type] return_value
 ** Line-by-line comments:
-** @7-8		Edge cases:
+** @4-5		Edge cases:
 **			- Multiplying by 10 LONG_MIN and LONG_MAX overflows
 **			- The floating number only has 0s in the fractional part
-** @9-14	Moving the decimal point to the right and extracting the digits
+** @6-10	Moving the decimal point to the right and extracting the digits
 **			number
-** @13		Checking if number beyond precision is >= 5 and rounding if needed
 */
 
 static void	get_fractional_part(char **str_nb,
-		long double nb,
+		long double *nb,
 		int precision,
 		int length)
 {
 	(*str_nb)[length - 1 - precision] = '.';
 	while (precision-- > 0)
 	{
-		if (nb == LONG_MIN || nb >= LONG_MAX || ft_remainder(nb, 1) == 0)
+		if (*nb == LONG_MIN || *nb >= LONG_MAX || ft_remainder(*nb, 1) == 0)
 			(*str_nb)[length - 1 - precision] = '0';
 		else
 		{
-			nb *= 10;
-			(*str_nb)[length - 1 - precision] = ft_abs(nb) % 10 + '0';
+			*nb *= 10;
+			(*str_nb)[length - 1 - precision] = ft_abs(*nb) % 10 + '0';
 		}
 	}
-	if (!(nb == LONG_MIN || nb >= LONG_MAX))
-		*str_nb = round_after_decimal(nb, length, *str_nb);
 }
 
 /*

@@ -6,11 +6,11 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 18:44:56 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/02/18 19:38:21 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/02/23 18:05:53 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_atoi(const char *str)
+long long	ft_atoi(const char *str)
 {
 	int number;
 	int sign;

@@ -16,7 +16,7 @@
 ** Implementation of printf. All subsequent functions return the number of
 ** printed characters
 ** Besides ft_printf_utils, the files follow a logical order:
-** ft_printf > ft_printf_settings > ft_printf_types1 > ft_printf_types2
+** ft_printf > ft_printf_settings > ft_printf_types[1-3] > ft_printf_print
 ** @param:	- [const char *] string inputted with specified formats
 **			- [...] variadic arguments that refer to the specifiied formatj
 ** @return:	[int] number of printed characters

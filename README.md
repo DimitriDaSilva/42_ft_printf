@@ -1,4 +1,4 @@
-# 42Lisboa_ft_printf
+# 42_ft_printf
 Coding the printf function from the C library
 
 # Resources
